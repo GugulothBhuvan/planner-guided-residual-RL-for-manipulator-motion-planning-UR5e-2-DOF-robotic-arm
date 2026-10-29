@@ -21,3 +21,5 @@ results/runs/**/checkpoints/
 results/runs/**/logs*/
 results/eval/logs/
 *.tmp.*
+.*.lock
+*.part

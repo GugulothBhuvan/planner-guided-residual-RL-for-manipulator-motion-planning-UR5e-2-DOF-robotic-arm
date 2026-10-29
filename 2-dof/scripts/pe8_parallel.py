@@ -30,6 +30,11 @@ def one(task):
     f = m8.OUT / f"{name}__{ckpt}__m{m}.jsonl"
     if f.exists():
         return f"{f.name}: exists"
+    part = f.with_suffix(".part")
+    if part.exists() or (m8.OUT / f".{f.stem}.lock").exists():
+        return f"{f.name}: in progress elsewhere"
+    lock = m8.OUT / f".{f.stem}.lock"
+    lock.write_text(str(time.time()))
     t0 = time.perf_counter()
     rows = m8.evaluate(name, m, run, ckpt) if run else m8.evaluate(name, m)
     tmp = f.with_suffix(".part")

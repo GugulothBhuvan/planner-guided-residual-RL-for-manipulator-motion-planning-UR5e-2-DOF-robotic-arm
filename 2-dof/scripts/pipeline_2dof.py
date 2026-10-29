@@ -137,11 +137,11 @@ def main():
     record("pe1", dict(means=means, pe2_agent=algo))
 
     pe2 = yaml.safe_load((EXP / "pe2.yaml").read_text(encoding="utf-8"))
-    for run in pe2["runs"]:
-        run["name"] = run["name"].replace("sac", algo, 1)
-        run["agent"] = algo
-        if not run.get("her"):
-            run.pop("overrides", None)
+    for spec in pe2["runs"]:  # not `run`: that name is the subprocess helper used below (crashed 2026-10-30 03:47)
+        spec["name"] = spec["name"].replace("sac", algo, 1)
+        spec["agent"] = algo
+        if not spec.get("her"):
+            spec.pop("overrides", None)
     (EXP / "pe2.yaml").write_text(f"# Written by 2-dof/scripts/pipeline_2dof.py for the PE1 winner ({algo}); see the\n"
                                   "# companion SPEC §8. The sparse+HER / curriculum-on cell is PE1's run.\n"
                                   + yaml.safe_dump(pe2, sort_keys=False), encoding="utf-8")
@@ -162,7 +162,8 @@ def main():
         evaluate_pe34(exp)
     run([ROOT / "2-dof" / "scripts" / "pe_tables.py"])
     log("PE8: evaluation on the exact and +-20% mass plants")
-    run([ROOT / "2-dof" / "scripts" / "eval_pe8.py"])
+    run([ROOT / "2-dof" / "scripts" / "pe8_parallel.py", "--workers", "6"])  # same outputs, in parallel (2026-10-30)
+    run([ROOT / "2-dof" / "scripts" / "eval_pe8.py"])  # skips existing outputs; writes results/tables/pe8.md
     run([ROOT / "2-dof" / "scripts" / "pe9_lite.py"])
     (RUNS / "PE_EVAL_DONE").write_text(time.strftime("%Y-%m-%d %H:%M:%S"))
     log("PE3/PE4/PE8 evaluated: results/tables/pe3.md, pe4.md, pe8.md, pe9_lite.md")
