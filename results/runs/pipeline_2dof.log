@@ -56,3 +56,12 @@
 2026-10-29 22:14:07 pe3: 16 evaluation commands, 4 in parallel
 2026-10-30 01:35:53 pe4: test-set evaluation
 2026-10-30 01:35:53 pe4: 16 evaluation commands, 4 in parallel
+2026-10-30 03:55:40 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-30 03:55:41 pe3: test-set evaluation
+2026-10-30 03:55:41 pe3: 0 evaluation commands, 4 in parallel
+2026-10-30 03:55:41 pe4: test-set evaluation
+2026-10-30 03:55:41 pe4: 0 evaluation commands, 4 in parallel
+2026-10-30 03:55:44 PE8: evaluation on the exact and +-20% mass plants
+2026-10-30 04:27:21 PE3/PE4/PE8 evaluated: results/tables/pe3.md, pe4.md, pe8.md, pe9_lite.md
+2026-10-30 04:27:21 pe4b: test-set evaluation
+2026-10-30 04:27:21 pe4b: 10 evaluation commands, 4 in parallel

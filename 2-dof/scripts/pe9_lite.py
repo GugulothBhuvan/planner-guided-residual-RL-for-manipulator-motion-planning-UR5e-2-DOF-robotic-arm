@@ -61,12 +61,14 @@ def diff_ci(a, b, n=10_000, seed=0):
     return d, (float(np.percentile(boot, 2.5)), float(np.percentile(boot, 97.5)))
 
 
-def side(a, b):
+def side(a, b, b_fixed=False):
+    """b_fixed: b is a deterministic planner row (one evaluation, no seed variance), so the seed count applies to a
+    only (companion SPEC v0.12)."""
     if not a or not b:
         return None
     d, ci = diff_ci(a, b)
-    # a bootstrap over 1-2 seeds cannot support "clear" (UR5e SPEC §9.3 seed-count caveat): needs >= 3 per side
-    clear = ci is not None and min(len(a), len(b)) >= 3 and (ci[0] > 0 or ci[1] < 0)
+    # a bootstrap over 1-2 seeds cannot support "clear" (UR5e SPEC §9.3 seed-count caveat): needs >= 3 per trained side
+    clear = ci is not None and len(a) >= 3 and (b_fixed or len(b) >= 3) and (ci[0] > 0 or ci[1] < 0)
     txt = f"{100 * np.mean(a):.1f} vs {100 * np.mean(b):.1f} (Δ {100 * d:+.1f}"
     txt += f", CI [{100 * ci[0]:+.1f}, {100 * ci[1]:+.1f}])" if ci else ", no CI)"
     return d, clear, txt, f"{len(a)}/{len(b)}"
@@ -88,9 +90,9 @@ def main():
         f = p3 / test_set
         hyb = test_success(f, rf"hybrid_{mid}__residual_[0-9a-f]{{8}}_s\d+__primary")
         comparisons += [
-            (f"Hybrid vs base-only, middle budget", f"{exp} ({test_set}, {mid})", side(hyb, test_success(f, f"base_{mid}")),
+            (f"Hybrid vs base-only, middle budget", f"{exp} ({test_set}, {mid})", side(hyb, test_success(f, f"base_{mid}"), b_fixed=True),
              "E5 (S4, 3000)", side(test_success(EVAL / "s4_test", r"hybrid_3000__residual_[0-9a-f]{8}_s\d+__primary"),
-                                   test_success(EVAL / "s4_test", "base_3000"))),
+                                   test_success(EVAL / "s4_test", "base_3000"), b_fixed=True)),
             (f"Hybrid vs pure SAC+HER", f"{exp} ({test_set}, {mid})",
              side(hyb, test_success(f, r"policy__sac_her_[0-9a-f]{8}_s\d+")),
              "E5 (S4, 3000)", side(test_success(EVAL / "s4_test", r"hybrid_3000__residual_[0-9a-f]{8}_s\d+__primary"),
@@ -103,12 +105,12 @@ def main():
         ("Redesign: offset vs additive residual", "PE4b vs PE4 (p3_test, 2300)",
          side(off_p, test_success(f3, r"hybrid_2300__residual_[0-9a-f]{8}_s\d+__primary")),
          "E5b vs E5 (S4, 3000)", side(off_u, test_success(s4, r"hybrid_3000__residual_[0-9a-f]{8}_s\d+__primary"))),
-        ("Redesign: offset hybrid vs base-only", "PE4b (p3_test, 2300)", side(off_p, test_success(f3, "base_2300")),
-         "E5b (S4, 3000)", side(off_u, test_success(s4, "base_3000"))),
+        ("Redesign: offset hybrid vs base-only", "PE4b (p3_test, 2300)", side(off_p, test_success(f3, "base_2300"), b_fixed=True),
+         "E5b (S4, 3000)", side(off_u, test_success(s4, "base_3000"), b_fixed=True)),
     ]
     md = ["# PE9-lite: do the planar-arm design rankings transfer to the UR5e?", "",
           "Success in % (first option vs second), Δ = first − second with a 95% bootstrap CI over seeds. "
-          "\"Clear\" = that CI excludes 0 with >= 3 seeds on each side. \"Agree\" = both arms rank the same option first (direction only).", "",
+          "\"Clear\" = that CI excludes 0 with >= 3 seeds on each trained side (a planner row is one deterministic evaluation, a fixed value). \"Agree\" = both arms rank the same option first (direction only).", "",
           "| Design choice | 2-DOF | 2-DOF result | Clear | UR5e | UR5e result | Clear | Agree |",
           "|---|---|---|---|---|---|---|---|"]
     agree_n = total = 0
