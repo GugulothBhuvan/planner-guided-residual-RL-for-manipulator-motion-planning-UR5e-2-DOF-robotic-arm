@@ -159,8 +159,9 @@ relabeling together, as specified for E2/PE2.
   α·Δq_max = 0.012 rad (measured max 0.0120); larger excursions happen only while the base is saturated pulling
   back. 0.012 rad is far too little to steer around an obstacle, but enough to spoil a 1 cm / 5° final pose.
 - The outcome split shows exactly that: the hybrid's collisions equal the base's at every budget, and all of its
-  extra failures are pose misses (10–14% of episodes vs 0–0.5% for the base). On episodes both finish without
-  contact, the hybrid ends at 0.72 cm / 1.3° vs the base's 0.41 cm / 0.9°.
+  extra failures are pose misses (12.7–15.8% of episodes vs 0–0.5% for the base; 3 seeds per arm, corrected
+  2026-10-30 from the 2-seed sparse value 10–14%). On episodes both finish without contact, the hybrid ends at
+  0.72 cm (dense) / 0.75 cm (sparse) and 1.3° vs the base's 0.41 cm / 0.9° (means at 1500 and 3000 checks).
 - Lesson for the write-up: in a residual-on-tracker design, the tracker's feedback defines the residual's authority.
   An additive residual on a re-aiming position tracker is a bounded perturbation, not a correction, however long it
   trains. This is a property of the architecture, so it can be shown analytically and confirmed by measurement.
@@ -238,7 +239,7 @@ dilemma for residual RL on top of a tracking planner.
 **Findings (measured, S4 test set and validation diagnostics):**
 - *Bounded residual = no authority.* E5's additive residual is re-cancelled by the base tracker every step; on
   unsaturated steps it moves the target at most α·Δq_max = 0.012 rad (measured max 0.0120). It cannot detour: hybrid
-  collisions equal the base's at every budget, and its whole loss is pose misses (10–14% of episodes). Hybrid success
+  collisions equal the base's at every budget, and its whole loss is pose misses (12.7–15.8% of episodes). Hybrid success
   is below base-only at every budget (66–75% vs 80–90%), dense or sparse reward alike.
 - *Integrated residual = leaves the safe envelope.* E5b's persistent offset (±0.3 rad) has the authority to leave the
   reference, and the policy uses it: the offset saturates (median |o| 0.30 rad at episode end, in failures and
