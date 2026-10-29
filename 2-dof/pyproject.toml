@@ -14,7 +14,7 @@ dependencies = ["ur5e-rl-planner", "scipy==1.17.1"]
 where = ["src"]
 
 [tool.pyright]
-extraPaths = ["src", "../src"]
+extraPaths = ["src", "../src", "scripts", "../scripts"]  # scripts import siblings and ../scripts at runtime
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

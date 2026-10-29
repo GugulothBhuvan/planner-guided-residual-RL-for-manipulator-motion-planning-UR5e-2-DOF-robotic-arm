@@ -19,6 +19,7 @@ from pathlib import Path
 def pe8():
     if "eval_pe8" not in sys.modules:
         spec = importlib.util.spec_from_file_location("eval_pe8", Path(__file__).with_name("eval_pe8.py"))
+        assert spec is not None and spec.loader is not None
         sys.modules["eval_pe8"] = mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
     return sys.modules["eval_pe8"]
