@@ -1,0 +1,13 @@
+{
+  "num_timesteps": 150000,
+  "wall_s": 1928.243782900001,
+  "peak_rss_mb": 454.97265625,
+  "final_val": {
+    "num_timesteps": 150000,
+    "success": 0.89,
+    "d_pos_cm": 8.99425013029598,
+    "theta_deg": 0.0,
+    "collision": 0.11,
+    "ep_len": 274.77
+  }
+}

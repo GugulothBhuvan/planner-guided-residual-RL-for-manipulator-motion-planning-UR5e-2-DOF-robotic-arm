@@ -1,0 +1,7 @@
+# P3: reaching, kinematic, 1-K randomized circles (companion SPEC §4, §6.4)
+n_obstacles: [1, 4]
+episode_length: 303          # §4 rule: max(80, ceil(1.25 x p99 B2 duration)), p99 242 steps (1000 episodes)
+reward: dense             # as UR5e S4; the pure-RL run overrides sparse + HER (mirrors E5)
+eps: 0.01
+wrap_q1: true
+curriculum: false         # as UR5e S4 (E5 runs no curriculum); PE3/PE4 mirror E5

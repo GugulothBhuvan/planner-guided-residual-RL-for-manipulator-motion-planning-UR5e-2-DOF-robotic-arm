@@ -1,0 +1,7 @@
+# P1: position reaching, kinematic, no obstacles (companion SPEC §4)
+n_obstacles: [0, 0]
+episode_length: 80     # 1.25 x 63 steps, the farthest P1 goal with q1 wrapping (§4)
+reward: sparse
+eps: 0.01              # success tolerance, fixed (as UR5e S1; the tolerance curriculum is off, §6.5)
+wrap_q1: true          # q1 continuous on the circle (§5.1); observation drops q1/q_limit (§6.3)
+curriculum: true       # goal-distance curriculum, same rule as UR5e E1 (§6.5)

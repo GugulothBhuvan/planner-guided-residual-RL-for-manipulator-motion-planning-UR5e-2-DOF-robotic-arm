@@ -1,0 +1,13 @@
+# Colab probe (SPEC §7.1): probe-a config (SAC+HER, gamma_her 0.98, goal curriculum, 150-step horizon) with
+# 1.0 gradient steps per transition instead of 0.25. Compared step-for-step with probe a to decide E5's ratio.
+name: probe_s1_grad1
+env: s1
+steps: 120000
+n_envs: 4
+seeds: [0]
+runs:
+  - name: a_g098_curr_grad1
+    agent: sac
+    her: true
+    overrides: {gamma_her: 0.98, grad_steps_per_transition: 1.0}
+    env_overrides: {curriculum: true}

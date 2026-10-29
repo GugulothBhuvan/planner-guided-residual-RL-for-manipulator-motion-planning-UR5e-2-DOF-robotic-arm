@@ -1,0 +1,58 @@
+2026-10-27 03:47:59 launch pe1_v2.yaml
+2026-10-27 04:54:22 launch pe1_v2.yaml
+2026-10-27 04:56:08 launch pe1_v2.yaml
+2026-10-27 08:42:22 pe1_v2.yaml finished
+2026-10-27 08:42:23 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-27 08:42:23 launch pe2.yaml
+2026-10-27 17:32:24 pe2.yaml finished
+2026-10-27 17:32:24 launch pe3.yaml
+2026-10-28 01:25:57 launch pe1_v2.yaml
+2026-10-28 01:32:59 pe1_v2.yaml finished
+2026-10-28 01:32:59 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-28 01:32:59 launch pe2.yaml
+2026-10-28 01:38:20 pe2.yaml finished
+2026-10-28 01:38:49 launch pe1_v2.yaml
+2026-10-28 01:45:45 pe1_v2.yaml finished
+2026-10-28 01:45:45 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-28 01:45:45 launch pe2.yaml
+2026-10-28 01:51:00 pe2.yaml finished
+2026-10-28 02:08:00 E5 smoke test of the collision fix failed: PE3/PE4 not launched
+2026-10-28 02:17:04 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-28 02:17:04 launch pe8.yaml (until EVAL_DONE exists)
+2026-10-28 02:18:11 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-28 02:18:11 launch pe8.yaml (until EVAL_DONE exists)
+2026-10-28 06:34:49 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-28 06:34:50 launch pe8.yaml (until EVAL_DONE exists)
+2026-10-28 06:36:07 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-28 06:36:07 launch pe8.yaml (until EVAL_DONE exists)
+2026-10-28 06:46:29 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-28 06:46:29 launch pe8.yaml (until EVAL_DONE exists)
+2026-10-28 07:15:18 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-28 07:15:18 launch pe8.yaml (until EVAL_DONE exists)
+2026-10-29 02:27:56 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-29 02:27:57 launch pe8.yaml (until EVAL_DONE exists)
+2026-10-29 06:08:54 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-29 06:08:54 launch pe3.yaml seeds [0, 1]
+2026-10-29 07:39:50 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-29 07:39:50 launch pe3.yaml seeds [0, 1]
+2026-10-29 08:26:56 pe3.yaml finished for seeds [0, 1]
+2026-10-29 08:26:56 launch pe4.yaml seeds [0, 1]
+2026-10-29 09:18:19 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-29 09:18:19 launch pe3.yaml seeds [0, 1]
+2026-10-29 09:18:27 pe3.yaml finished for seeds [0, 1]
+2026-10-29 09:18:27 launch pe4.yaml seeds [0, 1]
+2026-10-29 10:09:28 pe4.yaml finished for seeds [0, 1]
+2026-10-29 10:09:28 launch pe8.yaml seeds [0, 1]
+2026-10-29 11:18:01 pe8.yaml finished for seeds [0, 1]
+2026-10-29 11:18:01 launch pe4b.yaml
+2026-10-29 17:48:52 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-29 17:48:53 pe3: test-set evaluation
+2026-10-29 17:48:53 launch pe4b.yaml
+2026-10-29 19:29:29 pe4b.yaml finished
+2026-10-29 22:13:05 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-29 22:13:05 pe3: test-set evaluation
+2026-10-29 22:14:07 PE1 means (success, d_pos cm) {'ddpg': (0.421, 16.43974028142395), 'sac': (0.788, 7.779095030920684), 'td3': (0.6360000000000001, 11.553667726895245)}; PE2 agent sac
+2026-10-29 22:14:07 pe3: test-set evaluation
+2026-10-29 22:14:07 pe3: 16 evaluation commands, 4 in parallel
+2026-10-30 01:35:53 pe4: test-set evaluation
+2026-10-30 01:35:53 pe4: 16 evaluation commands, 4 in parallel

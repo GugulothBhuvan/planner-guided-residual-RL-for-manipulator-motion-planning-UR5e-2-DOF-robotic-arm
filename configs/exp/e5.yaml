@@ -1,0 +1,18 @@
+# E5 (SPEC §8, headline): S4, pure SAC (+HER, decomposed reward) vs residual SAC (dense, no HER) vs B2.
+# 3 seeds x 1M env steps (SPEC §11). Horizon from configs/env/s4.yaml (B2-duration rule, §4).
+# grad_steps_per_transition 0.25 for both agents (§7.1). Residual base budget drawn per episode from
+# {1500, 3000, 6000} checks (configs/agent/residual.yaml, §7.3).
+name: e5
+env: s4
+steps: 1000000
+n_envs: 4
+seeds: [0, 1, 2]
+runs:
+  - name: sac_her
+    agent: sac
+    her: true
+    overrides: {gamma_her: 0.98}
+    env_overrides: {reward: sparse}
+  - name: residual
+    agent: residual
+    env_overrides: {reward: dense}

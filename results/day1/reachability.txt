@@ -1,0 +1,6 @@
+realised joint speed at |a|=1 (rad/s): [0.977 0.978 0.977 0.976 0.976 0.976]
+
+stage   filter success@end contact-free  contact  max|dq| p50/max  t_succ p50/max  horizon
+S1         3.2       96.4%       100.0%    11.4%    2.68/3.20 rad   2.68/3.68 s    4.0 s
+S2         3.2       96.4%       100.0%    11.4%    2.68/3.20 rad   2.96/3.84 s    4.0 s
+S4           -       82.6%       100.0%    24.8%    3.74/4.92 rad   3.92/7.24 s    8.0 s

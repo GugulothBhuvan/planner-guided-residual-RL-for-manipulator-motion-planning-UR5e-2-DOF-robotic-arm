@@ -1,0 +1,8 @@
+# P2: reaching, kinematic, fixed layout of 2 static circles (companion SPEC §4)
+fixed_layout: [[0.65, 0.3, 0.1], [-0.45, -0.6, 0.12]]   # (x, y, r) m; rho - r >= 0.6 m: outside link 1 (0.53 m), so
+                                                       # they block link 2 only and cannot cut the C-space in two
+episode_length: 339          # §4 rule: max(80, ceil(1.25 x p99 B2 duration)), p99 271 steps (1000 episodes)
+reward: dense             # as UR5e S4; the pure-RL run overrides sparse + HER (mirrors E5)
+eps: 0.01
+wrap_q1: true
+curriculum: false         # as UR5e S4 (E5 runs no curriculum); PE3/PE4 mirror E5

@@ -1,0 +1,3 @@
+{"num_timesteps": 25000, "success": 0.18, "d_pos_cm": 45.85355533011047, "theta_deg": 0.0, "collision": 0.0, "ep_len": 80.0}
+{"num_timesteps": 50000, "success": 0.69, "d_pos_cm": 7.238223257754223, "theta_deg": 0.0, "collision": 0.0, "ep_len": 80.0}
+{"num_timesteps": 50000, "success": 0.68, "d_pos_cm": 6.801421072410388, "theta_deg": 0.0, "collision": 0.0, "ep_len": 80.0}

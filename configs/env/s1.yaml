@@ -1,0 +1,7 @@
+# S1: position only, no obstacles (SPEC §4)
+orientation: false
+n_obstacles: [0, 0]
+episode_length: 150          # 6 s (§4: raised from 100 after E1, 1.5x time margin over 3.2 rad goals)
+reward: sparse
+eps_pos: 0.02
+goal_max_joint_dist: 3.2     # max_j |q_goal - q_start| (rad) = 0.8 * v_max * 4 s (§6.5)

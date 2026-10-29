@@ -1,0 +1,37 @@
+# Written by 2-dof/scripts/pipeline_2dof.py for the PE1 winner (sac); see the
+# companion SPEC §8. The sparse+HER / curriculum-on cell is PE1's run.
+name: pe2
+package: arm2dof
+env: p1
+steps: 50000
+n_envs: 4
+seeds:
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+runs:
+- name: sac_her_nocurr
+  agent: sac
+  her: true
+  overrides:
+    gamma_her: 0.98
+  env_overrides:
+    curriculum: false
+- name: sac_dense_curr
+  agent: sac
+  her: false
+  env_overrides:
+    reward: dense
+- name: sac_dense_nocurr
+  agent: sac
+  her: false
+  env_overrides:
+    reward: dense
+    curriculum: false

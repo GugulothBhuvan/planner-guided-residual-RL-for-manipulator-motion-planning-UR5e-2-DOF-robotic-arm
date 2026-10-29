@@ -1,0 +1,14 @@
+# Conditional E5 arm (SPEC §7.3 sparse-residual rule, recorded 2026-10-28 before the 200k/500k results): queued by
+# scripts/pipeline_e5_v2.py only if residual SAC s0 is below 0.88 validation success at 500k. Residual SAC with the
+# SPARSE reward (no HER: the reference is goal-specific), absorbing collision penalty, the same warm-up / alpha ramp /
+# w_res as the dense residual (configs/agent/residual.yaml). Same experiment directory as E5; reported alongside the
+# dense residual, never instead of it.
+name: e5
+env: s4
+steps: 1000000
+n_envs: 4
+seeds: [0, 1, 2]
+runs:
+  - name: residual_sparse
+    agent: residual
+    env_overrides: {reward: sparse}

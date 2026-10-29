@@ -1,0 +1,7 @@
+# S4: pose, 1..K static spheres randomized per episode
+orientation: true
+n_obstacles: [1, 4]
+episode_length: 407        # SPEC §4 rule from B2 durations (p99 13.00 s)
+reward: dense
+eps_pos: 0.01
+eps_rot_deg: 5.0

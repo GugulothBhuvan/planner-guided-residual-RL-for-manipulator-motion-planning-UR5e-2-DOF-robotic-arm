@@ -1,0 +1,8 @@
+# S2: position + orientation, no obstacles (SPEC §4)
+orientation: true
+n_obstacles: [0, 0]
+episode_length: 175          # 7 s (§4: raised from 150 before E2, B1 quintic needs up to 6.1 s at 0.98 rad/s)
+reward: sparse
+eps_pos: 0.01
+eps_rot_deg: 5.0
+goal_max_joint_dist: 3.2     # rad (§6.5)

@@ -1,0 +1,15 @@
+# ARCHIVED (results/runs/pe1_aborted_nowrap, 2026-10-27): PE1 v1 ran with q1 clipped, a 50-step horizon, the
+# tolerance curriculum and no goal-distance curriculum. Only 68.8% of its goals were reachable in 50 steps
+# (companion SPEC §6.2). Superseded by pe1_v2.yaml. The stage config p1.yaml has since changed, so this file no
+# longer reproduces v1; each archived run dir holds its own resolved config.
+name: pe1
+package: arm2dof
+env: p1
+steps: 50000
+n_envs: 4
+seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+runs:
+  - {name: ddpg_her, agent: ddpg, her: true}
+  - {name: td3_her, agent: td3, her: true, overrides: {gamma_her: 0.98}}
+  - {name: sac_her, agent: sac, her: true, overrides: {gamma_her: 0.98}}
+  - {name: ppo_dense, agent: ppo, n_envs: 32, env_overrides: {reward: dense}}

@@ -1,0 +1,73 @@
+{
+  "probe": {
+    "scores": {
+      "a_g098_curr": 0.07,
+      "b_g099_curr": 0.0,
+      "c_g098": 0.0
+    },
+    "winner": "a_g098_curr",
+    "tied": [
+      "a_g098_curr"
+    ],
+    "all_below_20pct": true,
+    "gamma_her": 0.98,
+    "curriculum": true,
+    "e1_steps": 500000,
+    "e2_steps": 500000
+  },
+  "pe1": {
+    "means": {
+      "ddpg": [
+        0.421,
+        16.43974028142395
+      ],
+      "sac": [
+        0.788,
+        7.779095030920684
+      ],
+      "td3": [
+        0.6360000000000001,
+        11.553667726895245
+      ]
+    },
+    "pe2_agent": "sac"
+  },
+  "e1": {
+    "means": {
+      "sac": [
+        0.2066666666666667,
+        22.210233072131626
+      ],
+      "td3": [
+        0.12666666666666668,
+        29.060738432704493
+      ]
+    },
+    "e2_algorithm": "sac"
+  },
+  "e2": {
+    "algorithm": "sac",
+    "steps": 500000,
+    "where": "laptop"
+  },
+  "e5_smoke_fix": {
+    "final_val": {
+      "num_timesteps": 100000,
+      "success": 0.0,
+      "d_pos_cm": 75.11917037199909,
+      "theta_deg": 121.87926414676694,
+      "collision": 0.87,
+      "ep_len": 152.82
+    },
+    "passed": false
+  },
+  "e5_rerun": {
+    "smoke": "FAIL",
+    "decision": "A: launch anyway"
+  },
+  "e5_sparse_residual_rule": {
+    "s0_success_500k": 0.71,
+    "threshold": 0.88,
+    "triggered": true
+  }
+}

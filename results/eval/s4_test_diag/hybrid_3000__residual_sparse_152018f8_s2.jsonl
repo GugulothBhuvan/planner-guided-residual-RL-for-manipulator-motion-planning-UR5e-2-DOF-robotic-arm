@@ -1,0 +1,200 @@
+{"success": true, "collision": false, "d_pos_cm": 0.7499022427815514, "theta_deg": 1.1152599570166453, "dev_max": 0.067184849773396, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.882135699884672, "theta_deg": 1.2078070331525659, "dev_max": 0.0693293288241339, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7654552615779671, "theta_deg": 1.8116184947396998, "dev_max": 0.10051346390128124, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.3058790244751521, "theta_deg": 1.6411627260293977, "dev_max": 0.031016717240013314, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.9518314230319461, "theta_deg": 1.3637742894320464, "dev_max": 0.011999927759170526, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8149337691653933, "theta_deg": 0.9248043590242089, "dev_max": 0.2266192690788983, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.479088941356221, "theta_deg": 2.662248597848907, "dev_max": 0.011953338146209802, "base_ok": false, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8348655148429505, "theta_deg": 0.4386950109153352, "dev_max": 0.039273318902461746, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 35.948512642263005, "theta_deg": 32.1806462309308, "dev_max": 0.16820102632433875, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.18589607314851694, "theta_deg": 0.9801155133733754, "dev_max": 0.011996037483215316, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7507769607643894, "theta_deg": 1.6151748230778809, "dev_max": 0.014729784988817718, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.872754946679994, "theta_deg": 1.6297948594386868, "dev_max": 0.0573342908754102, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.34046644527361025, "theta_deg": 1.063678302151569, "dev_max": 0.011999334812164308, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.3122644591813093, "theta_deg": 0.9706939058318919, "dev_max": 0.011983863830566488, "base_ok": true, "outcome": "pose miss"}
+{"success": false, "collision": true, "d_pos_cm": 39.26022323995693, "theta_deg": 31.059174888029847, "dev_max": 0.15357370429438366, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.27766447597309585, "theta_deg": 1.1177071312975844, "dev_max": 0.053544724432329494, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8395532021404349, "theta_deg": 1.9491728046667864, "dev_max": 0.20910934874122233, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 56.375527003460014, "theta_deg": 83.04558249032324, "dev_max": 0.011987911462783885, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.4426411349360045, "theta_deg": 0.5874835227953453, "dev_max": 0.07361376535548736, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5233117247030202, "theta_deg": 0.644440438696546, "dev_max": 0.011977669715881323, "base_ok": false, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.771716031404264, "theta_deg": 1.6716132467000373, "dev_max": 0.09654142515202846, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.41869137095817055, "theta_deg": 1.2556941890613098, "dev_max": 0.016068418647816496, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 44.14784003881375, "theta_deg": 156.62307839230567, "dev_max": 0.011934296607971184, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.5298076778873388, "theta_deg": 0.7813520716787732, "dev_max": 0.011988121032714849, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6806252466272692, "theta_deg": 0.9788929434967667, "dev_max": 0.011980184555053786, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.29275452557583453, "theta_deg": 0.440390702112992, "dev_max": 0.011985391616821328, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6434352068726675, "theta_deg": 2.161414926153327, "dev_max": 0.1517488928585231, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6092531259844047, "theta_deg": 1.541198562315155, "dev_max": 0.011976473808288562, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 48.986425051857196, "theta_deg": 39.20793819215867, "dev_max": 0.28737358003116265, "base_ok": false, "outcome": "collision"}
+{"success": false, "collision": false, "d_pos_cm": 1.3047899061831727, "theta_deg": 1.1541239998752848, "dev_max": 0.036997668711268306, "base_ok": true, "outcome": "pose miss"}
+{"success": false, "collision": false, "d_pos_cm": 1.087547518258112, "theta_deg": 1.0193582021764103, "dev_max": 0.06702293721641084, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.5056748142879894, "theta_deg": 1.2619471367561554, "dev_max": 0.011983245849609414, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.4466592820755481, "theta_deg": 1.120296476619087, "dev_max": 0.011989417076110787, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.43757283713004513, "theta_deg": 2.7198604950665564, "dev_max": 0.059647364123702196, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.3597218967657181, "theta_deg": 0.996713522951464, "dev_max": 0.08922190219309445, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.4658615656373343, "theta_deg": 0.8803740782335756, "dev_max": 0.01174844670295716, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.815656751067422, "theta_deg": 0.9865033639324847, "dev_max": 0.1214679914441521, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5325515823493058, "theta_deg": 1.221105790803615, "dev_max": 0.3259292951754489, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.1188672665016357, "theta_deg": 1.5540942691545823, "dev_max": 0.018118845996458965, "base_ok": true, "outcome": "pose miss"}
+{"success": false, "collision": true, "d_pos_cm": 54.92350096541249, "theta_deg": 172.05399635469226, "dev_max": 0.011023531436920253, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.4351527046130234, "theta_deg": 1.6993333051262685, "dev_max": 0.011998606681823731, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.9223402552793133, "theta_deg": 1.0243152741256683, "dev_max": 0.12885746066914533, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6674718420699137, "theta_deg": 2.30673843722012, "dev_max": 0.09955708941334063, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.819679939671564, "theta_deg": 0.9654065803485787, "dev_max": 0.09877767454750774, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6714990554771348, "theta_deg": 2.1168285393367907, "dev_max": 0.13933217496341885, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 133.56160346257832, "theta_deg": 144.03395381277068, "dev_max": 0.01195265007019053, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.636641522431889, "theta_deg": 0.8827828563736899, "dev_max": 0.011998815536498952, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.1913740928997222, "theta_deg": 1.7350130204151832, "dev_max": 0.22496867977393464, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6058240072690886, "theta_deg": 1.2042623341810248, "dev_max": 0.08865967418247522, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.331515061605152, "theta_deg": 1.8814377398481301, "dev_max": 0.05617942041681312, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.7674183393738315, "theta_deg": 1.238829517404797, "dev_max": 0.08466086779191984, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.2516982334159112, "theta_deg": 2.1750270484092664, "dev_max": 0.011999436378479, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.5195714205990919, "theta_deg": 0.9002802995111313, "dev_max": 0.05926100197221973, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7886402965539276, "theta_deg": 1.675671021970334, "dev_max": 0.011981466293334853, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8113801684548227, "theta_deg": 3.1648809580787867, "dev_max": 0.012055857105047307, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 63.50021179642387, "theta_deg": 83.71529666341691, "dev_max": 0.011998430728912268, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.7356797126542037, "theta_deg": 2.2585631797672376, "dev_max": 0.25996159066163993, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7564165135844054, "theta_deg": 1.8052569473540279, "dev_max": 0.011985473155975424, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.9564601931134327, "theta_deg": 0.8978254393378937, "dev_max": 0.011961018562316905, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.646640469832286, "theta_deg": 1.6470022367851593, "dev_max": 0.03478660237535114, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.7426413880425655, "theta_deg": 1.1870043021027519, "dev_max": 0.011997119665145828, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6927641383156703, "theta_deg": 1.9564849041038337, "dev_max": 0.3570324353321723, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 18.090804857534902, "theta_deg": 71.53245624267726, "dev_max": 0.06380112476584399, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.8767463183133101, "theta_deg": 0.9154484756268343, "dev_max": 0.06274221459151241, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6089278769746189, "theta_deg": 1.1184930176046122, "dev_max": 0.12295756373689248, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.22103504657557616, "theta_deg": 0.8168800359010653, "dev_max": 0.3028763065416453, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.28587141253502907, "theta_deg": 1.859136484936076, "dev_max": 0.05157769747249341, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.3274451549682027, "theta_deg": 2.1829381251066007, "dev_max": 0.014566262557147436, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5289785395435072, "theta_deg": 0.5006191255311726, "dev_max": 0.13764438760315678, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.4482497976511993, "theta_deg": 0.599975980607336, "dev_max": 0.011946322202682547, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7563990746930265, "theta_deg": 0.6969398383406402, "dev_max": 0.024730647976148656, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8611582629601967, "theta_deg": 0.6354083717225689, "dev_max": 0.031343026197753254, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7813169325028843, "theta_deg": 1.1073570997999596, "dev_max": 0.11469555684771279, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 28.557658888451893, "theta_deg": 84.65832994923328, "dev_max": 0.011966239929199318, "base_ok": false, "outcome": "collision"}
+{"success": false, "collision": false, "d_pos_cm": 1.7000181723024945, "theta_deg": 1.633674020983114, "dev_max": 0.011998629570007413, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.7075945946443564, "theta_deg": 0.6269076312770541, "dev_max": 0.011966417312622157, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 62.717838695057296, "theta_deg": 77.04694312394723, "dev_max": 0.011998768329620324, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.43203051222872835, "theta_deg": 1.1940413496776858, "dev_max": 0.011996921539306538, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 85.07454593871994, "theta_deg": 147.5224728027126, "dev_max": 0.011721771240234435, "base_ok": false, "outcome": "collision"}
+{"success": false, "collision": false, "d_pos_cm": 1.0990091981127377, "theta_deg": 1.4943854467574327, "dev_max": 0.14404290382979257, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.77451552477406, "theta_deg": 0.48048028764569006, "dev_max": 0.24976257287503556, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6543728975456808, "theta_deg": 2.0644354374172553, "dev_max": 0.13094091229481597, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 46.084384578145574, "theta_deg": 34.31332561722824, "dev_max": 0.011987278461456308, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.6959530287998333, "theta_deg": 1.2424932988809765, "dev_max": 0.011980050086975114, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5357215307690251, "theta_deg": 1.517822774533571, "dev_max": 0.08495373042517529, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8158981222246505, "theta_deg": 1.0864080907104592, "dev_max": 0.03792247432223217, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.2884566003840211, "theta_deg": 0.3214509672458981, "dev_max": 0.011997227668762211, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8665277290587933, "theta_deg": 2.0050183900863483, "dev_max": 0.047011180383795814, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 63.60091176263255, "theta_deg": 172.38187976759733, "dev_max": 0.01195258426666257, "base_ok": false, "outcome": "collision"}
+{"success": false, "collision": true, "d_pos_cm": 77.471281226403, "theta_deg": 54.57592761774608, "dev_max": 0.01199820184707634, "base_ok": false, "outcome": "collision"}
+{"success": false, "collision": false, "d_pos_cm": 1.4087990719001346, "theta_deg": 1.0717303455786231, "dev_max": 0.1500297502312511, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.8800230533834623, "theta_deg": 1.0143740895578264, "dev_max": 0.1880860952807173, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5649158089911107, "theta_deg": 1.0453031239059971, "dev_max": 0.06153042615173265, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5172512812306373, "theta_deg": 0.7638249251661892, "dev_max": 0.26929344293899804, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 6.545172317119668, "theta_deg": 44.52913643294781, "dev_max": 0.34112112138959905, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.482023194820705, "theta_deg": 1.0620312475634817, "dev_max": 0.011999409198760969, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.32246426375429493, "theta_deg": 2.39761899509137, "dev_max": 0.07277400578911664, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 31.779252421170874, "theta_deg": 147.45042981102182, "dev_max": 0.01199777841567995, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.9012115703116502, "theta_deg": 1.2265441537810797, "dev_max": 0.15422821099218664, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.263794794360977, "theta_deg": 0.904091704132716, "dev_max": 0.014894241199387759, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.4296011976477492, "theta_deg": 1.6552212296008337, "dev_max": 0.04961410138679087, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.9175885291506407, "theta_deg": 0.9668430076587333, "dev_max": 0.08569357727911231, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8717614602498046, "theta_deg": 0.8327433842996933, "dev_max": 0.023794692477504764, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.32503978384246823, "theta_deg": 2.298946310221508, "dev_max": 0.011998053789138874, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.9329320502831868, "theta_deg": 1.4688535505617066, "dev_max": 0.22002411754918372, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.090052239834328, "theta_deg": 1.376919249866718, "dev_max": 0.011976901531219442, "base_ok": true, "outcome": "pose miss"}
+{"success": false, "collision": true, "d_pos_cm": 47.86362256621811, "theta_deg": 73.20353070361595, "dev_max": 0.011972305297851538, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.8215044679184352, "theta_deg": 1.1227013663866057, "dev_max": 0.06659475162073036, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.1704968630633218, "theta_deg": 2.331980774468967, "dev_max": 0.011914276599884088, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6715369339476639, "theta_deg": 1.9669960478114945, "dev_max": 0.12773801689615238, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": true, "d_pos_cm": 0.5105840179492134, "theta_deg": 0.8927850889403894, "dev_max": 0.011984232187271182, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.756082266169263, "theta_deg": 1.533390879554728, "dev_max": 0.03453607124248492, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.766103649000379, "theta_deg": 0.849054231970385, "dev_max": 0.2559615746691475, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.991932610246625, "theta_deg": 1.6928107835458222, "dev_max": 0.024105469227501647, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.47654295259995233, "theta_deg": 1.3154186290790724, "dev_max": 0.17261667170556105, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.2630678996853875, "theta_deg": 0.752699592094742, "dev_max": 0.011999765396118134, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.4513605462341184, "theta_deg": 1.2256444109816553, "dev_max": 0.02783670695848639, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.674501269967315, "theta_deg": 0.6739681574010145, "dev_max": 0.01199940347671502, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.9713906420461306, "theta_deg": 1.067685048159203, "dev_max": 0.011985290050506636, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.229648933175142, "theta_deg": 1.2914073709651566, "dev_max": 0.011971725940704392, "base_ok": true, "outcome": "pose miss"}
+{"success": false, "collision": true, "d_pos_cm": 37.48885102450033, "theta_deg": 101.11947822350469, "dev_max": 0.011998847007751445, "base_ok": false, "outcome": "collision"}
+{"success": false, "collision": false, "d_pos_cm": 1.231347407287176, "theta_deg": 1.0444085078880037, "dev_max": 0.011992754459381194, "base_ok": true, "outcome": "pose miss"}
+{"success": false, "collision": true, "d_pos_cm": 66.07690195661783, "theta_deg": 174.54083760417203, "dev_max": 0.011971412658691394, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.9139496706516389, "theta_deg": 1.5755892803478437, "dev_max": 0.14119654169740065, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 74.82276532035333, "theta_deg": 109.11763491518967, "dev_max": 0.011999955654144356, "base_ok": false, "outcome": "collision"}
+{"success": false, "collision": true, "d_pos_cm": 29.349202607638887, "theta_deg": 29.81377597627496, "dev_max": 0.05386844936572488, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.3353885707571819, "theta_deg": 1.0681700318923302, "dev_max": 0.10254183416023599, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8952645382433998, "theta_deg": 0.9589308127575225, "dev_max": 0.03276291920741459, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6373242314791081, "theta_deg": 1.9507508373702447, "dev_max": 0.12812784485951428, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.3747623871139228, "theta_deg": 1.165868794979383, "dev_max": 0.011998549461364805, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.33871667097152114, "theta_deg": 2.2592243944614765, "dev_max": 0.01199427294731148, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.9977538757736338, "theta_deg": 1.2748804125886737, "dev_max": 0.040646495387481885, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5063272990453238, "theta_deg": 1.8393887920697258, "dev_max": 0.23345329342124993, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 76.1742107446404, "theta_deg": 42.73258975251429, "dev_max": 0.03309464628210024, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.8943424842608875, "theta_deg": 2.2925140303814575, "dev_max": 0.07227959857180566, "base_ok": false, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 52.38519122679824, "theta_deg": 62.3865769557314, "dev_max": 0.011999974250793466, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.44984644852908795, "theta_deg": 1.7026737253193214, "dev_max": 0.011994834423065148, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6866763189987931, "theta_deg": 1.7263689935190183, "dev_max": 0.09463337734417535, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.231980077966297, "theta_deg": 1.246809637556094, "dev_max": 0.011997862815856908, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.6284743433101799, "theta_deg": 0.7901460280570958, "dev_max": 0.05977799359424807, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.43938438179933115, "theta_deg": 1.6560564003952314, "dev_max": 0.011992697238922156, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.25284468984389297, "theta_deg": 1.0002812164535748, "dev_max": 0.01797185860969186, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.48809985475746687, "theta_deg": 2.5169350847765046, "dev_max": 0.011999204635620098, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 120.6848640631787, "theta_deg": 112.79045485844499, "dev_max": 0.03996920529482262, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.653338604953255, "theta_deg": 1.3796761659145678, "dev_max": 0.012778525738038837, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5996322763741607, "theta_deg": 2.4710725428277467, "dev_max": 0.01199204564094547, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5092468178290666, "theta_deg": 1.9431129155910112, "dev_max": 0.011995514631271575, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.36693574754947916, "theta_deg": 1.9385789891485363, "dev_max": 0.12065567916182174, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5087351658503309, "theta_deg": 0.8445796715557535, "dev_max": 0.08881530710957641, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5904484381633901, "theta_deg": 1.2083520616746448, "dev_max": 0.024130728843084537, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.9696688253787852, "theta_deg": 1.8298384096873526, "dev_max": 0.011840380668640238, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 82.26593297609033, "theta_deg": 174.83781710363056, "dev_max": 0.011054234504699778, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.940788799134414, "theta_deg": 2.521089435829476, "dev_max": 0.03162451094276264, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8457235622306096, "theta_deg": 1.4081673023436196, "dev_max": 0.01198598241806037, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6115302545487081, "theta_deg": 2.033789411087925, "dev_max": 0.01199918818473833, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.2616808875648493, "theta_deg": 1.442407335709247, "dev_max": 0.011994160652160746, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.3838169820723861, "theta_deg": 0.6206399864418429, "dev_max": 0.011962829589843738, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.1641027467036815, "theta_deg": 1.3096943683781441, "dev_max": 0.017663221422252684, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.486729044203039, "theta_deg": 2.520878592085847, "dev_max": 0.011995442390441813, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.48371159681280357, "theta_deg": 1.151597351905699, "dev_max": 0.04416493164720625, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7671695961779006, "theta_deg": 1.2827389960033686, "dev_max": 0.07971871028286237, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.9233284210207042, "theta_deg": 0.7553300078359387, "dev_max": 0.12470239360133162, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5590769523099268, "theta_deg": 1.1751901764682278, "dev_max": 0.04078511935691237, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6560401615625739, "theta_deg": 0.9422439676885186, "dev_max": 0.0151249449859166, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.49326959077597976, "theta_deg": 1.0358243058001317, "dev_max": 0.025361453635720843, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 84.49766515941563, "theta_deg": 133.02630824290904, "dev_max": 0.011947915077209492, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.6879556771976478, "theta_deg": 0.954882604181806, "dev_max": 0.041417175331986245, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.938980296792887, "theta_deg": 1.8292262106305286, "dev_max": 0.06983625276601929, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.600723314756418, "theta_deg": 0.6329794266470833, "dev_max": 0.04443982974826399, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.737604397081191, "theta_deg": 1.8026392792520576, "dev_max": 0.16257412481996641, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7707485996189427, "theta_deg": 1.695227792292743, "dev_max": 0.062400169995468824, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6421428536423518, "theta_deg": 1.2856675024221844, "dev_max": 0.020471899675681193, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": true, "d_pos_cm": 86.2326910117429, "theta_deg": 175.86979045885167, "dev_max": 0.011995277881622357, "base_ok": false, "outcome": "collision"}
+{"success": true, "collision": false, "d_pos_cm": 0.5369164067037847, "theta_deg": 1.7215261803891035, "dev_max": 0.05524617533566134, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.2788472475053017, "theta_deg": 1.6879809658609866, "dev_max": 0.1948654017090819, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.2855216411760958, "theta_deg": 1.399770097662311, "dev_max": 0.011989949226379304, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.3004583698767937, "theta_deg": 0.9345467170564499, "dev_max": 0.17561233214987682, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8305369134391551, "theta_deg": 0.9810075340722282, "dev_max": 0.18276459638366538, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.25866108401790944, "theta_deg": 2.315406270169922, "dev_max": 0.01199964666366582, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.3210151272309845, "theta_deg": 1.154822265183053, "dev_max": 0.0705641272688835, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7185782967709275, "theta_deg": 0.646423446066952, "dev_max": 0.06401827378840552, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.43126428845862974, "theta_deg": 1.1318031790257992, "dev_max": 0.011968078136444071, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6879924963432349, "theta_deg": 1.3397653552472835, "dev_max": 0.30653215231197106, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.4410943105285657, "theta_deg": 0.8300618603837339, "dev_max": 0.05272247283604414, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.518975354092595, "theta_deg": 2.801525757804601, "dev_max": 0.06061796613474768, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.8080360361842729, "theta_deg": 0.9829010327113713, "dev_max": 0.011945674896240321, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7672847969171687, "theta_deg": 1.4241912270686268, "dev_max": 0.01197921109199529, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.65004644470952, "theta_deg": 0.9483799842224916, "dev_max": 0.10338251264790721, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.6614341431562272, "theta_deg": 0.40444804146500335, "dev_max": 0.0119996881484985, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5742640066334168, "theta_deg": 0.8137224052948173, "dev_max": 0.011985500335693455, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5238677142138689, "theta_deg": 1.1796039419263409, "dev_max": 0.1818589143821524, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.2632617351340762, "theta_deg": 0.4142830914839298, "dev_max": 0.0390092642510631, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.44976631182979987, "theta_deg": 1.5703830135043195, "dev_max": 0.0904393659443199, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.2346420350532181, "theta_deg": 0.7171548798276349, "dev_max": 0.20763421923429823, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.44626890810520736, "theta_deg": 1.099280168410325, "dev_max": 0.011978848457336433, "base_ok": true, "outcome": "success"}
+{"success": false, "collision": false, "d_pos_cm": 1.9827886274553428, "theta_deg": 2.321233672079492, "dev_max": 0.011990687370300401, "base_ok": true, "outcome": "pose miss"}
+{"success": true, "collision": false, "d_pos_cm": 0.9620915471110341, "theta_deg": 1.5609606863596597, "dev_max": 0.011973970413208024, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.5331595882697144, "theta_deg": 0.8452182470087952, "dev_max": 0.20016271932426583, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7582657838605971, "theta_deg": 1.2347935646150665, "dev_max": 0.20150294499359545, "base_ok": true, "outcome": "success"}
+{"success": true, "collision": false, "d_pos_cm": 0.7758661654629505, "theta_deg": 0.4959013861670887, "dev_max": 0.10205433193905844, "base_ok": true, "outcome": "success"}

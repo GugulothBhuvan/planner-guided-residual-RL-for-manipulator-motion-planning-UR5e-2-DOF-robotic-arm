@@ -1,0 +1,56 @@
+{
+  "run_id": "sac_her_39e8a207_s6",
+  "seed": 6,
+  "config": {
+    "exp": "pe1_v2",
+    "run": "sac_her",
+    "stage": "p1",
+    "steps": 50000,
+    "n_envs": 4,
+    "her": true,
+    "env": {
+      "n_obstacles": [
+        0,
+        0
+      ],
+      "episode_length": 80,
+      "reward": "sparse",
+      "eps": 0.01,
+      "wrap_q1": true,
+      "curriculum": true
+    },
+    "agent": {
+      "algo": "sac",
+      "learning_rate": 0.0003,
+      "buffer_size": 50000,
+      "batch_size": 256,
+      "grad_steps_per_transition": 0.25,
+      "learning_starts": 2000,
+      "gamma": 0.99,
+      "gamma_her": 0.98,
+      "tau": 0.05,
+      "net_arch": [
+        256,
+        256,
+        256
+      ],
+      "her": {
+        "n_sampled_goal": 4,
+        "goal_selection_strategy": "future"
+      }
+    },
+    "package": "arm2dof"
+  },
+  "threads": 1,
+  "git_commit": null,
+  "python": "3.11.5",
+  "machine": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "packages": {
+    "mujoco": "3.17.0",
+    "gymnasium": "1.4.0",
+    "stable_baselines3": "2.9.2",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.4.6"
+  }
+}

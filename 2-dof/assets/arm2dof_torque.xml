@@ -1,0 +1,30 @@
+<!-- Planar 2-DOF arm, torque variant (companion SPEC §5.1, §5.3, P5). Vertical x-z plane, gravity along -z.
+     q is measured from the horizontal (+x): the hinge axis is -y, so positive q lifts the link toward +z.
+     Uniform rods (m = 1 kg, COM at l/2, I = m l^2 / 12 about the COM), damping 0.05 N m s/rad, motor actuators
+     clamped at the torque limits. No gravcomp on any body and no actuatorgravcomp on any joint: gravity must act
+     (a test enforces this). Links do not collide (P5a has no obstacles). RK4 for the energy-conservation check. -->
+<mujoco model="arm2dof_torque">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="RK4"/>
+  <default>
+    <joint type="hinge" axis="0 -1 0" damping="0.05" armature="0"/>
+    <geom type="capsule" size="0.03" contype="0" conaffinity="0" rgba="0.17 0.47 0.84 1"/>
+  </default>
+  <worldbody>
+    <body name="link1" pos="0 0 0">
+      <joint name="j1"/>
+      <inertial pos="0.25 0 0" mass="1" diaginertia="1e-6 0.0208333333333 0.0208333333333"/>
+      <geom fromto="0 0 0 0.5 0 0"/>
+      <body name="link2" pos="0.5 0 0">
+        <joint name="j2" range="-2.827433388 2.827433388"/>
+        <inertial pos="0.2 0 0" mass="1" diaginertia="1e-6 0.0133333333333 0.0133333333333"/>
+        <geom fromto="0 0 0 0.4 0 0"/>
+        <site name="ee" pos="0.4 0 0" size="0.01"/>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <motor name="m1" joint="j1" gear="1" ctrlrange="-20 20"/>
+    <motor name="m2" joint="j2" gear="1" ctrlrange="-10 10"/>
+  </actuator>
+</mujoco>

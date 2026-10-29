@@ -1,0 +1,5 @@
+# P5a: reaching with torque control and gravity, no obstacles (companion SPEC §4, §5.3). 125 Hz control.
+episode_length: 307    # §4 rule: ceil(1.25 x p99 reference duration) = 1.25 x 245 steps (300 episodes); spec default was 100 (0.8 s)
+reward: sparse
+eps: 0.01
+qd_success: 0.1        # rad/s: the arm must stop at the goal

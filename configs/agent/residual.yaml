@@ -1,0 +1,22 @@
+# SPEC §7.3 residual SAC (dense reward, no HER). Same network, batch and update ratio as the other agents.
+algo: residual_sac
+learning_rate: 3.0e-4
+buffer_size: 1000000
+batch_size: 256
+grad_steps_per_transition: 0.25   # all experiments, E5 included (§7.1)
+learning_starts: 2000
+gamma: 0.99
+gamma_her: 0.99                   # unused (no HER); kept so shared code paths resolve
+tau: 0.05
+net_arch: [256, 256, 256]
+ent_coef: auto_0.01               # start at 0.01
+target_entropy_per_dim: -2.0      # -12 for 6 joints: SB3's default (-6) would push sigma back up
+critic_warmup_steps: 50000        # gradient steps with actor and entropy coefficient frozen (WarmupSAC; §7.3 rule, was 20k)
+log_std_bias: -3.0                # sigma ~ 0.05 at init
+alpha_max: 0.3                    # residual scale, ramped 0 -> alpha_max
+alpha_ramp_steps: 150000          # env steps (§7.3 rule, was 50k)
+w_res: 0.1                        # L2 penalty on the residual, r -= w_res * |a_res|^2 (§7.3 rule)
+# degraded B2 base: +5 cm inflation (exact check within 0.3 rad of start/goal), nearest IK branch only,
+# 20 shortcuts. Training draws the budget per episode uniformly from {1500, 3000, 6000} collision checks (§7.3);
+# evaluation fixes one budget at a time (scripts/evaluate.py base@N / hybrid@N).
+base: {inflate: 0.05, max_checks: [1500, 3000, 6000], shortcut_iters: 20}

@@ -1,0 +1,14 @@
+# PE1 (companion SPEC §8), rerun 2026-10-27: P1 with q1 wrapping, 80-step horizon, goal-distance curriculum
+# (p1.yaml). Settings match UR5e E1: gamma_her 0.98 for every HER agent, 0.25 gradient steps per transition,
+# 3x256, batch 256. PPO-dense keeps the dense gamma 0.99 (UR5e dense default). 10 seeds x 50k steps.
+name: pe1_v2
+package: arm2dof
+env: p1
+steps: 50000
+n_envs: 4
+seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+runs:
+  - {name: ddpg_her, agent: ddpg, her: true, overrides: {gamma_her: 0.98}}
+  - {name: td3_her, agent: td3, her: true, overrides: {gamma_her: 0.98}}
+  - {name: sac_her, agent: sac, her: true, overrides: {gamma_her: 0.98}}
+  - {name: ppo_dense, agent: ppo, n_envs: 32, env_overrides: {reward: dense}}

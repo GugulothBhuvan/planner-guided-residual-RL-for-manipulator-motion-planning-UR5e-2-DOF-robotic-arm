@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ur5e-rl-planner"
+version = "0.1.0"
+description = "RL trajectory & motion planning for a UR5e with a rigid Robotiq 2F-85 (see SPEC.md)"
+requires-python = ">=3.11,<3.12"
+# Exact pins; the full environment is frozen in requirements.lock.
+dependencies = [
+    "mujoco==3.17.0",
+    "gymnasium==1.4.0",
+    "stable-baselines3==2.9.2",
+    "torch==2.14.1",
+    "numpy==2.4.6",
+    "scipy==1.17.1",
+    "PyYAML==6.0.3",
+    "psutil==7.2.2",
+    "tensorboard==2.21.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+viz = ["imageio==2.37.0", "imageio-ffmpeg==0.6.0"]  # scripts/play.py --record (MP4)
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pyright]
+extraPaths = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

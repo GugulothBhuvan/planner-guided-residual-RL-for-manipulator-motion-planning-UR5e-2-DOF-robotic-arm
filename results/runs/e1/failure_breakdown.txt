@@ -1,0 +1,10 @@
+sac_6c2f17dd_s0: success 13.0% | failures 174: timeout 38 (rescued 0), stuck 93 (rescued 3), collision 43 (rescued 0)
+sac_6c2f17dd_s1: success 22.0% | failures 156: timeout 20 (rescued 1), stuck 97 (rescued 6), collision 39 (rescued 0)
+sac_6c2f17dd_s2: success 22.5% | failures 155: timeout 21 (rescued 1), stuck 102 (rescued 2), collision 32 (rescued 1)
+td3_2a217baf_s0: success 12.0% | failures 176: timeout 32 (rescued 0), stuck 93 (rescued 1), collision 51 (rescued 0)
+td3_2a217baf_s1: success 12.0% | failures 176: timeout 34 (rescued 0), stuck 81 (rescued 0), collision 61 (rescued 1)
+td3_2a217baf_s2: success 8.5% | failures 183: timeout 27 (rescued 0), stuck 90 (rescued 1), collision 66 (rescued 1)
+
+Per agent (200 episodes per run; rescued = succeeds with a 1.5x horizon):
+  sac_her: success 19.2%; of 485 failures: timeout 16% (rescued 2/79), stuck 60% (rescued 11/292), collision 24% (rescued 1/114)
+  td3_her: success 10.8%; of 535 failures: timeout 17% (rescued 0/93), stuck 49% (rescued 2/264), collision 33% (rescued 2/178)

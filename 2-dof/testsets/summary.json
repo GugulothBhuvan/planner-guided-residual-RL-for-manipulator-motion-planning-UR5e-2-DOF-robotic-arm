@@ -1,0 +1,99 @@
+{
+  "p1_test": {
+    "stage": "p1",
+    "n": 1000,
+    "seeds": [
+      5000000,
+      5000999
+    ],
+    "rejected": 0,
+    "horizon": 80,
+    "b2_steps": null
+  },
+  "p2_test": {
+    "stage": "p2",
+    "n": 1000,
+    "seeds": [
+      5100000,
+      5100999
+    ],
+    "rejected": 0,
+    "horizon": 339,
+    "b2_steps": {
+      "median": 89.0,
+      "p99": 234.01999999999998,
+      "max": 269
+    }
+  },
+  "p3_test": {
+    "stage": "p3",
+    "n": 1000,
+    "seeds": [
+      5200000,
+      5200999
+    ],
+    "rejected": 0,
+    "horizon": 303,
+    "b2_steps": {
+      "median": 77.0,
+      "p99": 247.02999999999997,
+      "max": 325
+    }
+  },
+  "p3_ood_test": {
+    "stage": "p3",
+    "n": 300,
+    "seeds": [
+      5300000,
+      5300299
+    ],
+    "rejected": 0,
+    "horizon": 303,
+    "b2_steps": {
+      "median": 70.0,
+      "p99": 252.04999999999995,
+      "max": 286
+    }
+  },
+  "p1_val": {
+    "stage": "p1",
+    "n": 100,
+    "seeds": [
+      4000000,
+      4000099
+    ],
+    "rejected": 0,
+    "horizon": 80,
+    "b2_steps": null
+  },
+  "p2_val": {
+    "stage": "p2",
+    "n": 100,
+    "seeds": [
+      4100000,
+      4100099
+    ],
+    "rejected": 0,
+    "horizon": 339,
+    "b2_steps": {
+      "median": 95.5,
+      "p99": 255.4100000000002,
+      "max": 296
+    }
+  },
+  "p3_val": {
+    "stage": "p3",
+    "n": 100,
+    "seeds": [
+      4200000,
+      4200099
+    ],
+    "rejected": 0,
+    "horizon": 303,
+    "b2_steps": {
+      "median": 83.5,
+      "p99": 257.8500000000004,
+      "max": 342
+    }
+  }
+}

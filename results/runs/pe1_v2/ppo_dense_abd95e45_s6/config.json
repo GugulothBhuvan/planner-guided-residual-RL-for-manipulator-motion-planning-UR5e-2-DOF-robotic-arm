@@ -1,0 +1,49 @@
+{
+  "run_id": "ppo_dense_abd95e45_s6",
+  "seed": 6,
+  "config": {
+    "exp": "pe1_v2",
+    "run": "ppo_dense",
+    "stage": "p1",
+    "steps": 50000,
+    "n_envs": 32,
+    "her": false,
+    "env": {
+      "n_obstacles": [
+        0,
+        0
+      ],
+      "episode_length": 80,
+      "reward": "dense",
+      "eps": 0.01,
+      "wrap_q1": true,
+      "curriculum": true
+    },
+    "agent": {
+      "algo": "ppo",
+      "learning_rate": 0.0003,
+      "n_steps": 128,
+      "batch_size": 256,
+      "n_epochs": 10,
+      "gamma": 0.99,
+      "gae_lambda": 0.95,
+      "net_arch": [
+        256,
+        256
+      ]
+    },
+    "package": "arm2dof"
+  },
+  "threads": 1,
+  "git_commit": null,
+  "python": "3.11.5",
+  "machine": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "packages": {
+    "mujoco": "3.17.0",
+    "gymnasium": "1.4.0",
+    "stable_baselines3": "2.9.2",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.4.6"
+  }
+}

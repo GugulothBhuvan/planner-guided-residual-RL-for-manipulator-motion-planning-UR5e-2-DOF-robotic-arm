@@ -1,0 +1,13 @@
+# PE8 (companion SPEC §8), RL part: SAC torque policy on P5a (sparse + HER, gamma_her 0.98, 0.25 grad steps per
+# transition, 3x256, as every other agent). B5 / B5' are evaluated, not trained. 5 seeds (§7.1, P5); 300k steps per
+# run (~1-2 h at 125 Hz, §11). Residual on B5' (dense, no HER, same residual settings as E5). Both train on the
+# nominal plant, as B5/B5' are designed on it; all four methods are evaluated on the exact and +-20% plants.
+name: pe8
+package: arm2dof
+env: p5a
+steps: 300000
+n_envs: 4
+seeds: [0, 1, 2, 3, 4]
+runs:
+  - {name: sac_her, agent: sac, her: true, overrides: {gamma_her: 0.98}}
+  - {name: residual, agent: residual, overrides: {base: {kind: pdg}}, env_overrides: {reward: dense}}

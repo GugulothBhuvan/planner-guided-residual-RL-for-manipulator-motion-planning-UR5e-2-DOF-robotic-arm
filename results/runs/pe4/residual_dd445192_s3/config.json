@@ -1,0 +1,69 @@
+{
+  "run_id": "residual_dd445192_s3",
+  "seed": 3,
+  "config": {
+    "exp": "pe4",
+    "run": "residual",
+    "stage": "p3",
+    "steps": 150000,
+    "n_envs": 4,
+    "her": false,
+    "env": {
+      "n_obstacles": [
+        1,
+        4
+      ],
+      "episode_length": 303,
+      "reward": "dense",
+      "eps": 0.01,
+      "wrap_q1": true,
+      "curriculum": false,
+      "gamma": 0.99
+    },
+    "agent": {
+      "algo": "residual_sac",
+      "learning_rate": 0.0003,
+      "buffer_size": 150000,
+      "batch_size": 256,
+      "grad_steps_per_transition": 0.25,
+      "learning_starts": 2000,
+      "gamma": 0.99,
+      "gamma_her": 0.99,
+      "tau": 0.05,
+      "net_arch": [
+        256,
+        256,
+        256
+      ],
+      "ent_coef": "auto_0.01",
+      "target_entropy_per_dim": -2.0,
+      "critic_warmup_steps": 7000,
+      "log_std_bias": -3.0,
+      "alpha_max": 0.3,
+      "alpha_ramp_steps": 22500,
+      "w_res": 0.1,
+      "base": {
+        "inflate": 0.05,
+        "max_checks": [
+          700,
+          2300,
+          3500
+        ],
+        "shortcut_iters": 20
+      }
+    },
+    "package": "arm2dof"
+  },
+  "threads": 1,
+  "git_commit": null,
+  "python": "3.13.15",
+  "machine": "x86_64",
+  "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "packages": {
+    "mujoco": "3.17.0",
+    "gymnasium": "1.4.0",
+    "stable_baselines3": "2.9.2",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.4.6"
+  }
+}

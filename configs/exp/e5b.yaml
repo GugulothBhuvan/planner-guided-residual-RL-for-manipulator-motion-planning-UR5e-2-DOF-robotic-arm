@@ -1,0 +1,24 @@
+# v2 (2026-10-29, user rule after the v1 diagnostic): the offset also fades linearly over the last 10% of the
+# reference (fade = min of the 5 cm and the reference fade), and w_res charges |o / 0.3|^2 instead of |pi_res|^2.
+# v1 (distance-only fade, w_res on pi_res) is archived as results/runs/archive/e5b_v1_dist_fade.
+# E5b (SPEC §7.3, §8; pre-registered 2026-10-29 after the E5 diagnostic, before any E5b training): residual SAC with
+# an INTEGRATED joint offset instead of an additive residual. The E5 base tracker cancels an additive residual every
+# step (authority ~ alpha * dq_max = 0.012 rad); here o <- clip(o + alpha * dq_max * pi_res, +-0.3 rad) persists
+# (at most 0.012 rad per step, +-0.3 rad in ~25 steps; user decision 2026-10-29 08:50, v0 in rad units archived as
+# results/runs/archive/e5b_v0_rad_units), the base
+# tracks q_ref + s * o, and s fades the offset to 0 within 5 cm of the goal (src/ur5rl/envs/residual.py, mode
+# "offset"). Sparse reward (no HER: the reference is goal-specific), absorbing collision penalty, and the same
+# warm-up / alpha ramp / w_res as E5 (configs/agent/residual.yaml). 3 seeds x 1M; the same S4 test-set evaluation and
+# checkpoint rule (SPEC §9.2). Reported whatever it shows.
+name: e5b
+env: s4
+steps: 1000000
+n_envs: 4
+seeds: [0, 1, 2]
+runs:
+  - name: residual_offset
+    agent: residual
+    overrides:
+      base: {inflate: 0.05, max_checks: [1500, 3000, 6000], shortcut_iters: 20, mode: offset, offset_max: 0.3,
+             offset_fade: 0.05, offset_step: dq_max, offset_fade_ref: 0.1, penalty: offset}
+    env_overrides: {reward: sparse}

@@ -1,0 +1,23 @@
+# v2 (2026-10-29, user rule after the v1 diagnostic): the offset also fades linearly over the last 10% of the
+# reference (fade = min of the 5 cm and the reference fade), and w_res charges |o / 0.3|^2 instead of |pi_res|^2.
+# v1 (distance-only fade, w_res on pi_res) is archived as results/runs/archive/pe4b_v1_dist_fade.
+# PE4b (companion SPEC §8; recorded 2026-10-29 before training, user decision): P3 with the accumulated residual of
+# UR5e E5b. The residual integrates a persistent joint offset o <- clip(o + alpha * dq_max * pi_res, +-0.3 rad); the
+# base tracks q_ref + s * o, with s fading the offset to 0 within 5 cm of the goal (arm2dof/envs/residual.py, mode
+# "offset"). Sparse reward (no HER: the reference is goal-specific), absorbing collision penalty, w_res and the
+# warm-up / alpha ramp scaled to the 150k-step run as in PE3/PE4 (ramp 15%, actor trains from 20%). 5 seeds x 150k;
+# the same P3 test-set evaluation as PE4 (budgets 700 / 2300 / 3500, UR5e SPEC §9.2 checkpoint rule). Queued after
+# the current PE runs; compared in PE9-lite with E5b vs E5 ("does the redesign transfer").
+name: pe4b
+package: arm2dof
+env: p3
+steps: 150000
+n_envs: 4
+seeds: [0, 1, 2, 3, 4]
+runs:
+  - name: residual_offset
+    agent: residual
+    overrides: {critic_warmup_steps: 7000, alpha_ramp_steps: 22500,
+                base: {inflate: 0.05, max_checks: [700, 2300, 3500], shortcut_iters: 20, mode: offset, offset_max: 0.3,
+                       offset_fade: 0.05, offset_fade_ref: 0.1, penalty: offset}}
+    env_overrides: {reward: sparse}

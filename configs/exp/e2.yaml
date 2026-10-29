@@ -1,0 +1,23 @@
+# Written by scripts/pipeline_e1_e5.py (SPEC §8 E2).
+name: e2
+env: s2
+steps: 500000
+n_envs: 4
+seeds:
+- 0
+- 1
+runs:
+- name: sac_sparse_her
+  agent: sac
+  her: true
+  overrides:
+    gamma_her: 0.98
+  env_overrides:
+    curriculum: true
+    reward: sparse
+- name: sac_dense
+  agent: sac
+  her: false
+  env_overrides:
+    curriculum: true
+    reward: dense

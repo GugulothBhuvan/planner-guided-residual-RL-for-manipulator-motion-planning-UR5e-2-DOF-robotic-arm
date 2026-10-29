@@ -1,0 +1,88 @@
+{
+  "s1_test": {
+    "stage": "s1",
+    "n": 200,
+    "first_seed": 3000000,
+    "rejected_no_path": 0,
+    "overrides": {},
+    "horizon": 150
+  },
+  "s2_test": {
+    "stage": "s2",
+    "n": 200,
+    "first_seed": 3100000,
+    "rejected_no_path": 0,
+    "overrides": {},
+    "horizon": 175
+  },
+  "s4_test": {
+    "stage": "s4",
+    "n": 200,
+    "first_seed": 3200000,
+    "rejected_no_path": 19,
+    "overrides": {},
+    "b2_success": 0.995,
+    "b2_duration_p50": 6.16,
+    "b2_duration_p99": 13.003200000000001,
+    "b2_duration_max": 13.2,
+    "b2_plan_time_p50": 0.035063600000057704,
+    "horizon": 407
+  },
+  "s4_ood_test": {
+    "stage": "s4",
+    "n": 100,
+    "first_seed": 3300000,
+    "rejected_no_path": 5,
+    "overrides": {
+      "n_obstacles": [
+        4,
+        4
+      ],
+      "obstacle_radius": [
+        0.08,
+        0.14
+      ],
+      "goal_min_reach": 0.75
+    },
+    "b2_success": 0.98,
+    "b2_duration_p50": 6.859999999999999,
+    "b2_duration_p99": 14.672400000000001,
+    "b2_duration_max": 15.72,
+    "b2_plan_time_p50": 0.040769049999880735,
+    "horizon": 407
+  },
+  "s1_val": {
+    "stage": "s1",
+    "n": 100,
+    "first_seed": 1000000,
+    "rejected_no_path": 0,
+    "overrides": {},
+    "horizon": 150
+  },
+  "s2_val": {
+    "stage": "s2",
+    "n": 100,
+    "first_seed": 1100000,
+    "rejected_no_path": 0,
+    "overrides": {},
+    "horizon": 175
+  },
+  "s4_val": {
+    "stage": "s4",
+    "n": 100,
+    "first_seed": 1200000,
+    "rejected_no_path": 4,
+    "overrides": {},
+    "b2_success": 1.0,
+    "b2_duration_p50": 6.16,
+    "b2_duration_p99": 13.571600000000009,
+    "b2_duration_max": 14.720000000000002,
+    "b2_plan_time_p50": 0.012160099999846352,
+    "horizon": 407
+  },
+  "s4_horizon": {
+    "rule": "max(200, ceil(1.25 * p99 B2 duration / 0.04 s))",
+    "p99_s": 13.003200000000001,
+    "horizon_steps": 407
+  }
+}

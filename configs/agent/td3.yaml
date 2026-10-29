@@ -1,0 +1,14 @@
+# SPEC §7.1. Same update ratio, batch and network as SAC so the comparison is fair (see sac.yaml).
+algo: td3
+learning_rate: 1.0e-3
+buffer_size: 1000000
+batch_size: 256
+grad_steps_per_transition: 0.25
+learning_starts: 2000
+gamma: 0.99
+gamma_her: 0.95
+tau: 0.05
+net_arch: [256, 256, 256]
+action_noise: 0.2          # Gaussian exploration sigma
+target_policy_noise: 0.2
+her: {n_sampled_goal: 4, goal_selection_strategy: future}

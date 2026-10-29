@@ -1,0 +1,23 @@
+# Written by scripts/pipeline_e1_e2.py from the S1 probe winner (SPEC §4).
+name: e1
+env: s1
+steps: 500000
+n_envs: 4
+seeds:
+- 0
+- 1
+- 2
+runs:
+- name: td3
+  agent: td3
+  her: true
+  overrides:
+    gamma_her: 0.98
+  env_overrides: &id001
+    curriculum: true
+- name: sac
+  agent: sac
+  her: true
+  overrides:
+    gamma_her: 0.98
+  env_overrides: *id001

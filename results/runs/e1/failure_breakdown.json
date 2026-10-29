@@ -1,0 +1,80 @@
+{
+  "sac_6c2f17dd_s0": {
+    "categories": {
+      "stuck": 93,
+      "collision": 43,
+      "timeout": 38,
+      "success": 26
+    },
+    "rescued_by_longer_horizon": {
+      "stuck": 3,
+      "collision": 0,
+      "timeout": 0
+    }
+  },
+  "sac_6c2f17dd_s1": {
+    "categories": {
+      "stuck": 97,
+      "collision": 39,
+      "timeout": 20,
+      "success": 44
+    },
+    "rescued_by_longer_horizon": {
+      "stuck": 6,
+      "collision": 0,
+      "timeout": 1
+    }
+  },
+  "sac_6c2f17dd_s2": {
+    "categories": {
+      "stuck": 102,
+      "collision": 32,
+      "success": 45,
+      "timeout": 21
+    },
+    "rescued_by_longer_horizon": {
+      "stuck": 2,
+      "collision": 1,
+      "timeout": 1
+    }
+  },
+  "td3_2a217baf_s0": {
+    "categories": {
+      "timeout": 32,
+      "collision": 51,
+      "success": 24,
+      "stuck": 93
+    },
+    "rescued_by_longer_horizon": {
+      "timeout": 0,
+      "collision": 0,
+      "stuck": 1
+    }
+  },
+  "td3_2a217baf_s1": {
+    "categories": {
+      "timeout": 34,
+      "collision": 61,
+      "stuck": 81,
+      "success": 24
+    },
+    "rescued_by_longer_horizon": {
+      "timeout": 0,
+      "collision": 1,
+      "stuck": 0
+    }
+  },
+  "td3_2a217baf_s2": {
+    "categories": {
+      "timeout": 27,
+      "stuck": 90,
+      "collision": 66,
+      "success": 17
+    },
+    "rescued_by_longer_horizon": {
+      "timeout": 0,
+      "stuck": 1,
+      "collision": 1
+    }
+  }
+}

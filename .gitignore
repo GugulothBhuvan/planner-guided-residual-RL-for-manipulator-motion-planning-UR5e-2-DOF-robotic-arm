@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+dist/
+MUJOCO_LOG.TXT
+
+# results/: tables, figures, videos and evaluation rows are versioned; run folders keep only their small metadata
+# (models, replay buffers, checkpoints and TensorBoard logs stay local: ~13 GB)
+results/runs/**
+!results/runs/**/
+!results/runs/**/config.json
+!results/runs/**/done.json
+!results/runs/**/val.jsonl
+!results/runs/**/alpha_sweep*.json
+!results/runs/**/diagnostic*.json
+!results/runs/**/failure_breakdown.*
+!results/runs/*.log
+!results/runs/pipeline_decisions.json
+results/runs/**/checkpoints/
+results/runs/**/logs*/
+results/eval/logs/
+*.tmp.*

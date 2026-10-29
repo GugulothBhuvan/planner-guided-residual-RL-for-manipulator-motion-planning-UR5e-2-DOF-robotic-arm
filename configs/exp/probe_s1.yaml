@@ -1,0 +1,23 @@
+# S1 probe after the gamma=0.95 E1 abort (SPEC §4): SAC+HER seed 0, 120k steps, 3 configs in parallel.
+# gamma 0.95 has an effective horizon of ~20 steps vs ~80 needed for 3.2 rad goals, so the sparse value signal
+# is flat. Winner = full-distribution validation success at 120k; ties go to the simpler config (c > a > b).
+name: probe_s1
+env: s1
+steps: 120000
+n_envs: 4
+seeds: [0]
+runs:
+  - name: a_g098_curr
+    agent: sac
+    her: true
+    overrides: {gamma_her: 0.98}
+    env_overrides: {curriculum: true}
+  - name: b_g099_curr
+    agent: sac
+    her: true
+    overrides: {gamma_her: 0.99}
+    env_overrides: {curriculum: true}
+  - name: c_g098
+    agent: sac
+    her: true
+    overrides: {gamma_her: 0.98}

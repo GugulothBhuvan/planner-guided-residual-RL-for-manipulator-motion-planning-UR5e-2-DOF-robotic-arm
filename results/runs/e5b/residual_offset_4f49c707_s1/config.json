@@ -1,0 +1,74 @@
+{
+  "run_id": "residual_offset_4f49c707_s1",
+  "seed": 1,
+  "config": {
+    "exp": "e5b",
+    "run": "residual_offset",
+    "stage": "s4",
+    "steps": 1000000,
+    "n_envs": 4,
+    "her": false,
+    "env": {
+      "orientation": true,
+      "n_obstacles": [
+        1,
+        4
+      ],
+      "episode_length": 407,
+      "reward": "sparse",
+      "eps_pos": 0.01,
+      "eps_rot_deg": 5.0,
+      "gamma": 0.99
+    },
+    "agent": {
+      "algo": "residual_sac",
+      "learning_rate": 0.0003,
+      "buffer_size": 1000000,
+      "batch_size": 256,
+      "grad_steps_per_transition": 0.25,
+      "learning_starts": 2000,
+      "gamma": 0.99,
+      "gamma_her": 0.99,
+      "tau": 0.05,
+      "net_arch": [
+        256,
+        256,
+        256
+      ],
+      "ent_coef": "auto_0.01",
+      "target_entropy_per_dim": -2.0,
+      "critic_warmup_steps": 50000,
+      "log_std_bias": -3.0,
+      "alpha_max": 0.3,
+      "alpha_ramp_steps": 150000,
+      "w_res": 0.1,
+      "base": {
+        "inflate": 0.05,
+        "max_checks": [
+          1500,
+          3000,
+          6000
+        ],
+        "shortcut_iters": 20,
+        "mode": "offset",
+        "offset_max": 0.3,
+        "offset_fade": 0.05,
+        "offset_step": "dq_max",
+        "offset_fade_ref": 0.1,
+        "penalty": "offset"
+      }
+    }
+  },
+  "threads": 1,
+  "git_commit": null,
+  "python": "3.13.15",
+  "machine": "x86_64",
+  "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "packages": {
+    "mujoco": "3.17.0",
+    "gymnasium": "1.4.0",
+    "stable_baselines3": "2.9.2",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.4.6"
+  }
+}

@@ -1,0 +1,22 @@
+# PE3 (companion SPEC §8): P2, pure SAC (+HER, sparse, decomposed reward) vs residual SAC (dense, no HER) on the
+# degraded B2 base; B2 (and B4) evaluated separately. Mirrors UR5e E5: same agents, gamma_her 0.98, 0.25 grad steps
+# per transition, no curriculum, residual base budget drawn per episode from three budgets calibrated to the UR5e's
+# base plan rates (§7.4). 150k steps per run ("P3 runs under about an hour each", §11); 5 seeds (§7.1 minimum, §11).
+name: pe3
+package: arm2dof
+env: p2
+steps: 150000
+n_envs: 4
+seeds: [0, 1, 2, 3, 4]  # spec minimum while E5 runs; extend to 10 later if time remains
+runs:
+  - name: sac_her
+    agent: sac
+    her: true
+    overrides: {gamma_her: 0.98}
+    env_overrides: {reward: sparse}
+  - name: residual
+    agent: residual
+    # warm-up and ramp scaled to the 150k-step run at E5's fractions (ramp 15%, actor trains from 20%); E5's
+    # 50k gradient steps would keep the actor frozen until ~202k > 150k (decision 2026-10-29)
+    overrides: {critic_warmup_steps: 7000, alpha_ramp_steps: 22500, base: {inflate: 0.05, max_checks: [4000, 6400, 9000], shortcut_iters: 20}}
+    env_overrides: {reward: dense}

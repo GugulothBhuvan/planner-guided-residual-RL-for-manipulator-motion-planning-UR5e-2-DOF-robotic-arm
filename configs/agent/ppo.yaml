@@ -1,0 +1,10 @@
+# SPEC §7.1 PPO (dense reward only). [256,256] policy/value, minibatch 256. n_envs comes from the experiment
+# (2-DOF: 32). n_steps x n_envs = rollout size per update.
+algo: ppo
+learning_rate: 3.0e-4
+n_steps: 128
+batch_size: 256
+n_epochs: 10
+gamma: 0.99
+gae_lambda: 0.95
+net_arch: [256, 256]

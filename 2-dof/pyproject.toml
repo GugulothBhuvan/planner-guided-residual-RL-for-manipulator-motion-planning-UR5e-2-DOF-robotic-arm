@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arm2dof"
+version = "0.1.0"
+description = "Planar 2-DOF arm: methodology validation for the UR5e study (see SPEC.md)"
+requires-python = ">=3.11,<3.12"
+# Shares agents (factory, SafetyHerReplayBuffer, GoalErrorExtractor) with the UR5e package in the parent repo.
+dependencies = ["ur5e-rl-planner", "scipy==1.17.1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pyright]
+extraPaths = ["src", "../src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
