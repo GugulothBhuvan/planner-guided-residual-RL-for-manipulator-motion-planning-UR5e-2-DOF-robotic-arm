@@ -157,6 +157,8 @@ python scripts/play.py --testset s4_test --episode 32 --method hybrid --budget 3
 python scripts/play.py --testset s4_test --episode 32 --method b2
 python scripts/play.py --testset s4_test --episode 8 --method b2 --record results/videos/ep8_4_b2.mp4
 python 2-dof/scripts/play.py --stage p3 --policy base   # planar arm: workspace + C-space view
+python 2-dof/scripts/play.py --run results/runs/pe4/residual_dd445192_s0 --checkpoint primary --testset p3_test --episode 9 --budget 2300
+python 2-dof/scripts/play.py --run results/runs/pe8/residual_787d568a_s0 --checkpoint primary --testset p5a_test --episode 7 --mass 1.2
 ```
 
 ## Setting

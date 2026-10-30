@@ -54,11 +54,18 @@ class TwoPanel:
     def clear_trail(self):
         self.trail_q, self.trail_ee = [], []
 
-    def _occupancy(self):
+    def obstacles(self):
+        """Active obstacle circles; none for the obstacle-free torque stage (TorqueArmEnv has no obstacle slots)."""
         e = self.env
-        key = (tuple(map(tuple, np.round(e.centers[e.mask], 6))), tuple(np.round(e.radii[e.mask], 6)))
+        if not hasattr(e, "centers"):
+            return np.zeros((0, 2)), np.zeros(0)
+        return e.centers[e.mask], e.radii[e.mask]
+
+    def _occupancy(self):
+        c, r = self.obstacles()
+        key = (tuple(map(tuple, np.round(c, 6))), tuple(np.round(r, 6)))
         if key != self.occ_key:
-            self.occ_key, self.occ = key, grid(e.centers[e.mask], e.radii[e.mask])
+            self.occ_key, self.occ = key, grid(c, r)
         return self.occ
 
     # ------------------------------------------------------------------ drawing
@@ -74,7 +81,7 @@ class TwoPanel:
         ws.set_ylim(-1.0, 1.0)
         ws.set_title("Workspace", loc="left", fontsize=10, color=INK)
         ws.add_patch(Circle((0, 0), 0.9, fill=False, ls=":", lw=0.8, color=OBST))
-        for c, r in zip(e.centers[e.mask], e.radii[e.mask]):
+        for c, r in zip(*self.obstacles()):
             ws.add_patch(Circle(c, r, color=OBST, lw=0))
             ws.add_patch(Circle(c, r + e.cfg.d_safe, fill=False, ls="--", lw=0.8, color=OBST))
         if reference is not None:
@@ -88,7 +95,7 @@ class TwoPanel:
         ws.plot(pts[:, 0], pts[:, 1], color=ARM, lw=9, solid_capstyle="round", alpha=0.85)
         ws.plot(pts[:2, 0], pts[:2, 1], "o", color="white", mec=ARM, ms=6, mew=1.5)
         ws.plot(*e.goal, marker="*", ms=14, color=GOAL, mec="white", mew=1.0, ls="none", label="goal")
-        ws.add_patch(Circle(e.goal, e.eps, fill=False, color=GOAL, lw=0.8))
+        ws.add_patch(Circle(e.goal, getattr(e, "eps", e.cfg.eps), fill=False, color=GOAL, lw=0.8))
         ws.tick_params(colors=INK_2, labelsize=8)
 
         # C-space

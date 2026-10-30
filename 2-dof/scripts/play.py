@@ -5,6 +5,13 @@
     python 2-dof/scripts/play.py --run ... --save out.gif --episodes 3            # offline (Colab): GIF / MP4
     python 2-dof/scripts/play.py --stage p3 --headless --steps 200                # no window (tests)
 
+Frozen test episodes, replayed exactly as evaluated (same env config, reset seed and episode; N = next episode):
+    python 2-dof/scripts/play.py --run results/runs/pe4/residual_<hash>_s0 --checkpoint primary --testset p3_test --episode 9 --budget 2300
+    python 2-dof/scripts/play.py --stage p3 --policy base --testset p3_test --episode 9 --budget 2300    # planner alone
+    python 2-dof/scripts/play.py --run results/runs/pe8/residual_<hash>_s0 --checkpoint primary --testset p5a_test --episode 7 --mass 1.2
+Torque (PE8) runs and --stage p5a use the torque arm (no obstacles; --policy base = B5', PD + gravity); --mass scales
+the plant's link masses while the controllers keep the nominal model.
+
 Mouse (workspace panel): left-click moves the goal; right-click adds an obstacle, or removes the one under the
 cursor (obstacle stages only; the scene keeps at most K circles).
 Keys: R reset (same scene), N new scene, P pause, B base-only / residual (residual runs), A show A* path,
@@ -14,7 +21,9 @@ V value-function heatmap over C-space for the current goal (SAC/TD3/DDPG critic,
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -34,28 +43,72 @@ def env_config(stage=None, run_cfg=None):
     return EnvConfig(**(cfg | dict(curriculum=False)))
 
 
-def build(args):
+def script(name, file):
+    """A sibling script loaded by path (the UR5e scripts/ has modules of the same name, e.g. evaluate.py)."""
+    if name not in sys.modules:
+        spec = importlib.util.spec_from_file_location(name, Path(__file__).with_name(file))
+        assert spec is not None and spec.loader is not None
+        sys.modules[name] = mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    return sys.modules[name]
+
+
+def test_episodes(args):
+    """(episodes, kinematic env config or None) of --testset, loaded as the evaluation scripts load them."""
+    if args.testset == "p5a_test":
+        return script("eval_pe8", "eval_pe8.py").episodes(), None
+    from ur5rl.eval import testsets
+    ev = script("evaluate_2dof", "evaluate.py")
+    episodes, meta = testsets.load(args.testset, root=ev.SETS)
+    return episodes, ev.stage_env(meta)
+
+
+def model_path(run, which):
+    if which == "best":
+        return run / ("best_model.zip" if (run / "best_model.zip").exists() else "last_model.zip")
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import checkpoints  # UR5e scripts/checkpoints.py: the evaluation checkpoint rule (SPEC §9.2)
+    path, _, note = checkpoints.select(run, which)
+    print(f"{run.name}: {which} checkpoint {path.name} ({note})")
+    return path
+
+
+def build(args, test_cfg=None):
     from arm2dof.envs.kinematic_env import KinematicArmEnv
     from arm2dof.envs.residual import ResidualArmEnv
+    from arm2dof.envs.residual_torque import ResidualTorqueEnv
+    from arm2dof.envs.torque_env import TorqueArmEnv
     model, residual, base_kw = None, False, {}
-    if args.run:
+    run_cfg = json.loads((Path(args.run) / "config.json").read_text())["config"] if args.run else None
+    torque = ("n_obstacles" not in run_cfg["env"]) if run_cfg else args.stage == "p5a"
+    plant = lambda: TorqueArmEnv(script("eval_pe8", "eval_pe8.py").stage_cfg(args.mass))  # PE8 evaluation config
+    if run_cfg:
         from stable_baselines3.common.vec_env import DummyVecEnv
         from ur5rl.agents.factory import ALGOS
-        run_cfg = json.loads((Path(args.run) / "config.json").read_text())["config"]
-        cfg = env_config(run_cfg=run_cfg)
         residual = run_cfg["agent"]["algo"] == "residual_sac"
-        if residual:
-            base_kw = dict(run_cfg["agent"]["base"])
-            base_kw["max_checks"] = max(np.atleast_1d(base_kw["max_checks"]))  # viewer: most generous training budget
-        make = (lambda: ResidualArmEnv(KinematicArmEnv(cfg), alpha=run_cfg["agent"].get("alpha_max", 0.3), **base_kw)) \
-            if residual else (lambda: KinematicArmEnv(cfg))
-        path = Path(args.run) / ("best_model.zip" if (Path(args.run) / "best_model.zip").exists() else "last_model.zip")
-        model = ALGOS[run_cfg["agent"]["algo"]].load(path, env=DummyVecEnv([make]), device="cpu")
+        alpha = run_cfg["agent"].get("alpha_max", 0.3)
+        if torque:
+            make = (lambda: ResidualTorqueEnv(plant(), alpha=alpha, **run_cfg["agent"]["base"])) if residual else plant
+        else:
+            cfg = test_cfg or env_config(run_cfg=run_cfg)
+            if residual:
+                base_kw = dict(run_cfg["agent"]["base"])
+                # viewer: the given budget, else the most generous training budget
+                base_kw["max_checks"] = args.budget or max(np.atleast_1d(base_kw["max_checks"]))
+            make = (lambda: ResidualArmEnv(KinematicArmEnv(cfg), alpha=alpha, **base_kw)) if residual \
+                else (lambda: KinematicArmEnv(cfg))
+        model = ALGOS[run_cfg["agent"]["algo"]].load(model_path(Path(args.run), args.checkpoint),
+                                                     env=DummyVecEnv([make]), device="cpu")
         env = make()
-    else:
-        cfg = env_config(stage=args.stage)
+    elif torque:
         residual = args.policy == "base"
-        env = ResidualArmEnv(KinematicArmEnv(cfg), alpha=0.0) if residual else KinematicArmEnv(cfg)
+        env = ResidualTorqueEnv(plant(), alpha=0.0, kind="pdg") if residual else plant()
+    else:
+        cfg = test_cfg or env_config(stage=args.stage)
+        residual = args.policy == "base"
+        # the planner alone as the evaluation runs it (base@N); without --budget, the env's default budget
+        kw = dict(inflate=0.05, shortcut_iters=20, max_checks=args.budget) if args.budget else {}
+        env = ResidualArmEnv(KinematicArmEnv(cfg), alpha=0.0, **kw) if residual else KinematicArmEnv(cfg)
     return env, model, residual
 
 
@@ -94,6 +147,12 @@ def main():
     p.add_argument("--save", help="write an animation (.gif or .mp4) instead of opening a window")
     p.add_argument("--episodes", type=int, default=2, help="with --save")
     p.add_argument("--headless", action="store_true")
+    p.add_argument("--checkpoint", choices=["best", "primary", "final"], default="best",
+                   help="with --run: primary / final = the evaluation checkpoint rule (UR5e SPEC §9.2)")
+    p.add_argument("--testset", help="replay frozen test episodes: p1_test, p2_test, p3_test, p5a_test")
+    p.add_argument("--episode", type=int, default=0, help="with --testset: the first episode shown (N = next)")
+    p.add_argument("--budget", type=int, help="planner budget in collision checks (residual / base, P2-P3)")
+    p.add_argument("--mass", type=float, default=1.0, help="torque stage: plant mass factor (PE8: 0.8 / 1.2)")
     p.add_argument("--steps", type=int, default=200, help="with --headless")
     args = p.parse_args()
     if args.save or args.headless:
@@ -104,15 +163,25 @@ def main():
     from arm2dof.planners.ik import ik_nearest
     from arm2dof.viz.two_panel import TwoPanel
 
-    env, model, residual = build(args)
+    episodes, test_cfg = test_episodes(args) if args.testset else (None, None)
+    env, model, residual = build(args, test_cfg)
     base = env.unwrapped
+    torque = not hasattr(base, "centers")
     view = TwoPanel(env)
-    state = dict(obs=None, done=False, paused=False, base_only=False, episode=0, ret=0.0, seed=args.seed)
+    state = dict(obs=None, done=False, paused=False, base_only=False, episode=0, ret=0.0, seed=args.seed,
+                 test_i=args.episode)
 
     def reset(new_scene=True):
-        if new_scene:
-            state["seed"] += 1
-        state["obs"], _ = env.reset(seed=state["seed"])
+        if episodes is not None:  # test episode i: the evaluation's reset (seed i on P1-P3) and stored episode
+            if new_scene:
+                state["test_i"] = (state["test_i"] + 1) % len(episodes)
+            i = state["test_i"]
+            state["obs"], _ = env.reset(options={"episode": episodes[i]}) if torque \
+                else env.reset(seed=i, options={"episode": episodes[i]})
+        else:
+            if new_scene:
+                state["seed"] += 1
+            state["obs"], _ = env.reset(seed=state["seed"])
         state["done"], state["ret"] = False, 0.0
         view.clear_trail()
         view.value = None
@@ -134,6 +203,10 @@ def main():
         state["done"] = term or trunc
         view.record()
         mode = "base only" if (residual and (state["base_only"] or model is None)) else ("residual" if residual else "policy")
+        if episodes is not None:
+            mode = f"{args.testset} #{state['test_i']}  {mode}"
+        if torque:
+            mode += f"  mass x{base.cfg.mass_factor:g}"
         view.status = (f"{mode}   t={base.t}   d={100 * info['d_pos']:.1f} cm   "
                        f"{'SUCCESS' if info['is_success'] else ''}{'  COLLISION' if info['collision'] else ''}"
                        f"{'   (paused)' if state['paused'] else ''}")
@@ -147,6 +220,8 @@ def main():
         for _ in range(args.steps):
             step()
             if state["done"]:
+                if episodes is not None:  # a test episode: stop at its end, so the status is its outcome
+                    break
                 reset()
         redraw()
         print(f"headless ok: t={base.t} status='{view.status}'")
@@ -185,7 +260,7 @@ def main():
             elif (~base.mask).any() and np.linalg.norm(pt) > 0.15:
                 k = int(np.flatnonzero(~base.mask)[0])
                 base.centers[k], base.radii[k], base.mask[k] = pt, 0.1, True
-        if residual:
+        if residual and hasattr(env, "replan"):  # kinematic residual: replan the base for the new scene
             state["obs"] = env.replan()
         else:
             state["obs"] = base._obs()
