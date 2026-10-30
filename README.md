@@ -52,6 +52,31 @@ surviving), each with a tested fix (SPEC §6.4, §6.7).
 
 All experiments are finished; UR5e experiments are frozen (SPEC v0.25).
 
+## Figures and videos
+
+Thesis figures, each as PDF and PNG in [results/figures/](results/figures/). Regenerate with
+`scripts/plot_budget.py`, `scripts/plot_alpha_sweep.py` and `scripts/thesis_figures.py`.
+
+| Figure | Shows |
+|---|---|
+| [learning_curves_e1_e2](results/figures/learning_curves_e1_e2.png) | E1 / E2 validation success vs steps: SAC vs TD3 (+HER), sparse+HER vs dense |
+| [e5_budget_s4_test](results/figures/e5_budget_s4_test.png) | Headline: S4 test success and collision vs planning budget, planner alone, residual arms, full B2 |
+| [e5_outcome_split](results/figures/e5_outcome_split.png) | S4 test outcome per arm and budget: success / collision / no contact but not at the goal |
+| [e5_validation_curves](results/figures/e5_validation_curves.png) | Residual arms on S4 validation: at the base line while the actor is frozen, below it once it trains |
+| [e5_alpha_sweep](results/figures/e5_alpha_sweep.png) | Validation success and collision vs residual scale α (α = 0 is the base alone) |
+| [pe34_budget](results/figures/pe34_budget.png) | 2-DOF PE3 / PE4 / PE4b: test success vs planning budget |
+| [pe8_plants](results/figures/pe8_plants.png) | 2-DOF PE8 torque control on the exact and ±20% mass plants |
+
+Replays in [results/videos/](results/videos/):
+
+| Video | Shows |
+|---|---|
+| `ep32_side_by_side.mp4` | UR5e S4 test episode 32 (the planner succeeds): planner alone, E5 hybrid, E5b hybrid, full B2 in a 2×2 grid |
+| `ep8_side_by_side.mp4` | UR5e S4 test episode 8 (the cheap planner fails and falls back to a straight line), same four controllers |
+| `ep*_[1-4]_*.mp4` | The eight single-controller replays the grids are built from (`scripts/play.py --record`) |
+| `pe4_p3_test.gif` | 2-DOF PE4, workspace + C-space: planner alone, then the additive-residual hybrid, on two test episodes |
+| `pe8_exact_vs_mass1.2.gif` | 2-DOF PE8: the residual on PD + gravity (arm) and PD + gravity alone (gray), exact vs ×1.2 mass plant |
+
 ## Repository layout
 
 ```text

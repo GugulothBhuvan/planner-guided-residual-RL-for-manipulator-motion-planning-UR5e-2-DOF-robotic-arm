@@ -289,3 +289,22 @@ dilemma for residual RL on top of a tracking planner.
   Primary = final checkpoint (300k runs, checkpoints every 100k), a limitation to state.
 - **Caveat on the gap metric.** Every planner's median gap is slightly negative (−0.8 to −1.0%): the "best-known"
   length is not a strict lower bound for executed paths. Report hybrid gaps relative to the planner's.
+
+## Appendix note (2026-10-30) — why the best-known path length is not a strict lower bound
+
+The planners' median gap to the best-known path is slightly negative (−0.8% to −1.0% on P2/P3), because the two
+lengths are measured to different endpoints. L_best is the joint-space length of a collision-free path that ends
+exactly at the goal configuration q_goal (min of A* and RRT-Connect, each shortcut-smoothed 2000 times). The
+executed length L(executed) is measured only up to the first step that satisfies the success test, and that test is
+in task space: the end effector within ε = 1 cm of the goal. The arm is therefore counted as finished while still
+short of q_goal. Measured on 147 successful B3 episodes of p3_test, the joint-space distance still to go at the first
+success step has a median of 0.016 rad, 0.83% of L_best, which matches the median gap of −0.82% almost exactly.
+Measured over the whole trajectory to the end of the episode, the median gap is −0.05%, and the reference path itself
+equals L_best (median gap 0.000; 4% of references are shorter by about 0.05%, where B3's own shortcutting found a
+slightly shorter path than the best-known search). The goal's IK branch is not a factor: every reference ended on the
+branch L_best uses. L_best is a best-known length, not a proven optimum, and the success test cuts the executed path
+short by about one tolerance radius, so it is not a lower bound for the metric as defined. The gap is therefore
+reported relative to the planners' gap (hybrid 0.0–0.4% vs planner −0.8 to −1.0%; PE4b offset +10%): the comparison
+between methods holds, but the absolute value is biased by about −0.8%. A strict bound would need both lengths
+measured to the same endpoint (e.g. L_best to the first configuration inside the ε-ball), which we did not change
+after the evaluation.
