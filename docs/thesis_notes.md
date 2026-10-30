@@ -267,3 +267,25 @@ dilemma for residual RL on top of a tracking planner.
   barrier function) before execution, so authority never costs safety.
 - *TD3 for integrated actions:* a deterministic policy with explicit, decaying exploration noise, to avoid
   max-entropy drift when actions are integrated.
+
+## 2026-10-30 — 2-DOF results: the planar arm reproduces E5; the offset redesign does not transfer
+
+- **PE3 / PE4 (1000 test episodes, 5 seeds, primary checkpoint).** The additive residual is below the planner alone at
+  every budget, with the planner's collision rate: PE3 74.0 / 81.5 / 92.8% vs 76.7 / 84.6 / 96.7% (4000 / 6400 / 9000
+  checks), PE4 71.7 / 76.6 / 79.0% vs 80.0 / 85.7 / 88.4% (700 / 2300 / 3500). Pure SAC+HER: 1.1% and 0.2%. Full B2
+  and B3: 99.5–100%. The gap to the planner grows with task difficulty: 1–4 points (PE3), 8–9 (PE4), 12–15 (E5).
+- **PE4b (offset residual, v2).** 77.8 / 82.4 / 84.3% success, 22.2 / 17.5 / 15.6% collision: better than the
+  additive residual (+5.8 points at 2300, CI [+3.3, +8.4]) but still below the planner (−3.3, CI [−3.8, −2.8]), with
+  2–4 points more collisions and ~10% longer paths (median gap 0.10 vs −0.01 for the planner). On the UR5e, E5b is
+  *worse* than E5 (−13.2 points). PE9-lite: 8 of 9 rankings agree; this is the one that does not.
+- **Reading.** Both arms agree on the headline (no residual beats its planner) and on the dilemma's E5 side (a
+  bounded residual only costs pose accuracy). They disagree on how costly lasting authority is: in the 2-D C-space
+  a saturated offset leaves the reference by a bounded, mostly harmless amount; among 1–4 spheres in 6-D it drives
+  the arm into obstacles. So the cheap testbed predicted the training-side choices and the headline, but not the
+  safety cost of the redesign, which is exactly the part that depends on geometry.
+- **PE8 (torque, 300 episodes, 5 seeds).** Residual on B5' 43.0 / 33.0 / 30.3% on the exact / ×0.8 / ×1.2 mass plants
+  vs B5' 100 / 19.0 / 15.3%. The only setting in the project where a residual improves on its base is where the base
+  has a systematic model error (wrong gravity term), and even there it gives up most of the exact-plant performance.
+  Primary = final checkpoint (300k runs, checkpoints every 100k), a limitation to state.
+- **Caveat on the gap metric.** Every planner's median gap is slightly negative (−0.8 to −1.0%): the "best-known"
+  length is not a strict lower bound for executed paths. Report hybrid gaps relative to the planner's.
