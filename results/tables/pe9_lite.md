@@ -11,7 +11,7 @@ Success in % (first option vs second), Δ = first − second with a 95% bootstra
 | Hybrid vs pure SAC+HER | PE3 (p2_test, 6400) | 81.5 vs 1.1 (Δ +80.4, CI [+79.4, +81.5]) | yes | E5 (S4, 3000) | 71.5 vs 0.0 (Δ +71.5, CI [+69.0, +73.5]) | yes | yes |
 | Hybrid vs base-only, middle budget | PE4 (p3_test, 2300) | 76.6 vs 85.7 (Δ -9.1, CI [-11.5, -6.6]) | yes | E5 (S4, 3000) | 71.5 vs 86.0 (Δ -14.5, CI [-17.0, -12.5]) | yes | yes |
 | Hybrid vs pure SAC+HER | PE4 (p3_test, 2300) | 76.6 vs 0.2 (Δ +76.4, CI [+74.0, +78.9]) | yes | E5 (S4, 3000) | 71.5 vs 0.0 (Δ +71.5, CI [+69.0, +73.5]) | yes | yes |
-| Redesign: offset vs additive residual | PE4b vs PE4 (p3_test, 2300) | - | | E5b vs E5 (S4, 3000) | 58.3 vs 71.5 (Δ -13.2, CI [-15.7, -10.7]) | | pending |
-| Redesign: offset hybrid vs base-only | PE4b (p3_test, 2300) | - | | E5b (S4, 3000) | 58.3 vs 86.0 (Δ -27.7, CI [-29.0, -26.0]) | | pending |
+| Redesign: offset vs additive residual | PE4b vs PE4 (p3_test, 2300) | 82.4 vs 76.6 (Δ +5.8, CI [+3.3, +8.4]) | yes | E5b vs E5 (S4, 3000) | 58.3 vs 71.5 (Δ -13.2, CI [-15.7, -10.7]) | yes | no |
+| Redesign: offset hybrid vs base-only | PE4b (p3_test, 2300) | 82.4 vs 85.7 (Δ -3.3, CI [-3.8, -2.8]) | yes | E5b (S4, 3000) | 58.3 vs 86.0 (Δ -27.7, CI [-29.0, -26.0]) | yes | yes |
 
-Rankings agree on 7 of 7 comparisons with results on both arms.
+Rankings agree on 8 of 9 comparisons with results on both arms.

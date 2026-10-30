@@ -65,3 +65,5 @@
 2026-10-30 04:27:21 PE3/PE4/PE8 evaluated: results/tables/pe3.md, pe4.md, pe8.md, pe9_lite.md
 2026-10-30 04:27:21 pe4b: test-set evaluation
 2026-10-30 04:27:21 pe4b: 10 evaluation commands, 4 in parallel
+2026-10-30 06:27:52 PE9-lite
+2026-10-30 06:28:06 2-DOF lane finished: results/tables/pe3.md, pe4.md, pe8.md, pe9_lite.md

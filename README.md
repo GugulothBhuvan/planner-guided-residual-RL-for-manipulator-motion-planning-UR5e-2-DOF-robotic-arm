@@ -3,7 +3,7 @@
 MTP thesis project: can a **cheap sampling-based planner plus a learned residual correction** match an expensive
 planner for collision-free 6D pose reaching? Simulated in MuJoCo on a **UR5e with a Robotiq 2F-85**, with a
 **planar 2-DOF arm** as a methodology-validation companion. Every design decision, deviation and result is recorded
-in the versioned specs: [SPEC.md](SPEC.md) (UR5e, v0.24) and [2-dof/SPEC.md](2-dof/SPEC.md) (2-DOF, v0.11).
+in the versioned specs: [SPEC.md](SPEC.md) (UR5e, v0.25) and [2-dof/SPEC.md](2-dof/SPEC.md) (2-DOF, v0.12).
 
 ## Result in one paragraph
 
@@ -45,12 +45,12 @@ surviving), each with a tested fix (SPEC §6.4, §6.7).
 | E5 | S4, 1–4 random spheres | residual over cheap RRT-Connect vs planner vs pure RL, 3 seeds × 1M | done, negative ([e5.md](results/tables/e5.md)) |
 | E5b | S4 | accumulated-offset residual, 3 seeds × 1M (pre-registered, v2 final) | done, negative |
 | PE1–PE2 | 2-DOF P1 | algorithm and reward choices | done; rankings match E1/E2 |
-| PE3–PE4 | 2-DOF P2/P3 clutter | residual vs planner vs pure RL, 5 seeds | evaluated; same pattern as E5 (hybrid below planner) |
-| PE4b | 2-DOF P3 | accumulated-offset residual, 5 seeds | trained, evaluation running |
-| PE8 | 2-DOF torque control | residual over PD + gravity on exact and ±20% mass plants | evaluation running |
-| PE9-lite | both | do 2-DOF design rankings transfer to the UR5e? | 3 of 3 so far ([pe9_lite.md](results/tables/pe9_lite.md)) |
+| PE3–PE4 | 2-DOF P2/P3 clutter | residual vs planner vs pure RL, 5 seeds | done; same pattern as E5: hybrid below planner ([pe3.md](results/tables/pe3.md), [pe4.md](results/tables/pe4.md)) |
+| PE4b | 2-DOF P3 | accumulated-offset residual, 5 seeds | done; better than the additive residual, still below the planner (in [pe4.md](results/tables/pe4.md)) |
+| PE8 | 2-DOF torque control | residual over PD + gravity on exact and ±20% mass plants | done; residual helps on the wrong-mass plants, hurts on the exact one ([pe8.md](results/tables/pe8.md)) |
+| PE9-lite | both | do 2-DOF design rankings transfer to the UR5e? | 8 of 9 rankings agree; offset vs additive residual does not ([pe9_lite.md](results/tables/pe9_lite.md)) |
 
-UR5e experiments are frozen (SPEC v0.24). The 2-DOF tables are added to `results/tables/` as their evaluation finishes.
+All experiments are finished; UR5e experiments are frozen (SPEC v0.25).
 
 ## Repository layout
 
