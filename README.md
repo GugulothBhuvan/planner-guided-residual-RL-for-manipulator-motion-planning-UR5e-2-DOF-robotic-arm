@@ -107,7 +107,7 @@ and their reasoning are logged, dated, in [docs/thesis_notes.md](docs/thesis_not
 | Arm | Universal Robots UR5e (MuJoCo Menagerie model), 6 position-servoed joints, gravity compensation on (as the real controller) |
 | Gripper | Robotiq 2F-85, welded open as one rigid 1.05 kg body; tool point 14.16 cm from the flange |
 | Physics | 0.002 s timestep, frame skip 20, so 25 Hz control |
-| Action | $a \in [-1,1]^6$ integrated into the joint target: $q_\text{target} \leftarrow \operatorname{clip}(q_\text{target} + a\,\Delta q_\max)$, $\Delta q_\max = 0.04$ rad (≈ 0.98 rad/s) |
+| Action | $a \in [-1,1]^6$ integrated into the joint target: $q_\text{target} \leftarrow \mathrm{clip}(q_\text{target} + a\,\Delta q_\max)$, $\Delta q_\max = 0.04$ rad (≈ 0.98 rad/s) |
 | Observation | joint angles (sin/cos, normalized), velocities, tool position and 6D rotation, previous action, $q_\text{target}-q$; obstacle stages add 4 obstacle slots (center, radius, mask) and the clearance of 6 links + gripper |
 | Goal | 9-D: position plus the first two rotation-matrix columns (Zhou et al., 2019), sampled in joint space so every goal is reachable |
 | Success | tool within **1 cm and 5°** of the goal (S1: 2 cm, position only) |
@@ -146,16 +146,16 @@ flowchart LR
 
 The tracker feeds the next reference point forward from the current joint target:
 
-$$a_\text{base} = \operatorname{clip}\!\left(\frac{q_\text{ref}(t+1) - q_\text{target}}{\Delta q_\max},\,-1,\,1\right)$$
+$$a_\text{base} = \mathrm{clip}\!\left(\frac{q_\text{ref}(t+1) - q_\text{target}}{\Delta q_\max},\,-1,\,1\right)$$
 
 **E5: additive residual.** The policy's output is scaled and added to the base command:
 
-$$a = \operatorname{clip}\big(a_\text{base} + \alpha\,\pi_\text{res}(s),\,-1,\,1\big)$$
+$$a = \mathrm{clip}\big(a_\text{base} + \alpha\,\pi_\text{res}(s),\,-1,\,1\big)$$
 
 **E5b: accumulated offset.** The correction integrates into a persistent joint offset that can steer away from the
 reference. The offset fades out near the goal and over the last 10% of the reference:
 
-$$o_t = \operatorname{clip}\big(o_{t-1} + \alpha\,\pi_\text{res}(s)\,\Delta q_\max,\,\pm 0.3\big),\qquad q_\text{target} = q_\text{ref} + f_t\,o_t$$
+$$o_t = \mathrm{clip}\big(o_{t-1} + \alpha\,\pi_\text{res}(s)\,\Delta q_\max,\,\pm 0.3\big),\qquad q_\text{target} = q_\text{ref} + f_t\,o_t$$
 
 **Training safeguards, shared by both designs:**
 - **Start from the base.** α ramps from 0 to 0.3 over 150k steps; the actor's mean starts near zero with log-std bias −3.
