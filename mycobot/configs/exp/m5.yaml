@@ -1,0 +1,10 @@
+# M5: MyCobot S4, residual SAC (dense, no HER) on the degraded-B2 base; the UR5e E5 recipe, full UR5e schedule (SPEC M5).
+name: m5
+env: s4
+steps: 1000000
+n_envs: 4
+seeds: [0, 1]
+runs:
+  - name: residual
+    agent: residual
+    env_overrides: {reward: dense}

@@ -1,0 +1,6 @@
+residual_b99f130c_s1: final checkpoint model_1000000.zip (final)
+hybrid@1500:residual_b99f130c_s1#final success 0.895 [0.850, 0.935]  collision 0.100 [0.060, 0.145]  (266 s)
+residual_b99f130c_s1: final checkpoint model_1000000.zip (final)
+hybrid@3000:residual_b99f130c_s1#final success 0.925 [0.885, 0.960]  collision 0.050 [0.025, 0.080]  (310 s)
+residual_b99f130c_s1: final checkpoint model_1000000.zip (final)
+hybrid@6000:residual_b99f130c_s1#final success 0.935 [0.900, 0.965]  collision 0.025 [0.005, 0.050]  (331 s)

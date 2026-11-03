@@ -1,0 +1,17 @@
+# models, replay buffers, checkpoints and TensorBoard logs stay local (as in the parent repo)
+results/runs/**/*.zip
+results/runs/**/*.pkl
+results/runs/**/checkpoint/
+results/runs/**/checkpoint_b/
+results/runs/**/checkpoint_tmp/
+results/runs/**/checkpoints/
+results/runs/**/logs*/
+results/archive_h489/**/*.zip
+results/archive_h489/**/*.pkl
+results/archive_h489/**/checkpoint*/
+results/archive_h489/**/logs*/
+results/archive_h489/logs/
+results/runs_smoke/
+results/runs_smoke2/
+*.out
+*.err

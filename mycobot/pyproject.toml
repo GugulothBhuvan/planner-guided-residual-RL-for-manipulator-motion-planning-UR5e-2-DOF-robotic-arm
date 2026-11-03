@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mycobot-rl"
+version = "0.1.0"
+description = "MyCobot 280 lane: kinematics, MuJoCo env, planners (shares agents with ur5rl)"
+requires-python = ">=3.11"
+dependencies = ["numpy", "mujoco", "gymnasium"]
+
+[tool.setuptools]
+packages = ["mc280", "mcrl", "mcrl.envs", "mcrl.planners"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

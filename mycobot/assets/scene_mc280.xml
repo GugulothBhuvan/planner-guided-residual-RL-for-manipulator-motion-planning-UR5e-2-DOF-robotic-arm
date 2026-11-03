@@ -1,0 +1,92 @@
+<mujoco model="mycobot280_m5">
+  <compiler angle="radian"/>
+  <option integrator="implicitfast"/>
+  <default>
+    <default class="col"><geom type="capsule" group="3" rgba="0.8 0.8 0.85 0.4"/></default>
+  </default>
+  <worldbody>
+    <geom name="floor" size="3 3 0.05" pos="0 0 -0.75" type="plane" contype="2"/>
+    <geom name="table" size="1.2 1.2 0.02" pos="0 0 -0.02" type="box" contype="2" rgba="0.55 0.45 0.35 1"/>
+    <light name="top" pos="0 0 3" type="directional"/>
+    <body name="base">
+      <inertial pos="0 0 0" mass="1" diaginertia="0.001 0.001 0.001"/>
+      <body name="link1" pos="0 0 0.13156" quat="1 0 0 0" gravcomp="1">
+        <inertial pos="0 0 0" mass="0.15" diaginertia="0.0002 0.0002 0.0002"/>
+        <joint name="j1" axis="0 0 1" range="-2.967060 2.967060" limited="true" armature="0.01"/>
+        <geom name="link1_col0" class="col" fromto="0 0 -0.07 0 0 0" size="0.035"/>
+        <body name="link2" pos="0 0 0" quat="0.5 0.5 0.5 -0.5" gravcomp="1">
+          <inertial pos="0 0 0" mass="0.15" diaginertia="0.0002 0.0002 0.0002"/>
+          <joint name="j2" axis="0 0 1" range="-2.268928 1.483530" limited="true" armature="0.01"/>
+          <geom name="link2_col0" class="col" fromto="0 0 0 -0.1104 0 0" size="0.028"/>
+          <body name="link3" pos="-0.1104 0 0" quat="1 0 0 0" gravcomp="1">
+            <inertial pos="0 0 0" mass="0.15" diaginertia="0.0002 0.0002 0.0002"/>
+            <joint name="j3" axis="0 0 1" range="-2.705260 2.705260" limited="true" armature="0.01"/>
+            <geom name="link3_col0" class="col" fromto="0 0 0 -0.096 0 0.06462" size="0.025"/>
+            <body name="link4" pos="-0.096 0 0.06462" quat="0.707107 0 0 -0.707107" gravcomp="1">
+              <inertial pos="0 0 0" mass="0.15" diaginertia="0.0002 0.0002 0.0002"/>
+              <joint name="j4" axis="0 0 1" range="-2.879793 2.879793" limited="true" armature="0.01"/>
+              <geom name="link4_col0" class="col" fromto="0 0 0 0 -0.07318 0" size="0.022"/>
+              <body name="link5" pos="0 -0.07318 0" quat="0.5 0.5 -0.5 0.5" gravcomp="1">
+                <inertial pos="0 0 0" mass="0.15" diaginertia="0.0002 0.0002 0.0002"/>
+                <joint name="j5" axis="0 0 1" range="-2.879793 2.879793" limited="true" armature="0.01"/>
+                <geom name="link5_col0" class="col" fromto="0 0 0 0 0.0456 0" size="0.022"/>
+                <body name="link6" pos="0 0.0456 0" quat="0.707107 -0.707107 0 0" gravcomp="1">
+                  <inertial pos="0 0 0" mass="0.15" diaginertia="0.0002 0.0002 0.0002"/>
+                  <joint name="j6" axis="0 0 1" range="-3.141593 3.141593" limited="true" armature="0.01"/>
+                  <geom name="link6_col0" class="col" fromto="0 0 -0.02 0 0 0" size="0.02"/>
+                  <site name="attachment_site" size="0.004" group="1"/>
+                  <body name="tool" gravcomp="1">
+                    <inertial pos="0 0 0.02" mass="0.05" diaginertia="0.00002 0.00002 0.00002"/>
+                    <geom name="tool_col0" class="col" fromto="0 0 0 0 0 0.04" size="0.015"/>
+                    <site name="tcp" size="0.005" pos="0.0072 -0.0053 0.0008" group="1" rgba="1 0 0 1"/>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    <body name="goal" pos="0.2 0 0.2" mocap="true">
+      <geom name="goal_axis0" size="0.002 0.015" pos="0.015 0 0" quat="0.707107 0 -0.707107 0" type="capsule" contype="0" conaffinity="0" group="1" rgba="1 0 0 0.6"/>
+      <geom name="goal_axis1" size="0.002 0.015" pos="0 0.015 0" quat="0.707107 0.707107 0 0" type="capsule" contype="0" conaffinity="0" group="1" rgba="0 1 0 0.6"/>
+      <geom name="goal_axis2" size="0.002 0.015" pos="0 0 0.015" quat="0 1 0 0" type="capsule" contype="0" conaffinity="0" group="1" rgba="0 0 1 0.6"/>
+      <site name="goal" size="0.005" group="1" rgba="0 0.8 0 0.8"/>
+    </body>
+    <body name="obstacle0" pos="0 0 -5" mocap="true">
+      <geom name="obstacle0" size="0.02" contype="2" rgba="0.85 0.2 0.2 0.6"/>
+    </body>
+    <body name="obstacle1" pos="0 0 -5" mocap="true">
+      <geom name="obstacle1" size="0.02" contype="2" rgba="0.85 0.2 0.2 0.6"/>
+    </body>
+    <body name="obstacle2" pos="0 0 -5" mocap="true">
+      <geom name="obstacle2" size="0.02" contype="2" rgba="0.85 0.2 0.2 0.6"/>
+    </body>
+    <body name="obstacle3" pos="0 0 -5" mocap="true">
+      <geom name="obstacle3" size="0.02" contype="2" rgba="0.85 0.2 0.2 0.6"/>
+    </body>
+  </worldbody>
+  <contact>
+    <exclude body1="base" body2="link1"/>
+    <exclude body1="link1" body2="link2"/>
+    <exclude body1="link2" body2="link3"/>
+    <exclude body1="link3" body2="link4"/>
+    <exclude body1="link4" body2="link5"/>
+    <exclude body1="link5" body2="link6"/>
+    <exclude body1="link6" body2="tool"/>
+    <exclude body1="link1" body2="link3"/>
+    <exclude body1="link2" body2="link4"/>
+    <exclude body1="link3" body2="link5"/>
+    <exclude body1="link4" body2="link6"/>
+    <exclude body1="link5" body2="tool"/>
+    <exclude body1="link4" body2="tool"/>
+  </contact>
+  <actuator>
+    <general name="a1" joint="j1" ctrlrange="-2.967060 2.967060" forcerange="-3.0 3.0" gainprm="20.0" biasprm="0 -20.0 -3.0" biastype="affine"/>
+    <general name="a2" joint="j2" ctrlrange="-2.268928 1.483530" forcerange="-3.0 3.0" gainprm="20.0" biasprm="0 -20.0 -3.0" biastype="affine"/>
+    <general name="a3" joint="j3" ctrlrange="-2.705260 2.705260" forcerange="-3.0 3.0" gainprm="20.0" biasprm="0 -20.0 -3.0" biastype="affine"/>
+    <general name="a4" joint="j4" ctrlrange="-2.879793 2.879793" forcerange="-3.0 3.0" gainprm="20.0" biasprm="0 -20.0 -3.0" biastype="affine"/>
+    <general name="a5" joint="j5" ctrlrange="-2.879793 2.879793" forcerange="-3.0 3.0" gainprm="20.0" biasprm="0 -20.0 -3.0" biastype="affine"/>
+    <general name="a6" joint="j6" ctrlrange="-3.141593 3.141593" forcerange="-3.0 3.0" gainprm="20.0" biasprm="0 -20.0 -3.0" biastype="affine"/>
+  </actuator>
+</mujoco>

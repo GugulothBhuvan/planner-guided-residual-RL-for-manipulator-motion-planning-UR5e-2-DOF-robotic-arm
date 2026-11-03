@@ -1,0 +1,25 @@
+17:15:16 rep 1 s20e1
+{"tag": "real_s4_test_ep0_b2_s20e1_r1", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.320396921487494, "theta_deg": 3.903924525199751, "ticks": 360, "wall_s": 19.116296299995156, "dry_run": false, "trim": true
+17:15:52 rep 1 s10e1
+{"tag": "real_s4_test_ep0_b2_s10e1_r1", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3511990703386953, "theta_deg": 3.982015982156658, "ticks": 360, "wall_s": 19.214065699998173, "dry_run": false, "trim": tru
+17:16:26 rep 1 s30e1
+{"tag": "real_s4_test_ep0_b2_s30e1_r1", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3359544267664987, "theta_deg": 3.8740627949455475, "ticks": 361, "wall_s": 19.393144700006815, "dry_run": false, "trim": tr
+17:17:00 rep 1 s20e2
+{"tag": "real_s4_test_ep0_b2_s20e2_r1", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3378904986942473, "theta_deg": 3.7614497125878357, "ticks": 361, "wall_s": 18.751398300009896, "dry_run": false, "trim": tr
+17:17:33 rep 1 s20e1notrim
+{"tag": "real_notrim_s4_test_ep0_b2_s20e1notrim_r1", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3550878379104421, "theta_deg": 3.8353496873379984, "ticks": 361, "wall_s": 18.955006699994556, "dry_run": fals
+17:18:07 rep 1 s10e2
+{"tag": "real_s4_test_ep0_b2_s10e2_r1", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3730878448500149, "theta_deg": 4.0269110946750315, "ticks": 360, "wall_s": 18.857880399998976, "dry_run": false, "trim": tr
+17:18:41 rep 2 s10e2
+{"tag": "real_s4_test_ep0_b2_s10e2_r2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3539447486869234, "theta_deg": 4.0660297501660505, "ticks": 360, "wall_s": 18.7142751999927, "dry_run": false, "trim": true
+17:19:14 rep 2 s20e1notrim
+{"tag": "real_notrim_s4_test_ep0_b2_s20e1notrim_r2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.335676543273086, "theta_deg": 3.7953774624954226, "ticks": 361, "wall_s": 19.04423840000527, "dry_run": false,
+17:19:48 rep 2 s20e2
+{"tag": "real_s4_test_ep0_b2_s20e2_r2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3341227477049986, "theta_deg": 3.9875174160574054, "ticks": 360, "wall_s": 18.99656519999553, "dry_run": false, "trim": tru
+17:20:21 rep 2 s30e1
+{"tag": "real_s4_test_ep0_b2_s30e1_r2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3698349293728586, "theta_deg": 3.95320324312737, "ticks": 361, "wall_s": 19.032603100000415, "dry_run": false, "trim": true
+17:20:56 rep 2 s10e1
+{"tag": "real_s4_test_ep0_b2_s10e1_r2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3359544267664987, "theta_deg": 3.8740627949455475, "ticks": 361, "wall_s": 18.987135599993053, "dry_run": false, "trim": tr
+17:21:29 rep 2 s20e1
+{"tag": "real_s4_test_ep0_b2_s20e1_r2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3506374091751485, "theta_deg": 3.992815467197318, "ticks": 361, "wall_s": 19.046092600008706, "dry_run": false, "trim": tru
+VIB DONE

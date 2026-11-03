@@ -1,0 +1,6 @@
+residual_ff20115a_s0: primary checkpoint model_800000.zip (best validation after step 202000 (val success 0.74))
+hybrid@1500:residual_ff20115a_s0#primary success 0.895 [0.850, 0.935]  collision 0.100 [0.060, 0.145]  (265 s)
+residual_ff20115a_s0: primary checkpoint model_800000.zip (best validation after step 202000 (val success 0.74))
+hybrid@3000:residual_ff20115a_s0#primary success 0.920 [0.880, 0.955]  collision 0.055 [0.025, 0.090]  (290 s)
+residual_ff20115a_s0: primary checkpoint model_800000.zip (best validation after step 202000 (val success 0.74))
+hybrid@6000:residual_ff20115a_s0#primary success 0.930 [0.895, 0.965]  collision 0.030 [0.010, 0.055]  (299 s)
