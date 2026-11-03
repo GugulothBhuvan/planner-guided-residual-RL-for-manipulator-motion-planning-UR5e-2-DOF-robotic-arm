@@ -1,0 +1,33 @@
+{
+  "s4_test": {
+    "stage": "s4",
+    "n": 200,
+    "first_seed": 3200000,
+    "rejected_no_path": 71,
+    "overrides": {},
+    "b2_success": 1.0,
+    "b2_duration_p50": 10.025,
+    "b2_duration_p99": 19.5505,
+    "b2_duration_max": 19.800000000000004,
+    "b2_plan_time_p50": 0.08847540000033405,
+    "horizon": 489
+  },
+  "s4_val": {
+    "stage": "s4",
+    "n": 100,
+    "first_seed": 1200000,
+    "rejected_no_path": 45,
+    "overrides": {},
+    "b2_success": 1.0,
+    "b2_duration_p50": 9.5,
+    "b2_duration_p99": 18.556500000000003,
+    "b2_duration_max": 19.200000000000003,
+    "b2_plan_time_p50": 0.0862569999999323,
+    "horizon": 489
+  },
+  "s4_horizon": {
+    "rule": "max(200, ceil(1.25 * p99 B2 duration / 0.05 s))",
+    "p99_s": 19.5505,
+    "horizon_steps": 489
+  }
+}

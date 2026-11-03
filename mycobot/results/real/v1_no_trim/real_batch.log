@@ -1,0 +1,59 @@
+16:28:11 ep 0 base
+{"tag": "real_s4_test_ep0_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.8611467517576228, "theta_deg": 2.915028534590791, "ticks": 392, "wall_s": 20.45278989999497, "dry_run": false}
+16:28:47 ep 0 hybrid
+{"tag": "real_s4_test_ep0_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.9652237115404118, "theta_deg": 3.190353219235666, "ticks": 400, "wall_s": 21.27161560000968, "dry_run": false}
+16:29:32 ep 1 b2
+{"tag": "real_s4_test_ep1_b2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.17784347997239228, "theta_deg": 4.374648478786559, "ticks": 127, "wall_s": 6.646157600000151, "dry_run": false}
+16:29:52 ep 1 base
+{"tag": "real_s4_test_ep1_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.22233807145187381, "theta_deg": 4.184401401261476, "ticks": 164, "wall_s": 8.762809299994842, "dry_run": false}
+16:30:13 ep 1 hybrid
+{"tag": "real_s4_test_ep1_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.23019866964579838, "theta_deg": 3.794490576107762, "ticks": 163, "wall_s": 8.988118699999177, "dry_run": false}
+16:30:43 ep 2 b2
+{"tag": "real_s4_test_ep2_b2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.8237480732750109, "theta_deg": 3.819076974888345, "ticks": 163, "wall_s": 8.591194400010863, "dry_run": false}
+16:31:04 ep 2 base
+{"tag": "real_s4_test_ep2_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.8109227001961646, "theta_deg": 3.834704282272884, "ticks": 163, "wall_s": 8.494513099998585, "dry_run": false}
+16:31:27 ep 2 hybrid
+{"tag": "real_s4_test_ep2_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.6685848517421722, "theta_deg": 3.147408431848241, "ticks": 169, "wall_s": 8.9639082000067, "dry_run": false}
+16:31:56 ep 3 b2
+{"tag": "real_s4_test_ep3_b2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.819946894635744, "theta_deg": 3.3205645674183835, "ticks": 128, "wall_s": 6.765319899990573, "dry_run": false}
+16:32:24 ep 3 base
+{"tag": "real_s4_test_ep3_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3944743552484522, "theta_deg": 3.7952125661942318, "ticks": 184, "wall_s": 9.711876899993513, "dry_run": false}
+16:32:46 ep 3 hybrid
+{"tag": "real_s4_test_ep3_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.4671886198176597, "theta_deg": 3.7601773437390453, "ticks": 191, "wall_s": 10.081471800003783, "dry_run": false}
+16:33:15 ep 4 b2
+{"tag": "real_s4_test_ep4_b2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.511473384232765, "theta_deg": 3.9107656782157236, "ticks": 152, "wall_s": 8.041248499997891, "dry_run": false}
+16:33:41 ep 4 base
+{"tag": "real_s4_test_ep4_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.9289383188712292, "theta_deg": 3.106004444514264, "ticks": 168, "wall_s": 8.89511539999512, "dry_run": false}
+16:34:04 ep 4 hybrid
+{"tag": "real_s4_test_ep4_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.9464030519994839, "theta_deg": 3.875976759859877, "ticks": 165, "wall_s": 8.692672799996217, "dry_run": false}
+16:34:32 ep 5 b2
+{"tag": "real_s4_test_ep5_b2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.6099094366444291, "theta_deg": 1.1134267853498274, "ticks": 111, "wall_s": 5.780408999999054, "dry_run": false}
+16:34:52 ep 5 base
+{"tag": "real_s4_test_ep5_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.6142826988677811, "theta_deg": 0.9515242756662983, "ticks": 111, "wall_s": 5.876448299997719, "dry_run": false}
+16:35:09 ep 5 hybrid
+{"tag": "real_s4_test_ep5_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.7078662795529723, "theta_deg": 1.053053431819944, "ticks": 112, "wall_s": 6.001136000006227, "dry_run": false}
+16:35:32 ep 6 b2
+{"tag": "real_s4_test_ep6_b2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.8284364727536745, "theta_deg": 3.521750681744226, "ticks": 90, "wall_s": 4.710858999998891, "dry_run": false}
+16:35:52 ep 6 base
+{"tag": "real_s4_test_ep6_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.8394197499441435, "theta_deg": 3.6086239269872196, "ticks": 90, "wall_s": 4.724342600005912, "dry_run": false}
+16:36:06 ep 6 hybrid
+{"tag": "real_s4_test_ep6_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.4573906695603142, "theta_deg": 3.0545991062194977, "ticks": 95, "wall_s": 5.038191399988136, "dry_run": false}
+16:36:27 ep 7 b2
+{"tag": "real_s4_test_ep7_b2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.764936145698941, "theta_deg": 2.4285511710686403, "ticks": 145, "wall_s": 7.628268400003435, "dry_run": false}
+16:36:49 ep 7 base
+{"tag": "real_s4_test_ep7_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.8364915587071848, "theta_deg": 3.3776687527397695, "ticks": 805, "wall_s": 42.40946120000444, "dry_run": false}
+16:37:45 ep 7 hybrid
+{"tag": "real_s4_test_ep7_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.6410101600512197, "theta_deg": 2.559317038462967, "ticks": 816, "wall_s": 43.2185737999971, "dry_run": false}
+16:38:48 ep 8 b2
+{"tag": "real_s4_test_ep8_b2", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.9459551888934393, "theta_deg": 2.58624342351838, "ticks": 594, "wall_s": 31.154302499999176, "dry_run": false}
+16:39:32 ep 8 base
+{"tag": "real_s4_test_ep8_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.9681978878403519, "theta_deg": 3.3672957788293734, "ticks": 731, "wall_s": 38.467318200011505, "dry_run": false}
+16:40:25 ep 8 hybrid
+{"tag": "real_s4_test_ep8_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.861673149101259, "theta_deg": 3.0271591181634285, "ticks": 731, "wall_s": 38.914748600000166, "dry_run": false}
+16:41:24 ep 9 b2
+{"tag": "real_s4_test_ep9_b2", "status": "ok", "success": false, "collision": false, "d_pos_cm": 1.4628284015091397, "theta_deg": 3.715105336639553, "ticks": 900, "wall_s": 47.62645450000127, "dry_run": false}
+16:42:30 ep 9 base
+{"tag": "real_s4_test_ep9_base@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.7284449854136662, "theta_deg": 2.832200465262097, "ticks": 346, "wall_s": 18.210398399998667, "dry_run": false}
+16:43:03 ep 9 hybrid
+{"tag": "real_s4_test_ep9_hybrid@3000", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.6814077330840754, "theta_deg": 2.556796040969689, "ticks": 347, "wall_s": 18.44034840000677, "dry_run": false}
+BATCH DONE

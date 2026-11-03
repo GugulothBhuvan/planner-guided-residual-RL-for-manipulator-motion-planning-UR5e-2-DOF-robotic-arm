@@ -68,6 +68,13 @@ def main():
         pid = start(script, args, out, err)
         log(f"{script} was not running ({trains} train.py processes alive): restarted, pid {pid}")
         time.sleep(15)  # the E5 pipeline writes its lane hold before the 2-DOF lane looks for it
+    # MyCobot lane (mycobot/scripts/watchdog_m5.py): heartbeat line every call, restarts the M5 supervisor / hung trainers
+    try:
+        sys.path.insert(0, str(ROOT / "mycobot" / "scripts"))
+        import watchdog_m5
+        watchdog_m5.check()
+    except Exception as exc:
+        log(f"mycobot watchdog check failed: {exc!r}")
 
 
 if __name__ == "__main__":

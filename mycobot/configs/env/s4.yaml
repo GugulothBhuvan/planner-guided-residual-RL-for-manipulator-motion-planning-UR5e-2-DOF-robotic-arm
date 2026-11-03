@@ -1,0 +1,8 @@
+# S4 on the MyCobot 280: pose, 1..4 static spheres randomized per episode (SPEC M3)
+orientation: true
+goal_max_joint_dist: 0.9   # rad: hardware moves at ~10 deg/s, so goals are bounded (SPEC M4)
+n_obstacles: [1, 4]
+episode_length: 900        # SPEC M4: 900 (decision 2026-11-02; was 489)
+reward: dense
+eps_pos: 0.01
+eps_rot_deg: 5.0

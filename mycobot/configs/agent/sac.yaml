@@ -1,0 +1,14 @@
+# SPEC §7.1. The update ratio is per TRANSITION; the factory converts it to SB3's per-vec-step
+# gradient_steps (4 envs x 0.25 -> train_freq=1, gradient_steps=1). Chosen on Day 1 (§11): 2x256 at 0.5
+# reached 122.5 steps/s total over 4 parallel laptop runs (< 150), so 3x256 at 0.25 is used.
+algo: sac
+learning_rate: 3.0e-4
+buffer_size: 1000000
+batch_size: 256
+grad_steps_per_transition: 0.25
+learning_starts: 2000
+gamma: 0.99        # dense
+gamma_her: 0.95    # sparse + HER
+tau: 0.05
+net_arch: [256, 256, 256]
+her: {n_sampled_goal: 4, goal_selection_strategy: future}

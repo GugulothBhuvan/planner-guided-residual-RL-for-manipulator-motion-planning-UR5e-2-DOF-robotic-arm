@@ -1,0 +1,43 @@
+[val]    25000 success 0.93 d_pos 1.30 cm theta 6.1 deg
+[val]    50000 success 0.93 d_pos 1.30 cm theta 6.1 deg
+[val]    75000 success 0.93 d_pos 1.30 cm theta 6.1 deg
+[val]   100000 success 0.93 d_pos 1.30 cm theta 6.1 deg
+[val]   125000 success 0.93 d_pos 1.30 cm theta 6.1 deg
+[val]   150000 success 0.93 d_pos 1.30 cm theta 6.1 deg
+[val]   175000 success 0.93 d_pos 1.30 cm theta 6.1 deg
+[val]   200000 success 0.93 d_pos 1.30 cm theta 6.1 deg
+[val]   225000 success 0.93 d_pos 1.29 cm theta 6.1 deg
+residual_b99f130c_s1: resumed at 250000 steps
+[val]   275000 success 0.92 d_pos 1.38 cm theta 6.3 deg
+[val]   300000 success 0.92 d_pos 1.36 cm theta 6.3 deg
+residual_b99f130c_s1: resumed from checkpoint at 300000 steps
+residual_b99f130c_s1: resumed from checkpoint at 300000 steps
+[val]   325000 success 0.92 d_pos 1.37 cm theta 6.3 deg
+[val]   350000 success 0.93 d_pos 1.29 cm theta 6.1 deg
+[val]   375000 success 0.93 d_pos 1.29 cm theta 6.0 deg
+[val]   400000 success 0.94 d_pos 1.22 cm theta 5.8 deg
+[val]   425000 success 0.93 d_pos 1.30 cm theta 6.0 deg
+[val]   450000 success 0.94 d_pos 1.23 cm theta 5.8 deg
+[val]   475000 success 0.93 d_pos 1.30 cm theta 6.0 deg
+[val]   500000 success 0.93 d_pos 1.31 cm theta 6.0 deg
+[val]   525000 success 0.94 d_pos 1.23 cm theta 5.8 deg
+[val]   550000 success 0.94 d_pos 1.23 cm theta 5.8 deg
+[val]   575000 success 0.93 d_pos 1.29 cm theta 6.1 deg
+[val]   600000 success 0.94 d_pos 1.24 cm theta 5.8 deg
+[val]   625000 success 0.93 d_pos 1.30 cm theta 5.9 deg
+[val]   650000 success 0.92 d_pos 1.36 cm theta 6.3 deg
+[val]   675000 success 0.93 d_pos 1.30 cm theta 6.1 deg
+[val]   700000 success 0.92 d_pos 1.33 cm theta 6.2 deg
+[val]   725000 success 0.92 d_pos 1.34 cm theta 6.2 deg
+[val]   750000 success 0.93 d_pos 1.30 cm theta 6.2 deg
+[val]   775000 success 0.94 d_pos 1.22 cm theta 5.7 deg
+[val]   800000 success 0.93 d_pos 1.30 cm theta 6.0 deg
+[val]   825000 success 0.92 d_pos 1.39 cm theta 6.3 deg
+[val]   850000 success 0.93 d_pos 1.31 cm theta 6.0 deg
+[val]   875000 success 0.94 d_pos 1.23 cm theta 5.8 deg
+[val]   900000 success 0.94 d_pos 1.22 cm theta 5.7 deg
+[val]   925000 success 0.93 d_pos 1.30 cm theta 6.0 deg
+[val]   950000 success 0.92 d_pos 1.38 cm theta 6.3 deg
+[val]   975000 success 0.92 d_pos 1.38 cm theta 6.3 deg
+[val]  1000000 success 0.92 d_pos 1.38 cm theta 6.3 deg
+[val]  1000000 success 0.92 d_pos 1.38 cm theta 6.3 deg
