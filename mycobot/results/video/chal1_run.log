@@ -1,0 +1,16 @@
+20:01:26 case s4_chal 2 b2
+   ok success
+20:01:49 case s4_chal 2 hybrid
+   ok success
+20:02:14 case s4_chal 25 b2
+   ok success
+20:02:37 case s4_chal 25 hybrid
+   ok success
+20:03:17 case s4_chal 50 b2
+   ok success
+20:03:38 case s4_chal 50 hybrid
+   ok success
+20:04:01 case s4_chal 75 b2
+   ABORT: SafetyAbort('measured pose collid no success
+  stopping the batch after an abort
+recording: D:\mtp\mtp\mycobot\results\video\chal1_webcam.mp4 manifest: D:\mtp\mtp\mycobot\results\video\chal1_manifest.json

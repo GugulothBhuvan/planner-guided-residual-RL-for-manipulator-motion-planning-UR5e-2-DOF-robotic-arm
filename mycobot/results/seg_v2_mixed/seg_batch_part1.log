@@ -1,0 +1,29 @@
+18:48:30 ep 0 b2
+{"tag": "real_s4_test_ep0_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.1897244605581572, "theta_deg": 3.763250456135395, "ticks": 124, "wall_s": 6.22690110001713, "dry_run": false, "trim": true, "epoch_start": 1793884718.0656235, "speed": 40, "mode": "segments", "segments": 9, "tol_deg": 6.0, "near
+18:48:44 ep 0 base
+{"tag": "real_s4_test_ep0_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.27293587607632847, "theta_deg": 1.1091396560238083, "ticks": 94, "wall_s": 4.720852500002366, "dry_run": false, "trim": true, "epoch_start": 1793884730.8587039, "speed": 40, "mode": "segments", "segments": 5, "tol_deg": 6
+18:48:55 ep 0 hybrid
+{"tag": "real_s4_test_ep0_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.5299957523353618, "theta_deg": 1.7238559631564498, "ticks": 91, "wall_s": 4.593168399995193, "dry_run": false, "trim": true, "epoch_start": 1793884750.0100043, "speed": 40, "mode": "segments", "segments": 5, "tol_deg": 
+18:49:15 ep 1 b2
+{"tag": "real_s4_test_ep1_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.28364544443347356, "theta_deg": 2.839081065903466, "ticks": 81, "wall_s": 4.095994700037409, "dry_run": false, "trim": true, "epoch_start": 1793884762.1206453, "speed": 40, "mode": "segments", "segments": 6, "tol_deg": 6.0, "nea
+18:49:26 ep 1 base
+{"tag": "real_s4_test_ep1_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.09421077136402992, "theta_deg": 2.832599811755508, "ticks": 70, "wall_s": 3.50639220001176, "dry_run": false, "trim": true, "epoch_start": 1793884772.4482586, "speed": 40, "mode": "segments", "segments": 4, "tol_deg": 6.0
+18:49:36 ep 1 hybrid
+{"tag": "real_s4_test_ep1_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.10011786827539165, "theta_deg": 2.2113202866548325, "ticks": 68, "wall_s": 3.4134996999637224, "dry_run": false, "trim": true, "epoch_start": 1793884788.2567914, "speed": 40, "mode": "segments", "segments": 4, "tol_deg"
+18:49:52 ep 2 b2
+{"tag": "real_s4_test_ep2_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.4678141636493739, "theta_deg": 2.7538817055577933, "ticks": 89, "wall_s": 4.491272400016896, "dry_run": false, "trim": true, "epoch_start": 1793884798.6722257, "speed": 40, "mode": "segments", "segments": 4, "tol_deg": 6.0, "nea
+18:50:03 ep 2 base
+{"tag": "real_s4_test_ep2_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.46086859814610187, "theta_deg": 2.8776790264361805, "ticks": 87, "wall_s": 4.3829251999850385, "dry_run": false, "trim": true, "epoch_start": 1793884809.58549, "speed": 40, "mode": "segments", "segments": 4, "tol_deg": 6.
+18:50:14 ep 2 hybrid
+{"tag": "real_s4_test_ep2_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.4059250798011364, "theta_deg": 2.5294795578114035, "ticks": 88, "wall_s": 4.409339900012128, "dry_run": false, "trim": true, "epoch_start": 1793884826.1454124, "speed": 40, "mode": "segments", "segments": 4, "tol_deg": 
+18:50:31 ep 3 b2
+{"tag": "real_s4_test_ep3_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.7353177818240466, "theta_deg": 2.4515531905139127, "ticks": 162, "wall_s": 8.133279200003017, "dry_run": false, "trim": true, "epoch_start": 1793884839.0916803, "speed": 40, "mode": "segments", "segments": 22, "tol_deg": 6.0, "n
+18:50:47 ep 3 base
+{"tag": "real_s4_test_ep3_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.37849614001455817, "theta_deg": 3.1904542035000314, "ticks": 93, "wall_s": 4.6553061999729834, "dry_run": false, "trim": true, "epoch_start": 1793884853.6400378, "speed": 40, "mode": "segments", "segments": 6, "tol_deg": 
+18:50:58 ep 3 hybrid
+{"tag": "real_s4_test_ep3_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.41757463484798607, "theta_deg": 2.865364855743935, "ticks": 103, "wall_s": 5.151240899984259, "dry_run": false, "trim": true, "epoch_start": 1793884870.509451, "speed": 40, "mode": "segments", "segments": 6, "tol_deg": 
+18:51:16 ep 4 b2
+{"tag": "real_s4_test_ep4_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.4038094989873023, "theta_deg": 2.8004014441508103, "ticks": 123, "wall_s": 6.165179100004025, "dry_run": false, "trim": true, "epoch_start": 1793884883.3356862, "speed": 40, "mode": "segments", "segments": 7, "tol_deg": 6.0, "ne
+18:51:29 ep 4 base
+{"tag": "real_s4_test_ep4_base@3000_seg", "status": "ABORT: SafetyAbort('get_angles failed 6x')", "ticks": 0, "dry_run": false, "mode": "segments"}
+STOPPING: run did not finish ok

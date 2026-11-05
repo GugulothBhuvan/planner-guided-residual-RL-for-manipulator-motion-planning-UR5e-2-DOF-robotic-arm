@@ -1,0 +1,37 @@
+skip ep 0 b2 (done)
+skip ep 0 base (done)
+skip ep 0 hybrid (done)
+skip ep 1 b2 (done)
+skip ep 1 base (done)
+skip ep 1 hybrid (done)
+skip ep 2 b2 (done)
+skip ep 2 base (done)
+skip ep 2 hybrid (done)
+skip ep 3 b2 (done)
+skip ep 3 base (done)
+skip ep 3 hybrid (done)
+skip ep 4 b2 (done)
+skip ep 4 base (done)
+skip ep 4 hybrid (done)
+skip ep 5 b2 (done)
+skip ep 5 base (done)
+skip ep 5 hybrid (done)
+skip ep 6 b2 (done)
+skip ep 6 base (done)
+skip ep 6 hybrid (done)
+skip ep 7 b2 (done)
+skip ep 7 base (done)
+skip ep 7 hybrid (done)
+18:55:40 ep 8 b2
+{"tag": "real_s4_test_ep8_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.6183524888268349, "theta_deg": 3.1349840824949258, "ticks": 255, "wall_s": 12.767999599978793, "dry_run": false, "trim": true, "epoch_start": 1793885147.5133452, "speed": 40, "mode": "segments", "segments": 16, "tol_deg": 6.0, "
+18:56:00 ep 8 base
+{"tag": "real_s4_test_ep8_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.6142012330258841, "theta_deg": 3.1018249419162593, "ticks": 218, "wall_s": 10.904840999981388, "dry_run": false, "trim": true, "epoch_start": 1793885167.9351306, "speed": 40, "mode": "segments", "segments": 12, "tol_deg":
+18:56:19 ep 8 hybrid
+{"tag": "real_s4_test_ep8_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.3067260871727961, "theta_deg": 2.5143522732957106, "ticks": 249, "wall_s": 12.453360399988014, "dry_run": false, "trim": true, "epoch_start": 1793885192.831477, "speed": 40, "mode": "segments", "segments": 13, "tol_deg"
+18:56:46 ep 9 b2
+{"tag": "real_s4_test_ep9_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.12126348654281144, "theta_deg": 0.6537601360400205, "ticks": 385, "wall_s": 19.26744750002399, "dry_run": false, "trim": true, "epoch_start": 1793885213.726498, "speed": 40, "mode": "segments", "segments": 39, "tol_deg": 6.0, "n
+18:57:13 ep 9 base
+{"tag": "real_s4_test_ep9_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.10441807927158372, "theta_deg": 0.312185700025899, "ticks": 180, "wall_s": 9.032125600031577, "dry_run": false, "trim": true, "epoch_start": 1793885240.0942714, "speed": 40, "mode": "segments", "segments": 13, "tol_deg": 
+18:57:29 ep 9 hybrid
+{"tag": "real_s4_test_ep9_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.1478545836083612, "theta_deg": 0.3844311723285114, "ticks": 188, "wall_s": 9.428757899964694, "dry_run": false, "trim": true, "epoch_start": 1793885262.3021376, "speed": 40, "mode": "segments", "segments": 14, "tol_deg"
+ALL_DONE

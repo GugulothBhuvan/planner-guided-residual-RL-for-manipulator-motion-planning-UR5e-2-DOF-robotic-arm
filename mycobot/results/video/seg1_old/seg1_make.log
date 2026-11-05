@@ -1,0 +1,30 @@
+composing s4_test:0:b2 estimate 13.6 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep0_b2_compare.mp4
+composing s4_test:0:hybrid estimate 41.5 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep0_hybrid_compare.mp4
+composing s4_test:3:b2 estimate 58.7 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep3_b2_compare.mp4
+composing s4_test:3:hybrid estimate 89.5 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep3_hybrid_compare.mp4
+composing s4_test:7:b2 estimate 107.6 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep7_b2_compare.mp4
+composing s4_test:7:hybrid estimate 141.7 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep7_hybrid_compare.mp4
+composing s4_test:8:b2 estimate 165.9 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep8_b2_compare.mp4
+composing s4_test:8:hybrid estimate 249.3 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep8_hybrid_compare.mp4
+composing s4_test:9:b2 estimate 274.2 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep9_b2_compare.mp4
+composing s4_test:9:hybrid estimate 313.2 s
+IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=8, resizing from (2160, 540) to (2160, 544) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+  -> seg1_s4_test_ep9_hybrid_compare.mp4

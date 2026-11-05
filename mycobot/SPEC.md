@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Draft v0.8 — 2026-11-05 |
+| **Status** | Draft v0.13 — 2026-11-05 |
 | **Parent** | [../SPEC.md](../SPEC.md) v0.25 (UR5e). This lane reuses its agents, residual recipe and protocol. |
 | **Goal** | Deploy the planner + residual pipeline on a real MyCobot 280 M5 (suction head) and test it against the same baselines. |
 | **Deadline** | 24 h from 2026-11-02 (user). Scope below is cut to fit; cuts are listed in M9. |
@@ -175,6 +175,67 @@ The speed setting has no effect (our steps are below its cap); the end correctio
 - Videos: simulation vs the real arm replayed in the model vs a camera recording (phone, webcam), synchronised by the start beep or the arm's first movement (+-0.3 s): `scripts/make_comparison.py`, `film_episode.py`, `film_batch.py`; examples for episodes 0, 7, 8, 9.
 
 
+### M7f Motion diagnostic: command style vs speed (`scripts/motion_diag.py`, `results/motion_diag_{1,2,3}.json`, 2026-11-05; J1 only, no obstacles)
+
+The 10 deg/s limit of the real runs comes from the streaming style (a new 0.5 deg goal every 50 ms), not from the arm. Rates below are over the 10-90% part of the move; joint readings were polled at only 10-20 Hz during fast moves, so peak rates and roughness values from these traces are unreliable and **smoothness was not measured** (needs a camera or the operator's judgement).
+
+| Style | Move | Time to arrive | Rate (deg/s) | Remarks |
+|---|---|---|---|---|
+| Streaming 0.5 deg / 50 ms, speed 20 (today) | 20 deg | 2.05-2.08 s | 9.6-9.8 | no stalls; settles 0.7 deg short |
+| One `send_angles`, speed 20 | 20 deg / 60 deg | 1.04 s / 2.4-2.5 s | ~35 (60 deg) | firmware plans the move |
+| One `send_angles`, speed 40 | 60 deg | 1.55-1.61 s | ~71 | |
+| One `send_angles`, speed 60 | 60 deg | 1.39 s | 57-76 | little gain over 40 |
+| 4 waypoints, next sent when < 2 deg remain (polled at ~70 ms), speed 30 / 50 | 20 deg | 1.6-2.0 s | 11-15 | choppy: 10-40% of polls show no advance; the polling loop is too slow to blend |
+| Streaming 1 deg / 40 ms, send only, speed 50 | 20 deg | 0.95 s (out), 1.76 s (back) | | one send call blocked 449 ms on the return: stalls are not caused by reads alone |
+| Streaming 2 deg / 40 ms, send only, speed 50 | 20 deg | 2.1 s | | firmware lagged the commands; send call up to 226 ms |
+
+Settling error is 0.75-0.85 deg short of the target in every style (the servo deadband). No safety stop or abort in any run; the arm returned to its start (J1 within 0.2 deg).
+
+### M7g Segment execution on the arm (option A; `scripts/run_segments.py`, logs in `results/seg/`, 2026-11-05)
+
+Instead of streaming a 0.5 deg goal every 50 ms, the episode is played first in the model (same controller as before), thinned to a few waypoints (Douglas-Peucker, tolerance 6 deg per tick), and each waypoint is one firmware-planned `send_angles` (speed 30-40). The next waypoint is sent when the arm has settled at the previous one. The policy and the plans are unchanged; only how the nominal joint path reaches the arm differs: the residual's effect is **replayed from the simulation, not corrected tick by tick from the arm's measurements**, which is a change in the hardware protocol and is stated wherever these runs are reported.
+
+- **Safety (all enforced in code):** every segment is checked against the table, the arm itself and the virtual obstacles in their exact shapes, for the straight joint-space line **and** for every combination of J1-J3 progress and J4-J6 progress (the wrist can run late; see below); a segment that fails is split. At run time: joint limits, `stop()` if J1-J3 are more than 5 deg from the line or a wrist joint leaves the span of its end values, if a segment is not reached in time, or if the measured pose touches anything in the model (virtual obstacles included). A failed reading is tolerated for up to 1 s. The same final-approach correction as `TrimArm` is applied at the end.
+- **Firmware behaviour found (probes, 2026-11-05):** for a move from standstill the firmware path is a straight line in joint space to about 1-1.5 deg (20 deg moves). Sending the next waypoint while still moving ("blending") made the wrist (J4-J6) start 0.3-0.5 s late, and during fast moves the wrist readings freeze for 0.3-0.5 s; the first two real attempts were stopped by the 5 deg line check for that reason (no collision, no harm). Hence: settle at every waypoint, check the wrist by span, and verify the lag sheet.
+- **Results (single runs, not a batch; hybrid = seed-1 final, cheap planner and hybrid at 3000 checks):**
+
+| Case | Segments | Speed | Wall time (s) | Streaming wall time, same case (s) | Final error | Virtual collision |
+|---|---|---|---|---|---|---|
+| ep 9 hybrid | 4 | 30 | 5.6 | 18.3 | 0.18 cm, 0.3 deg | none |
+| ep 8 hybrid | 8 | 40 | 9.2 | 39.9 | 0.35 cm, 2.5 deg | none |
+| ep 0 B2 | 5 | 40 | 4.8 | (not logged) | 0.12 cm, 3.9 deg | none |
+| ep 7 cheap planner | 10 | 40 | 9.1 | (not logged) | 0.83 cm, 3.2 deg | none |
+
+  Wall time includes the final-approach correction (about 3-4 s of it). Dry-run (simulated arm) check on 5 episodes passed. **Smoothness has not been measured** (the joint readings are too slow and the wrist readings freeze); it rests on the operator's judgement and the camera.
+- **30-run batch** (`scripts/seg_batch.sh`, `scripts/seg_summary.py`, `results/seg/`, `results/seg_summary.json`; episodes 0-9 of `s4_test`, speed 40, tolerance 6 deg, one run each, same arm and day as the streaming runs; medians, maximum in brackets):
+
+| Mode | Method | Success | Collisions | Wall time (s) | Final position error (cm) | Final orientation error (deg) |
+|---|---|---|---|---|---|---|
+| segments | B2 | 10/10 | 0 | 6.1 (18.4) | 0.35 (0.73) | 2.7 (3.9) |
+| segments | cheap planner @3000 | 10/10 | 0 | 4.7 (10.7) | 0.34 (0.81) | 2.7 (3.2) |
+| segments | hybrid @3000 | 10/10 | 0 | 5.0 (11.7) | 0.42 (0.53) | 2.1 (2.9) |
+| streaming (M7b) | B2 | 10/10 | 0 | 8.0 (31.8) | 0.69 (0.96) | 3.5 (4.3) |
+| streaming (M7b) | cheap planner @3000 | 10/10 | 0 | 9.4 (43.3) | 0.59 (0.89) | 3.2 (4.2) |
+| streaming (M7b) | hybrid @3000 | 10/10 | 0 | 10.0 (45.5) | 0.53 (0.88) | 2.8 (4.2) |
+
+  Wall time includes the final-approach correction (3-4 s of every segments run), so the median gain is about 1.7-2x and the long episodes gain 3-4x (maximum 45 s to 12 s). Segment counts per run: median 8 (B2), 6 (cheap planner, hybrid). No aborts in the final batch. The hybrid still does not beat its planner (as in simulation). Streaming and segment runs were not randomised in order (streaming first). Three earlier versions of this batch were stopped by safety checks that proved too strict (stale readings, a servo that stops 1.6 deg short, a 1 s read stall) and were rerun in full with the final code; their logs are kept in `results/seg_v1_partial/` and `results/seg_v2_mixed/`.
+- **Videos in this mode** (`scripts/film_batch.py run --executor segments`, one continuous 326 s webcam recording, `make` offline with the mesh renderer; `results/video/seg1_*`): 10 cases (episodes 0, 3, 7, 8, 9 x B2 and hybrid), all succeeded with no collision (wall time 4.6-18.7 s; B2 on episode 9 needed 39 short segments because its path skims the obstacles). The composites are `results/video/seg1_s4_test_ep<N>_<method>_compare.mp4`; the raw recording (161 MB) stays local.
+- **Challenge and shape episodes on the arm** (segments, speed 40, one episode per type, `results/video/real_s4_chal_*_chal1/2.json`, `real_s4_shape_*_shape1.json`; gap = ep 2 because the hybrid collides in simulation on gap episodes 0, 1 and 4):
+
+| Set | Type (episode) | B2 | Hybrid @3000 |
+|---|---|---|---|
+| challenge | gap (2) | ok, 10.6 s, 0.24 cm, 0.9 deg | ok, 6.9 s, 0.33 cm, 1.5 deg |
+| challenge | clutter (25) | ok, 11.0 s, 0.17 cm, 0.5 deg | ok, 10.8 s, 0.51 cm, 3.0 deg |
+| challenge | limit (50) | ok, 8.4 s, 0.40 cm, 1.5 deg | ok, 6.2 s, 0.30 cm, 1.2 deg |
+| challenge | edge (75) | **stopped by the guard** (measured pose touched a virtual obstacle in the model at segment 10 of 24) | ok, 5.4 s, 0.11 cm, 1.1 deg |
+| shape | box (0) | ok, 4.8 s, 0.04 cm, 0.1 deg | ok, 6.2 s, 0.32 cm, 1.2 deg |
+| shape | cylinder (25) | ok, 4.9 s, 0.34 cm, 0.7 deg | ok, 6.3 s, 0.41 cm, 1.5 deg |
+| shape | mixed (50) | ok, 6.8 s, 0.17 cm, 0.9 deg | ok, 5.7 s, 0.17 cm, 0.5 deg |
+
+  13 of 14 runs succeeded with no collision; the one stop is B2 skimming an obstacle (its paths pass within millimetres of the obstacles, as in M7e) with the arm's 1 deg offset enough to touch it in the model; the guard stopped the arm as designed. One run per case, so this shows feasibility, not rates.
+- **Video layouts:** `scripts/render_grid_compare.py` makes the 5-panel layout (camera on the left; real arm in the model and simulation on the right, each from a top isometric and a side camera, official M5 meshes; the simulation panels are time-compressed to the real run and labelled) used for the report and slides; `film_batch.py make --layout grid` writes `results/media/grid_<set>_ep<N>_<method>.mp4`. The earlier 3-panel composites are kept.
+- **Not done:** a measurement of smoothness; more than one episode per challenge or shape type on the arm.
+
 ## M8 Decisions log
 
 | Date | Decision | Why |
@@ -192,6 +253,7 @@ The speed setting has no effect (our steps are below its cap); the end correctio
 | 2026-11-05 | "limit" type = J2 pushed 0.75–0.9 rad above the start (16–30° from its limit) | goals nearer a limit are impossible under the 0.9 rad / near-home-start protocol; generator was stuck 27 h on the first definition |
 | 2026-11-05 | official M5 shell meshes (`assets/m5_meshes/`, from `mycobot_ros`) are drawn over the model in the 3-panel videos only; the capsule model, limits, collisions and policy are unchanged (`scripts/render_mesh_compare.py`) | user wanted better-looking videos; checked: episode 8 identical trajectory and outcome with and without the meshes. The JN repo (`mycobot_mujoco`) was compared and not used: its base is 25 mm higher than the M5's, and the real arm's data fit the M5 URDF better (15.5 vs 9.7 mm raw 3-D error) |
 | 2026-11-05 | raw webcam recordings (`results/video/webcam_*_webcam.mp4`, 277 MB) are kept local, not committed; composites and run logs are | size; the composites carry the result, the raw clips are inputs to re-rendering |
+| 2026-11-05 | hardware execution by firmware segments (`run_segments.py`) added next to the 50 ms streaming runner; streaming results (M7b-d) are kept as they are | the 10 deg/s cap and stop-and-go come from streaming, not the arm (M7f); user chose option A. The residual is replayed from the simulation in this mode (no tick-by-tick correction from measurements) |
 
 ## M9 Cuts and limitations
 

@@ -1,6 +1,7 @@
 """Film many real-arm episodes in ONE continuous webcam recording, then compose each episode's 3-panel video offline.
 
-    python scripts/film_batch.py run  --name b1 --set s4_test --episodes 0 1 2 --methods b2 hybrid   # arm + recording (about 1 min per episode)
+    python scripts/film_batch.py run  --name b1 --set s4_test --episodes 0 1 2 --methods b2 hybrid   # arm + recording (about 1 min per episode;
+                                                                                                  # --executor segments (default) or stream)
     python scripts/film_batch.py make --name b1 [--only s4_test:7:hybrid ...]                        # offline: one video per case
 
 `run` records the webcam and microphone for the whole batch (lower bitrate), runs the cases one after another with the same
@@ -46,8 +47,11 @@ def run(args):
         if rec.poll() is not None:
             raise SystemExit("ffmpeg could not open the webcam (is the Windows Camera app or a browser using it?)")
         for set_, ep, m in cases:
-            cmd = [PY, str(ROOT / "scripts" / "run_real.py"), "--set", set_, "--episode", str(ep), "--method", m, "--budget", "3000",
+            runner = "run_segments.py" if args.executor == "segments" else "run_real.py"
+            cmd = [PY, str(ROOT / "scripts" / runner), "--set", set_, "--episode", str(ep), "--method", m, "--budget", "3000",
                    "--execute", "--hold-before", "5", "--beep", "--out-dir", "results/video", "--tag-suffix", f"_{args.name}"]
+            if args.executor == "segments":
+                cmd += ["--speed", str(args.speed), "--tol", "6"]
             if m == "hybrid":
                 cmd += ["--run", RUN, "--checkpoint", "final"]
             print(time.strftime("%H:%M:%S"), "case", set_, ep, m, flush=True)
@@ -94,13 +98,26 @@ def make(args):
             continue
         approx = c["epoch_start"] - start
         out = OUT / f"{args.name}_{c['set']}_ep{c['episode']}_{c['method']}_compare.mp4"
+        if args.layout == "grid":
+            out = ROOT / "results" / "media" / f"grid_{c['set']}_ep{c['episode']}_{c['method']}.mp4"
         if out.exists() and not args.force:
             continue
         print("composing", key, "estimate %.1f s" % approx, flush=True)
-        subprocess.run([PY, str(ROOT / "scripts" / "make_comparison.py"), "--set", c["set"], "--episode", str(c["episode"]),
-                        "--method", c["method"], "--real-dir", "results/video", "--tag-suffix", f"_{args.name}",
-                        "--real-video", str(ROOT / man["video"]), "--real-approx", f"{approx:.2f}", "--out", str(out)],
-                       cwd=ROOT, stdout=subprocess.DEVNULL)
+        common = ["--set", c["set"], "--episode", str(c["episode"]), "--method", c["method"], "--real-dir", "results/video",
+                  "--tag-suffix", f"_{args.name}", "--real-video", str(ROOT / man["video"]), "--real-approx", f"{approx:.2f}"]
+        if args.layout == "grid":  # camera + 2x2 (real arm / simulation x isometric / side), meshes (scripts/render_grid_compare.py)
+            cmd = [PY, str(ROOT / "scripts" / "render_grid_compare.py")] + common + ["--out", str(out)]
+            print("grid", key, flush=True)
+            subprocess.run(cmd, cwd=ROOT, stdout=subprocess.DEVNULL)
+            print("  ->", out.name, flush=True)
+            continue
+        if args.executor == "segments":
+            common.append("--sim-fit")  # the real run is shorter than the model's 10 deg/s streaming run: compress the sim panel
+        if args.plain:  # capsule model, no meshes
+            cmd = [PY, str(ROOT / "scripts" / "make_comparison.py")] + common + ["--out", str(out)]
+        else:  # official M5 shell meshes drawn over the model (scripts/render_mesh_compare.py)
+            cmd = [PY, str(ROOT / "scripts" / "render_mesh_compare.py"), str(ROOT), str(ROOT / "assets" / "m5_meshes"), str(out), "--"] + common
+        subprocess.run(cmd, cwd=ROOT, stdout=subprocess.DEVNULL)
         print("  ->", out.name, flush=True)
 
 
@@ -114,6 +131,10 @@ def main():
     p.add_argument("--camera", default="w300")
     p.add_argument("--mic", default="Microphone (w300)")
     p.add_argument("--only", nargs="*")
+    p.add_argument("--executor", choices=["segments", "stream"], default="segments", help="hardware executor for `run` (SPEC M7g / M7)")
+    p.add_argument("--speed", type=int, default=40, help="firmware speed for --executor segments")
+    p.add_argument("--layout", choices=["compare", "grid"], default="compare", help="`make`: 3-panel (default) or the 5-panel grid layout")
+    p.add_argument("--plain", action="store_true", help="`make`: capsule model instead of the mesh renderer")
     p.add_argument("--force", action="store_true")
     args = p.parse_args()
     (run if args.mode == "run" else make)(args)

@@ -1,0 +1,98 @@
+{
+ "name": "seg1",
+ "cases": [
+  {
+   "set": "s4_test",
+   "episode": 0,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793885875.608204,
+   "log": "results\\video\\real_s4_test_ep0_b2_seg1.json"
+  },
+  {
+   "set": "s4_test",
+   "episode": 0,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793885903.430466,
+   "log": "results\\video\\real_s4_test_ep0_hybrid@3000_seg1.json"
+  },
+  {
+   "set": "s4_test",
+   "episode": 3,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793885920.7114162,
+   "log": "results\\video\\real_s4_test_ep3_b2_seg1.json"
+  },
+  {
+   "set": "s4_test",
+   "episode": 3,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793885951.4149473,
+   "log": "results\\video\\real_s4_test_ep3_hybrid@3000_seg1.json"
+  },
+  {
+   "set": "s4_test",
+   "episode": 7,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793885969.5522637,
+   "log": "results\\video\\real_s4_test_ep7_b2_seg1.json"
+  },
+  {
+   "set": "s4_test",
+   "episode": 7,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793886003.6261284,
+   "log": "results\\video\\real_s4_test_ep7_hybrid@3000_seg1.json"
+  },
+  {
+   "set": "s4_test",
+   "episode": 8,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793886027.9099915,
+   "log": "results\\video\\real_s4_test_ep8_b2_seg1.json"
+  },
+  {
+   "set": "s4_test",
+   "episode": 8,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793886111.2412279,
+   "log": "results\\video\\real_s4_test_ep8_hybrid@3000_seg1.json"
+  },
+  {
+   "set": "s4_test",
+   "episode": 9,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793886136.138829,
+   "log": "results\\video\\real_s4_test_ep9_b2_seg1.json"
+  },
+  {
+   "set": "s4_test",
+   "episode": 9,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793886175.1699111,
+   "log": "results\\video\\real_s4_test_ep9_hybrid@3000_seg1.json"
+  }
+ ],
+ "t_q": 1793886187.5614522,
+ "video": "results\\video\\seg1_webcam.mp4",
+ "duration": 325.6
+}

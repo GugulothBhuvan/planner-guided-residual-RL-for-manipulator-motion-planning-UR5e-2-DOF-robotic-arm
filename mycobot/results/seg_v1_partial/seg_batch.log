@@ -1,0 +1,19 @@
+18:45:23 ep 0 b2
+{"tag": "real_s4_test_ep0_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.1124010905699962, "theta_deg": 3.9335979423600014, "ticks": 105, "wall_s": 5.293771199998446, "dry_run": false, "trim": true, "epoch_start": 1793884529.56496, "speed": 40, "mode": "segments", "segments": 5, "tol_deg": 6.0, "near
+18:45:35 ep 0 base
+{"tag": "real_s4_test_ep0_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.2782172078397018, "theta_deg": 1.0855478823768148, "ticks": 93, "wall_s": 4.6549358000047505, "dry_run": false, "trim": true, "epoch_start": 1793884541.6081161, "speed": 40, "mode": "segments", "segments": 5, "tol_deg": 6
+18:45:46 ep 0 hybrid
+{"tag": "real_s4_test_ep0_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.5351933001707913, "theta_deg": 1.754921308626038, "ticks": 87, "wall_s": 4.358018400031142, "dry_run": false, "trim": true, "epoch_start": 1793884559.165197, "speed": 40, "mode": "segments", "segments": 5, "tol_deg": 6.
+18:46:04 ep 1 b2
+{"tag": "real_s4_test_ep1_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.2962784434741031, "theta_deg": 2.913045623176342, "ticks": 46, "wall_s": 2.33366920001572, "dry_run": false, "trim": true, "epoch_start": 1793884570.8837974, "speed": 40, "mode": "segments", "segments": 2, "tol_deg": 6.0, "near_
+18:46:13 ep 1 base
+{"tag": "real_s4_test_ep1_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.12078408245885669, "theta_deg": 2.753293626258877, "ticks": 51, "wall_s": 2.5612287999829277, "dry_run": false, "trim": true, "epoch_start": 1793884579.8273335, "speed": 40, "mode": "segments", "segments": 2, "tol_deg": 6
+18:46:22 ep 1 hybrid
+{"tag": "real_s4_test_ep1_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.14516217891803548, "theta_deg": 2.1166796441335123, "ticks": 53, "wall_s": 2.658020699978806, "dry_run": false, "trim": true, "epoch_start": 1793884595.3176355, "speed": 40, "mode": "segments", "segments": 2, "tol_deg":
+18:46:38 ep 2 b2
+{"tag": "real_s4_test_ep2_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.45922810403570963, "theta_deg": 2.857689999463698, "ticks": 63, "wall_s": 3.1811058999737725, "dry_run": false, "trim": true, "epoch_start": 1793884604.705021, "speed": 40, "mode": "segments", "segments": 2, "tol_deg": 6.0, "nea
+18:46:48 ep 2 base
+{"tag": "real_s4_test_ep2_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.45029562094834896, "theta_deg": 2.7911086578680875, "ticks": 60, "wall_s": 3.029981699946802, "dry_run": false, "trim": true, "epoch_start": 1793884614.2870133, "speed": 40, "mode": "segments", "segments": 2, "tol_deg": 6
+18:46:57 ep 2 hybrid
+{"tag": "real_s4_test_ep2_hybrid@3000_seg", "status": "ABORT: SafetyAbort('episode: arm 6.8 deg off the planned segment 2')", "ticks": 0, "dry_run": false, "mode": "segments"}
+STOPPING: run did not finish ok

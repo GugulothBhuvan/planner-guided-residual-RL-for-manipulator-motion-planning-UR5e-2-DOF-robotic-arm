@@ -1,0 +1,14 @@
+composing s4_test:7:b2 estimate 107.6 s
+grid s4_test:7:b2
+  -> grid_s4_test_ep7_b2.mp4
+composing s4_test:7:hybrid estimate 141.7 s
+grid s4_test:7:hybrid
+  -> grid_s4_test_ep7_hybrid.mp4
+composing s4_test:8:hybrid estimate 249.3 s
+grid s4_test:8:hybrid
+  -> grid_s4_test_ep8_hybrid.mp4
+composing s4_test:9:hybrid estimate 313.2 s
+grid s4_test:9:hybrid
+  -> grid_s4_test_ep9_hybrid.mp4
+composing s4_chal:2:hybrid estimate 41.5 s
+grid s4_chal:2:hybrid

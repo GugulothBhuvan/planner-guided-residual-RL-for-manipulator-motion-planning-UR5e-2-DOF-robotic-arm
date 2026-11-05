@@ -191,6 +191,7 @@ def main():
     p.add_argument("--real-offset", type=float, default=None, help="seconds into the camera video where the episode starts; default: find the --beep tone in its audio")
     p.add_argument("--real-approx", type=float, default=None, help="approximate episode start in the video (s); used when no beep is found")
     p.add_argument("--tag-suffix", default="", help="log name suffix (e.g. _video1_s20e1)")
+    p.add_argument("--sim-fit", action="store_true", help="time-compress the simulation panel to the length of the real run when it is longer")
     p.add_argument("--out", default=None)
     args = p.parse_args()
 
@@ -208,11 +209,18 @@ def main():
                        f"{s.get('theta_deg', 0):.1f} deg")
     player2 = play.Replay(ns)
     raw, outcome = sim_frames(player2)
-    sim = [label(f, "SIMULATION", f"{sub} | virtual obstacles | {outcome}") for f in raw]
     FPS = 30
     wall = [t.get("wall") for t in log["ticks"]]
     twin_t = np.array(wall, float) if all(w is not None for w in wall) else 0.05 * (np.arange(len(twin)) + 1)
-    sim_t = 0.05 * (np.arange(len(sim)) + 1)
+    sim_t = 0.05 * (np.arange(len(raw)) + 1)
+    speed_note = ""
+    if args.sim_fit and sim_t[-1] > twin_t[-1] + 1.0:
+        # the model's own run is 20 Hz / 10 deg/s streaming; the real arm ran as firmware segments and finished sooner:
+        # show the simulation panel time-compressed to the real run (stated on the panel)
+        k = sim_t[-1] / twin_t[-1]
+        sim_t = sim_t / k
+        speed_note = f" | shown at {k:.1f}x speed"
+    sim = [label(f, "SIMULATION", f"{sub} | virtual obstacles | {outcome}{speed_note}") for f in raw]
     rd = off = src = None
     if args.real_video and args.real_approx is not None:  # cut only the part of the recording around this episode
         start = max(0.0, args.real_approx - 8.0)
@@ -239,6 +247,7 @@ def main():
     out = Path(args.out or ROOT / "results" / "media" / f"compare_ep{args.episode}_{args.method}.mp4")
     out.parent.mkdir(parents=True, exist_ok=True)
     nfr = int(T * FPS)
+    panels_last = None
     with imageio.get_writer(out, fps=FPS, codec="libx264", quality=7, macro_block_size=8) as w:
         for k in range(nfr):
             t = k / FPS
@@ -246,8 +255,10 @@ def main():
             if rd is not None:
                 try:
                     panels.append(camera_at(rd, src, max(0.0, off + t)))
-                except (IndexError, ValueError):
-                    panels.append(np.zeros((PANEL[0], PANEL[1], 3), np.uint8))
+                except (IndexError, ValueError):  # past the end of the recording: hold the last camera frame
+                    panels.append(panels_last if panels_last is not None else np.zeros((PANEL[0], PANEL[1], 3), np.uint8))
+                if panels and panels[-1] is not None:
+                    panels_last = panels[-1]
             panels.append(twin[min(len(twin) - 1, int(np.searchsorted(twin_t, t, side="right")))])
             panels.append(sim[min(len(sim) - 1, int(np.searchsorted(sim_t, t, side="right")))])
             w.append_data(np.concatenate(panels, axis=1))

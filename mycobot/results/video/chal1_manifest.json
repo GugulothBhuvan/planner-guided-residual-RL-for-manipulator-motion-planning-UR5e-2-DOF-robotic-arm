@@ -1,0 +1,71 @@
+{
+ "name": "chal1",
+ "cases": [
+  {
+   "set": "s4_chal",
+   "episode": 2,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889099.1557074,
+   "log": "results\\video\\real_s4_chal_ep2_b2_chal1.json"
+  },
+  {
+   "set": "s4_chal",
+   "episode": 2,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889126.5768573,
+   "log": "results\\video\\real_s4_chal_ep2_hybrid@3000_chal1.json"
+  },
+  {
+   "set": "s4_chal",
+   "episode": 25,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889146.244139,
+   "log": "results\\video\\real_s4_chal_ep25_b2_chal1.json"
+  },
+  {
+   "set": "s4_chal",
+   "episode": 25,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889185.2006125,
+   "log": "results\\video\\real_s4_chal_ep25_hybrid@3000_chal1.json"
+  },
+  {
+   "set": "s4_chal",
+   "episode": 50,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889209.6885545,
+   "log": "results\\video\\real_s4_chal_ep50_b2_chal1.json"
+  },
+  {
+   "set": "s4_chal",
+   "episode": 50,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889235.098302,
+   "log": "results\\video\\real_s4_chal_ep50_hybrid@3000_chal1.json"
+  },
+  {
+   "set": "s4_chal",
+   "episode": 75,
+   "method": "b2",
+   "ok": false,
+   "success": null,
+   "epoch_start": null,
+   "log": "results\\video\\real_s4_chal_ep75_b2_chal1.json"
+  }
+ ],
+ "t_q": 1793889260.0526757,
+ "video": "results\\video\\chal1_webcam.mp4",
+ "duration": 175.0
+}

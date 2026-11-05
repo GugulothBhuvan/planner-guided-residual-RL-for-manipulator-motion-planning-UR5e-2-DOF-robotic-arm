@@ -1,0 +1,17 @@
+{
+ "name": "chal2",
+ "cases": [
+  {
+   "set": "s4_chal",
+   "episode": 75,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889321.497755,
+   "log": "results\\video\\real_s4_chal_ep75_hybrid@3000_chal2.json"
+  }
+ ],
+ "t_q": 1793889330.1236067,
+ "video": "results\\video\\chal2_webcam.mp4",
+ "duration": 32.8
+}

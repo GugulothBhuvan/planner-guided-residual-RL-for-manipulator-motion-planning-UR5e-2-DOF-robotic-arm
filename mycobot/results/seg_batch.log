@@ -1,0 +1,61 @@
+18:58:06 ep 0 b2
+{"tag": "real_s4_test_ep0_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.18568340825395108, "theta_deg": 3.887050257743541, "ticks": 122, "wall_s": 6.1095210000057705, "dry_run": false, "trim": true, "epoch_start": 1793885293.048255, "speed": 40, "mode": "segments", "segments": 9, "tol_deg": 6.0, "ne
+18:58:19 ep 0 base
+{"tag": "real_s4_test_ep0_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.26692482975430387, "theta_deg": 1.0887250564862978, "ticks": 91, "wall_s": 4.550781500001904, "dry_run": false, "trim": true, "epoch_start": 1793885306.0572717, "speed": 40, "mode": "segments", "segments": 5, "tol_deg": 6
+18:58:30 ep 0 hybrid
+{"tag": "real_s4_test_ep0_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.5299957523353618, "theta_deg": 1.7238559631564498, "ticks": 97, "wall_s": 4.8911377000040375, "dry_run": false, "trim": true, "epoch_start": 1793885323.342578, "speed": 40, "mode": "segments", "segments": 5, "tol_deg": 
+18:58:49 ep 1 b2
+{"tag": "real_s4_test_ep1_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.2958127642989832, "theta_deg": 2.9500751869362043, "ticks": 86, "wall_s": 4.307209299993701, "dry_run": false, "trim": true, "epoch_start": 1793885335.463999, "speed": 40, "mode": "segments", "segments": 6, "tol_deg": 6.0, "near
+18:59:00 ep 1 base
+{"tag": "real_s4_test_ep1_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.1373423624655709, "theta_deg": 2.90673844743454, "ticks": 63, "wall_s": 3.1620609000092372, "dry_run": false, "trim": true, "epoch_start": 1793885346.1250741, "speed": 40, "mode": "segments", "segments": 4, "tol_deg": 6.0
+18:59:09 ep 1 hybrid
+{"tag": "real_s4_test_ep1_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.10011786827539165, "theta_deg": 2.2113202866548325, "ticks": 95, "wall_s": 4.7906095999642275, "dry_run": false, "trim": true, "epoch_start": 1793885361.098113, "speed": 40, "mode": "segments", "segments": 4, "tol_deg":
+18:59:26 ep 2 b2
+{"tag": "real_s4_test_ep2_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.4566119615809132, "theta_deg": 2.7796625557222288, "ticks": 88, "wall_s": 4.43224170000758, "dry_run": false, "trim": true, "epoch_start": 1793885372.8171625, "speed": 40, "mode": "segments", "segments": 4, "tol_deg": 6.0, "near
+18:59:37 ep 2 base
+{"tag": "real_s4_test_ep2_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.46086859814610187, "theta_deg": 2.8776790264361805, "ticks": 86, "wall_s": 4.304852099972777, "dry_run": false, "trim": true, "epoch_start": 1793885384.0714002, "speed": 40, "mode": "segments", "segments": 4, "tol_deg": 6
+18:59:48 ep 2 hybrid
+{"tag": "real_s4_test_ep2_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.40422282640543994, "theta_deg": 2.4493190600983517, "ticks": 89, "wall_s": 4.466405900020618, "dry_run": false, "trim": true, "epoch_start": 1793885400.4887414, "speed": 40, "mode": "segments", "segments": 4, "tol_deg":
+19:00:05 ep 3 b2
+{"tag": "real_s4_test_ep3_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.7267500342511471, "theta_deg": 2.5600736867483596, "ticks": 207, "wall_s": 10.367466300027445, "dry_run": false, "trim": true, "epoch_start": 1793885412.7126017, "speed": 40, "mode": "segments", "segments": 22, "tol_deg": 6.0, "
+19:00:23 ep 3 base
+{"tag": "real_s4_test_ep3_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.39788738304796084, "theta_deg": 3.013901174567052, "ticks": 97, "wall_s": 4.867621899989899, "dry_run": false, "trim": true, "epoch_start": 1793885429.42717, "speed": 40, "mode": "segments", "segments": 6, "tol_deg": 6.0,
+19:00:34 ep 3 hybrid
+{"tag": "real_s4_test_ep3_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.427129268439211, "theta_deg": 2.9278652337693685, "ticks": 100, "wall_s": 5.050136000034399, "dry_run": false, "trim": true, "epoch_start": 1793885446.4802408, "speed": 40, "mode": "segments", "segments": 6, "tol_deg": 
+19:00:52 ep 4 b2
+{"tag": "real_s4_test_ep4_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.4038094989873023, "theta_deg": 2.8004014441508103, "ticks": 123, "wall_s": 6.167112900002394, "dry_run": false, "trim": true, "epoch_start": 1793885458.7953427, "speed": 40, "mode": "segments", "segments": 7, "tol_deg": 6.0, "ne
+19:01:05 ep 4 base
+{"tag": "real_s4_test_ep4_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.5428629769663847, "theta_deg": 2.5097460002559893, "ticks": 162, "wall_s": 8.135704200016335, "dry_run": false, "trim": true, "epoch_start": 1793885470.8168595, "speed": 40, "mode": "segments", "segments": 7, "tol_deg": 6
+19:01:19 ep 4 hybrid
+{"tag": "real_s4_test_ep4_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.47562959706157343, "theta_deg": 2.7053597057039194, "ticks": 113, "wall_s": 5.675504099985119, "dry_run": false, "trim": true, "epoch_start": 1793885490.787707, "speed": 40, "mode": "segments", "segments": 7, "tol_deg":
+19:01:37 ep 5 b2
+{"tag": "real_s4_test_ep5_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.1377743927871437, "theta_deg": 0.21888908736942272, "ticks": 70, "wall_s": 3.5404949000221677, "dry_run": false, "trim": true, "epoch_start": 1793885503.425803, "speed": 40, "mode": "segments", "segments": 3, "tol_deg": 6.0, "ne
+19:01:47 ep 5 base
+{"tag": "real_s4_test_ep5_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.09125721030760002, "theta_deg": 0.10903945151930158, "ticks": 66, "wall_s": 3.323052799969446, "dry_run": false, "trim": true, "epoch_start": 1793885513.2746434, "speed": 40, "mode": "segments", "segments": 3, "tol_deg": 
+19:01:56 ep 5 hybrid
+{"tag": "real_s4_test_ep5_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.12997055708198968, "theta_deg": 0.3364332577072751, "ticks": 74, "wall_s": 3.733252200006973, "dry_run": false, "trim": true, "epoch_start": 1793885528.9973884, "speed": 40, "mode": "segments", "segments": 3, "tol_deg":
+19:02:13 ep 6 b2
+{"tag": "real_s4_test_ep6_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.27665641732355073, "theta_deg": 1.74969940569115, "ticks": 37, "wall_s": 1.8661239999928512, "dry_run": false, "trim": true, "epoch_start": 1793885539.7192352, "speed": 40, "mode": "segments", "segments": 1, "tol_deg": 6.0, "nea
+19:02:21 ep 6 base
+{"tag": "real_s4_test_ep6_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.27665641732355073, "theta_deg": 1.74969940569115, "ticks": 36, "wall_s": 1.837176000000909, "dry_run": false, "trim": true, "epoch_start": 1793885547.6546454, "speed": 40, "mode": "segments", "segments": 1, "tol_deg": 6.0
+19:02:29 ep 6 hybrid
+{"tag": "real_s4_test_ep6_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.23788933507338286, "theta_deg": 1.6599573689831537, "ticks": 46, "wall_s": 2.307143099955283, "dry_run": false, "trim": true, "epoch_start": 1793885561.4924865, "speed": 40, "mode": "segments", "segments": 1, "tol_deg":
+19:02:44 ep 7 b2
+{"tag": "real_s4_test_ep7_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.619839967077113, "theta_deg": 0.8161045054183008, "ticks": 157, "wall_s": 7.857279099989682, "dry_run": false, "trim": true, "epoch_start": 1793885571.191158, "speed": 40, "mode": "segments", "segments": 14, "tol_deg": 6.0, "nea
+19:02:59 ep 7 base
+{"tag": "real_s4_test_ep7_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.8070201467831982, "theta_deg": 3.185409132157965, "ticks": 204, "wall_s": 10.228266499994788, "dry_run": false, "trim": true, "epoch_start": 1793885586.1552584, "speed": 40, "mode": "segments", "segments": 13, "tol_deg": 
+19:03:16 ep 7 hybrid
+{"tag": "real_s4_test_ep7_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.487339393014785, "theta_deg": 1.9133051460028871, "ticks": 218, "wall_s": 10.92915780004114, "dry_run": false, "trim": true, "epoch_start": 1793885610.2995887, "speed": 40, "mode": "segments", "segments": 13, "tol_deg":
+19:03:42 ep 8 b2
+{"tag": "real_s4_test_ep8_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.5191997105054825, "theta_deg": 2.901364179573048, "ticks": 200, "wall_s": 10.04846219997853, "dry_run": false, "trim": true, "epoch_start": 1793885628.3848822, "speed": 40, "mode": "segments", "segments": 16, "tol_deg": 6.0, "ne
+19:03:58 ep 8 base
+{"tag": "real_s4_test_ep8_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.5647155688860925, "theta_deg": 2.939556707040616, "ticks": 214, "wall_s": 10.707932799996343, "dry_run": false, "trim": true, "epoch_start": 1793885645.9421318, "speed": 40, "mode": "segments", "segments": 12, "tol_deg": 
+19:04:16 ep 8 hybrid
+{"tag": "real_s4_test_ep8_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.48004023160167436, "theta_deg": 2.642181745038064, "ticks": 233, "wall_s": 11.674988600017969, "dry_run": false, "trim": true, "epoch_start": 1793885670.8376234, "speed": 40, "mode": "segments", "segments": 13, "tol_deg
+19:04:43 ep 9 b2
+{"tag": "real_s4_test_ep9_b2_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.19503233252203792, "theta_deg": 0.5569356826731221, "ticks": 368, "wall_s": 18.436638300016057, "dry_run": false, "trim": true, "epoch_start": 1793885690.5365527, "speed": 40, "mode": "segments", "segments": 39, "tol_deg": 6.0, 
+19:05:09 ep 9 base
+{"tag": "real_s4_test_ep9_base@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.09638241089959518, "theta_deg": 0.39927040917229667, "ticks": 186, "wall_s": 9.303715899994131, "dry_run": false, "trim": true, "epoch_start": 1793885716.1340992, "speed": 40, "mode": "segments", "segments": 13, "tol_deg"
+19:05:25 ep 9 hybrid
+{"tag": "real_s4_test_ep9_hybrid@3000_seg", "status": "ok", "success": true, "collision": false, "d_pos_cm": 0.2864561032793441, "theta_deg": 0.7388886253438535, "ticks": 190, "wall_s": 9.507123099989258, "dry_run": false, "trim": true, "epoch_start": 1793885738.635465, "speed": 40, "mode": "segments", "segments": 14, "tol_deg":
+ALL_DONE

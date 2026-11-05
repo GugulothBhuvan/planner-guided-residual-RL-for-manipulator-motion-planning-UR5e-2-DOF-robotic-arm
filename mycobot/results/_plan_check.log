@@ -1,0 +1,29 @@
+s4_chal ep0 b2: simulation: {"success": true, "collision": false, "ticks": 256, "d_pos_cm": 0.5954325735975508, "theta_deg": 2.4889515188775664} 256 nominal ticks -> 10 segments (tol 6.0 deg, margin 0.0 cm); largest segment 28.9 deg; sum of max-joint moves 67 deg 
+
+s4_chal ep0 hybrid: simulation: {"success": false, "collision": true, "ticks": 64, "d_pos_cm": 17.60295671912491, "theta_deg": 97.92388836271871} 64 nominal ticks -> 9 segments (tol 6.0 deg, margin 0.0 cm); largest segment 2.8 deg; sum of max-joint moves 9 deg Traceback (most recent call last): AssertionError: segment 5 not free 
+
+s4_chal ep25 b2: simulation: {"success": true, "collision": false, "ticks": 356, "d_pos_cm": 0.5979506779546524, "theta_deg": 1.647573232645574} 356 nominal ticks -> 19 segments (tol 6.0 deg, margin 0.0 cm); largest segment 15.4 deg; sum of max-joint moves 89 deg 
+
+s4_chal ep25 hybrid: simulation: {"success": true, "collision": false, "ticks": 605, "d_pos_cm": 0.7642095551348881, "theta_deg": 3.708187157977452} 605 nominal ticks -> 13 segments (tol 6.0 deg, margin 0.0 cm); largest segment 47.5 deg; sum of max-joint moves 151 deg 
+
+s4_chal ep50 b2: simulation: {"success": true, "collision": false, "ticks": 268, "d_pos_cm": 0.8267593868228371, "theta_deg": 3.007074334624078} 268 nominal ticks -> 13 segments (tol 6.0 deg, margin 0.0 cm); largest segment 33.3 deg; sum of max-joint moves 69 deg 
+
+s4_chal ep50 hybrid: simulation: {"success": true, "collision": false, "ticks": 371, "d_pos_cm": 0.8912108833272366, "theta_deg": 3.639260685075751} 371 nominal ticks -> 6 segments (tol 6.0 deg, margin 0.0 cm); largest segment 33.9 deg; sum of max-joint moves 92 deg 
+
+s4_chal ep75 b2: simulation: {"success": true, "collision": false, "ticks": 172, "d_pos_cm": 0.8469840040446409, "theta_deg": 3.599793882638403} 172 nominal ticks -> 24 segments (tol 6.0 deg, margin 0.0 cm); largest segment 5.8 deg; sum of max-joint moves 46 deg 
+
+s4_chal ep75 hybrid: simulation: {"success": true, "collision": false, "ticks": 289, "d_pos_cm": 0.789356831369787, "theta_deg": 3.775938464555355} 289 nominal ticks -> 5 segments (tol 6.0 deg, margin 0.0 cm); largest segment 24.7 deg; sum of max-joint moves 72 deg 
+
+s4_shape ep0 b2: simulation: {"success": true, "collision": false, "ticks": 238, "d_pos_cm": 0.764612111439673, "theta_deg": 2.5231687256532513} 238 nominal ticks -> 4 segments (tol 6.0 deg, margin 0.0 cm); largest segment 30.5 deg; sum of max-joint moves 58 deg 
+
+s4_shape ep0 hybrid: simulation: {"success": true, "collision": false, "ticks": 350, "d_pos_cm": 0.5854985427844923, "theta_deg": 2.282686362958037} 350 nominal ticks -> 7 segments (tol 6.0 deg, margin 0.0 cm); largest segment 55.0 deg; sum of max-joint moves 87 deg 
+
+s4_shape ep25 b2: simulation: {"success": true, "collision": false, "ticks": 221, "d_pos_cm": 0.49213085708818627, "theta_deg": 1.4677687039994445} 221 nominal ticks -> 5 segments (tol 6.0 deg, margin 0.0 cm); largest segment 27.2 deg; sum of max-joint moves 55 deg 
+
+s4_shape ep25 hybrid: simulation: {"success": true, "collision": false, "ticks": 306, "d_pos_cm": 0.8765173764865648, "theta_deg": 3.1120869181791866} 305 nominal ticks -> 8 segments (tol 6.0 deg, margin 0.0 cm); largest segment 16.3 deg; sum of max-joint moves 74 deg 
+
+s4_shape ep50 b2: simulation: {"success": true, "collision": false, "ticks": 288, "d_pos_cm": 0.6655200189756653, "theta_deg": 1.269672097152877} 288 nominal ticks -> 9 segments (tol 6.0 deg, margin 0.0 cm); largest segment 25.7 deg; sum of max-joint moves 72 deg 
+
+s4_shape ep50 hybrid: simulation: {"success": true, "collision": false, "ticks": 364, "d_pos_cm": 0.5618233555743616, "theta_deg": 0.7986566435557968} 363 nominal ticks -> 5 segments (tol 6.0 deg, margin 0.0 cm); largest segment 37.7 deg; sum of max-joint moves 86 deg 
+
+PLAN_CHECK_DONE

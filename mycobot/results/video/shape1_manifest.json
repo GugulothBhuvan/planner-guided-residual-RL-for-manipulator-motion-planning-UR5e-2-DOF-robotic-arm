@@ -1,0 +1,62 @@
+{
+ "name": "shape1",
+ "cases": [
+  {
+   "set": "s4_shape",
+   "episode": 0,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889346.5829782,
+   "log": "results\\video\\real_s4_shape_ep0_b2_shape1.json"
+  },
+  {
+   "set": "s4_shape",
+   "episode": 0,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889370.635967,
+   "log": "results\\video\\real_s4_shape_ep0_hybrid@3000_shape1.json"
+  },
+  {
+   "set": "s4_shape",
+   "episode": 25,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889389.061409,
+   "log": "results\\video\\real_s4_shape_ep25_b2_shape1.json"
+  },
+  {
+   "set": "s4_shape",
+   "episode": 25,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889410.8141418,
+   "log": "results\\video\\real_s4_shape_ep25_hybrid@3000_shape1.json"
+  },
+  {
+   "set": "s4_shape",
+   "episode": 50,
+   "method": "b2",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889429.3158803,
+   "log": "results\\video\\real_s4_shape_ep50_b2_shape1.json"
+  },
+  {
+   "set": "s4_shape",
+   "episode": 50,
+   "method": "hybrid",
+   "ok": true,
+   "success": true,
+   "epoch_start": 1793889453.3708818,
+   "log": "results\\video\\real_s4_shape_ep50_hybrid@3000_shape1.json"
+  }
+ ],
+ "t_q": 1793889461.8464742,
+ "video": "results\\video\\shape1_webcam.mp4",
+ "duration": 128.67
+}
