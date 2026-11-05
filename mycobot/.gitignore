@@ -15,3 +15,9 @@ results/runs_smoke/
 results/runs_smoke2/
 *.out
 *.err
+
+# the report's local video copies duplicate results/media
+report/vid/
+results/video/*_webcam.mp4
+results/video/seg1_old/
+results/video/seg1_s4_*_compare.mp4

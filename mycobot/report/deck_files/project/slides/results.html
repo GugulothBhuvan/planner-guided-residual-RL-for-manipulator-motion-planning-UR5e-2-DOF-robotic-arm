@@ -1,0 +1,15 @@
+<section id="results" data-transition="fade" style="background:#F5F3EC;color:#12202B;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<p style="font-size:26px;letter-spacing:4px;text-transform:uppercase;color:#1F7A74">Segments against streaming</p>
+<h2 style="font-family:'EB Garamond', Georgia, serif;font-size:68px;font-weight:500;line-height:1.1">Same 30 runs, about twice as fast, and not less accurate</h2>
+<table style="font-size:28px;width:1664px;color:#12202B">
+<tr><th style="width:16%;text-align:left">Mode</th><th style="width:26%;text-align:left">Method</th><th style="width:12%;text-align:right">Success</th><th style="width:16%;text-align:right">Time, median (max)</th><th style="width:15%;text-align:right">Position error</th><th style="width:15%;text-align:right">Orientation</th></tr>
+<tr><td>Segments</td><td>B2</td><td style="text-align:right">10 / 10</td><td style="text-align:right">6.1 s (18.4)</td><td style="text-align:right">0.35 cm</td><td style="text-align:right">2.7°</td></tr>
+<tr><td>Segments</td><td>Cheap planner</td><td style="text-align:right">10 / 10</td><td style="text-align:right">4.7 s (10.7)</td><td style="text-align:right">0.34 cm</td><td style="text-align:right">2.7°</td></tr>
+<tr><td>Segments</td><td>Hybrid</td><td style="text-align:right">10 / 10</td><td style="text-align:right">5.0 s (11.7)</td><td style="text-align:right">0.42 cm</td><td style="text-align:right">2.1°</td></tr>
+<tr><td>Streaming</td><td>B2</td><td style="text-align:right">10 / 10</td><td style="text-align:right">8.0 s (31.8)</td><td style="text-align:right">0.69 cm</td><td style="text-align:right">3.5°</td></tr>
+<tr><td>Streaming</td><td>Cheap planner</td><td style="text-align:right">10 / 10</td><td style="text-align:right">9.4 s (43.3)</td><td style="text-align:right">0.59 cm</td><td style="text-align:right">3.2°</td></tr>
+<tr><td>Streaming</td><td>Hybrid</td><td style="text-align:right">10 / 10</td><td style="text-align:right">10.0 s (45.5)</td><td style="text-align:right">0.53 cm</td><td style="text-align:right">2.8°</td></tr>
+</table>
+<p style="font-size:28px;color:#46525B">No virtual collisions and no aborts in either mode. The slowest hybrid run fell from 45 s to 12 s. Time includes 3–4 s of final correction.</p>
+<aside>Median gain about 1.7 to 2 times; the longest episodes gain 3 to 4 times. Streaming and segment runs were one run per case and not randomised in order.</aside>
+</section>

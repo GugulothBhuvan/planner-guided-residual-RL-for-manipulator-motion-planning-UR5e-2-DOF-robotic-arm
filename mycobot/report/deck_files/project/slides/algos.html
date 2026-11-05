@@ -1,0 +1,23 @@
+<section id="algos" data-transition="fade" style="background:#F5F3EC;color:#12202B;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<p style="font-size:26px;letter-spacing:4px;text-transform:uppercase;color:#1F7A74">Reaching, E1 and E2</p>
+<h2 style="font-family:'EB Garamond', Georgia, serif;font-size:72px;font-weight:500;line-height:1.1">SAC learns best, and sparse reward with HER beats dense</h2>
+<div style="display:flex;gap:32px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FBFAF6;padding:40px;border:1px solid #D9D4C5;border-radius:16px">
+<p style="font-size:26px;color:#46525B">UR5e, success</p>
+<p style="font-size:84px;font-family:'EB Garamond', Georgia, serif;color:#1F7A74;line-height:1">20.7%</p>
+<p style="font-size:28px;color:#46525B">SAC, against 12.7% for TD3</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FBFAF6;padding:40px;border:1px solid #D9D4C5;border-radius:16px">
+<p style="font-size:26px;color:#46525B">Planar arm, success</p>
+<p style="font-size:84px;font-family:'EB Garamond', Georgia, serif;color:#1F7A74;line-height:1">78.8%</p>
+<p style="font-size:28px;color:#46525B">SAC, then TD3 63.6%, DDPG 42.1%, PPO 0%</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FBFAF6;padding:40px;border:1px solid #D9D4C5;border-radius:16px">
+<p style="font-size:26px;color:#46525B">Sparse reward + HER vs dense</p>
+<p style="font-size:84px;font-family:'EB Garamond', Georgia, serif;color:#1F7A74;line-height:1">71.0%</p>
+<p style="font-size:28px;color:#46525B">against 5.3% on the planar arm; 4.5% against 0% on the UR5e</p>
+</div>
+</div>
+<p style="font-size:28px;color:#46525B">Both UR5e reaching experiments fell short of their targets within the step budget; the result is reported as a shortfall.</p>
+<aside>SAC is the algorithm used for every residual in the rest of the talk. The UR5e experiments are the small-budget ones: 500k to 1M steps per run, CPU only.</aside>
+</section>

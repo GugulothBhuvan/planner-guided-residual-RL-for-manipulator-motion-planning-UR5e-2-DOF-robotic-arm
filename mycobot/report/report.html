@@ -1,0 +1,1260 @@
+<title>Residual RL Thesis Report</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: a thesis page. Sticky contents rail at left on wide screens, one reading column of white "paper" on a quiet ground.
+   Yellow is reserved for text that still has to be filled in; nothing else on the page is yellow. */
+:root {
+  --ground: #e9ecf1;
+  --paper: #ffffff;
+  --ink: #1b2130;
+  --muted: #5d6577;
+  --rule: #d5dae3;
+  --accent: #1f4e8c;
+  --accent-soft: #e6eef9;
+  --warn-bg: #ffe45c;
+  --warn-ink: #2b2400;
+  --warn-soft: #fff6c2;
+  --warn-line: #d8b800;
+  --good: #1d7a55;
+  --bad: #b3261e;
+  --code-bg: #f1f3f7;
+  --figure-bg: #ffffff;
+  --font-body: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0f1218; --paper: #181c25; --ink: #e5e9f1; --muted: #9aa3b5; --rule: #2d3442;
+    --accent: #7fb0ee; --accent-soft: #1d2a40; --warn-soft: #3a3410; --code-bg: #222735;
+    --good: #5fcf9c; --bad: #ff8a80; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0f1218; --paper: #181c25; --ink: #e5e9f1; --muted: #9aa3b5; --rule: #2d3442;
+  --accent: #7fb0ee; --accent-soft: #1d2a40; --warn-soft: #3a3410; --code-bg: #222735;
+  --good: #5fcf9c; --bad: #ff8a80; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+body { background: var(--ground); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.62; margin: 0; }
+.shell { display: grid; grid-template-columns: 17.5rem minmax(0, 1fr); gap: 2rem; max-width: 76rem; margin: 0 auto;
+  padding-block: 1.5rem 4rem; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (max-width: 62rem) { .shell { grid-template-columns: minmax(0, 1fr); } }
+
+/* contents rail */
+.rail { position: sticky; top: 1rem; align-self: start; max-height: calc(100vh - 2rem); overflow: auto; font-family: var(--font-ui); font-size: 13px;
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1rem 1.1rem; }
+.rail h2 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 .6rem; font-weight: 600; }
+.rail a { display: block; color: var(--ink); text-decoration: none; padding: .22rem 0; line-height: 1.35; }
+.rail a:hover { color: var(--accent); }
+.rail a.l1 { font-weight: 600; margin-top: .55rem; }
+.rail a.l2 { padding-left: .9rem; color: var(--muted); font-size: 12.5px; }
+.rail .tools { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .7rem; }
+@media (max-width: 62rem) { .rail { position: static; max-height: none; } .rail .toc-body { display: none; } .rail.open .toc-body { display: block; } }
+.btn { font: 500 12px var(--font-ui); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); border-radius: 4px; padding: .3rem .6rem; cursor: pointer; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* paper */
+.doc { min-width: 0; }
+.sheet { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: clamp(1.2rem, 4vw, 3.2rem); margin-bottom: 1.4rem; min-width: 0; }
+.sheet > :first-child { margin-top: 0; }
+h1, h2, h3, h4 { font-family: var(--font-ui); line-height: 1.25; text-wrap: balance; color: var(--ink); }
+h1 { font-size: 1.9rem; font-weight: 600; margin: 0 0 1.2rem; padding-bottom: .6rem; border-bottom: 2px solid var(--accent); }
+h1 .ch { display: block; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: .35rem; }
+h2 { font-size: 1.28rem; font-weight: 600; margin: 2.2rem 0 .6rem; }
+h3 { font-size: 1.06rem; font-weight: 600; margin: 1.6rem 0 .4rem; }
+h4 { font-size: .95rem; font-weight: 600; margin: 1.2rem 0 .3rem; color: var(--muted); }
+p { margin: 0 0 .95rem; max-width: 46rem; }
+ul, ol { max-width: 46rem; padding-left: 1.3rem; margin: 0 0 1rem; }
+li { margin-bottom: .35rem; }
+a { color: var(--accent); }
+code, .mono { font-family: var(--font-mono); font-size: .86em; background: var(--code-bg); padding: .05em .3em; border-radius: 3px; }
+pre.code { font-family: var(--font-mono); font-size: 13px; line-height: 1.5; background: var(--code-bg); padding: .9rem 1rem; border-radius: 5px; overflow-x: auto; margin: 0 0 1rem; max-width: 100%; }
+var { font-style: italic; }
+.eq { font-family: var(--font-body); font-size: 1.05rem; text-align: center; margin: 1rem 0; padding: .5rem .5rem; position: relative; overflow-x: auto; }
+.eq .no { position: absolute; right: .3rem; top: 50%; transform: translateY(-50%); font-family: var(--font-ui); font-size: .85rem; color: var(--muted); }
+@media (max-width: 40rem) { .eq .no { position: static; display: block; transform: none; margin-top: .2rem; } }
+.lead-note { background: var(--accent-soft); border-left: 3px solid var(--accent); padding: .7rem 1rem; border-radius: 0 5px 5px 0; margin: 1rem 0; max-width: 46rem; font-size: .96rem; }
+.lead-note p:last-child { margin-bottom: 0; }
+
+/* placeholders: the only yellow on the page */
+mark.todo { background: var(--warn-bg); color: var(--warn-ink); padding: .04em .32em; border-radius: 3px; border-bottom: 2px dashed var(--warn-line); font-family: var(--font-ui); font-size: .9em; font-style: normal; }
+.todo-block { background: var(--warn-soft); border: 2px dashed var(--warn-line); border-radius: 6px; padding: .8rem 1rem; margin: 1rem 0 1.2rem; font-family: var(--font-ui); font-size: 14px; color: var(--ink); max-width: 46rem; }
+.todo-block strong.tag { display: inline-block; background: var(--warn-bg); color: var(--warn-ink); padding: .05rem .5rem; border-radius: 3px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; margin-right: .5rem; }
+.todo-block p { max-width: none; margin: .35rem 0 0; }
+.fig-todo { aspect-ratio: 16/6; display: grid; place-items: center; text-align: center; padding: 1rem; background: var(--warn-soft); border: 2px dashed var(--warn-line); border-radius: 4px; font-family: var(--font-ui); font-size: 14px; color: var(--ink); }
+.dash-yes { color: var(--good); font-weight: 600; } .dash-no { color: var(--bad); font-weight: 600; }
+
+/* figures, tables */
+figure { margin: 1.4rem 0 1.6rem; min-width: 0; }
+figure .frame { background: var(--figure-bg); border: 1px solid var(--rule); border-radius: 4px; padding: .5rem; text-align: center; }
+figure img, figure video { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+figure video { width: 100%; background: #000; border-radius: 3px; }
+figcaption, .cap { font-family: var(--font-ui); font-size: 13.5px; line-height: 1.5; color: var(--muted); margin-top: .5rem; max-width: 46rem; }
+figcaption b, .cap b { color: var(--ink); }
+.tbl { margin: 1.3rem 0 1.5rem; min-width: 0; }
+.tbl .cap { margin: 0 0 .5rem; }
+.tbl .scroll { overflow-x: auto; max-width: 100%; }
+table { border-collapse: collapse; font-family: var(--font-ui); font-size: 13.5px; width: 100%; min-width: 30rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: .42rem .65rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; background: var(--accent-soft); border-bottom: 2px solid var(--accent); white-space: nowrap; }
+td.n, th.n { text-align: right; }
+tr.best td { font-weight: 600; }
+tr.hl td { background: var(--accent-soft); }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+@media (max-width: 52rem) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.pre-mermaid, pre.mermaid { background: var(--figure-bg); border: 1px solid var(--rule); border-radius: 4px; padding: .8rem; overflow-x: auto; }
+
+/* cover */
+.cover { text-align: center; padding-block: 1rem; }
+.cover .inst { font-family: var(--font-ui); letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; color: var(--muted); margin-bottom: .3rem; }
+.cover h1.title { font-size: clamp(1.6rem, 4.4vw, 2.5rem); border: 0; padding: 0; margin: 1.6rem auto 1.4rem; max-width: 40rem; text-wrap: balance; }
+.cover .line { font-family: var(--font-ui); margin: .25rem 0; }
+.cover .by { font-size: 1.15rem; font-weight: 600; margin-top: .6rem; }
+.cover .logo { width: 7rem; height: 7rem; margin: 1rem auto; }
+.sign { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem; font-family: var(--font-ui); }
+.sign > div { min-width: 12rem; }
+.status-bar { font-family: var(--font-ui); font-size: 13.5px; display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; align-items: center; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: .7rem 1rem; margin-bottom: 1.4rem; }
+.status-bar .count { background: var(--warn-bg); color: var(--warn-ink); font-weight: 600; border-radius: 3px; padding: .1rem .5rem; }
+.missing-list { columns: 2 20rem; column-gap: 2rem; font-family: var(--font-ui); font-size: 13.5px; padding-left: 1.2rem; max-width: none; }
+.missing-list li { break-inside: avoid; margin-bottom: .3rem; }
+.hide-todos mark.todo { background: transparent; color: inherit; border-bottom: 1px dotted var(--muted); }
+.hide-todos .todo-block, .hide-todos .fig-todo { background: transparent; border-color: var(--rule); }
+.lists li { list-style: none; margin-bottom: .25rem; font-family: var(--font-ui); font-size: 14px; }
+.lists ul { padding-left: 0; }
+.lists a { text-decoration: none; }
+.sym td:first-child, .sym td:nth-child(1) { font-family: var(--font-body); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<div class="shell">
+<aside class="rail" id="rail">
+  <h2>Contents</h2>
+  <div class="tools">
+    <button class="btn" id="toc-toggle" type="button" aria-expanded="false">Show contents</button>
+    <button class="btn" id="todo-toggle" type="button">Hide yellow</button>
+  </div>
+  <nav class="toc-body" id="toc" aria-label="Report contents"></nav>
+</aside>
+
+<main class="doc">
+
+<div class="status-bar" id="status">
+  <strong>Draft report</strong>
+  <span>Version of 5 November 2026</span>
+  <span><span class="count" id="todo-count">0</span> items still to fill in (highlighted in yellow)</span>
+  <a href="#missing">See the list</a>
+</div>
+
+<!-- ================= COVER ================= -->
+<section class="sheet cover" id="cover">
+  <div class="inst">Indian Institute of Technology Kharagpur</div>
+  <h1 class="title">Planner-Guided Residual Reinforcement Learning for Manipulator Motion Planning</h1>
+  <div class="line">A UR5e study with a planar 2-DOF companion and a real-arm test on the MyCobot 280</div>
+  <div class="line" style="margin-top:1.6rem">Report submitted to</div>
+  <div class="line"><strong>Indian Institute of Technology, Kharagpur</strong></div>
+  <div class="line">for the award of the degree of</div>
+  <div class="line"><strong>Master of Technology</strong> in <mark class="todo" data-label="Department / specialisation">[Department / Specialisation]</mark></div>
+  <div class="line">by</div>
+  <div class="line by">Bhuvan Raj Guguloth</div>
+  <div class="line"><mark class="todo" data-label="Roll number">[Roll No.]</mark></div>
+  <div class="line" style="margin-top:1.2rem">Under the supervision of</div>
+  <div class="line"><mark class="todo" data-label="Supervisor name">[Supervisor name]</mark></div>
+  <div class="logo"><div class="fig-todo" style="aspect-ratio:1/1;font-size:12px"><span><mark class="todo" data-label="Institute logo">[Institute logo]</mark></span></div></div>
+  <div class="line"><mark class="todo" data-label="Department name">[DEPARTMENT NAME]</mark></div>
+  <div class="line">INDIAN INSTITUTE OF TECHNOLOGY KHARAGPUR</div>
+  <div class="line">November 2026</div>
+  <div class="line" style="color:var(--muted);font-size:.85rem;margin-top:1rem">&copy; 2026 Bhuvan Raj Guguloth. All rights reserved.</div>
+</section>
+
+<!-- ================= DECLARATION ================= -->
+<section class="sheet" id="declaration">
+  <h1>Declaration</h1>
+  <p>I certify that</p>
+  <ol type="a">
+    <li>the work contained in this report is original and has been done by me under the guidance of my supervisor;</li>
+    <li>the work has not been submitted to any other Institute for any degree or diploma;</li>
+    <li>I have followed the guidelines provided by the Institute in preparing the report;</li>
+    <li>I have conformed to the norms and guidelines given in the Ethical Code of Conduct of the Institute;</li>
+    <li>whenever I have used materials (data, theoretical analysis, figures and text) from other sources, I have given due credit to them by citing them in the text of the report and giving their details in the references. Further, I have taken permission from the copyright owners of the sources, whenever necessary.</li>
+  </ol>
+  <div class="sign">
+    <div>Date: <mark class="todo" data-label="Declaration date">[date]</mark><br>Place: Kharagpur</div>
+    <div>Bhuvan Raj Guguloth<br><mark class="todo" data-label="Roll number (declaration)">[Roll No.]</mark></div>
+  </div>
+</section>
+
+<!-- ================= CERTIFICATE ================= -->
+<section class="sheet" id="certificate">
+  <h1>Certificate</h1>
+  <p>This is to certify that the project report entitled &ldquo;Planner-Guided Residual Reinforcement Learning for Manipulator Motion Planning&rdquo; submitted by Bhuvan Raj Guguloth (<mark class="todo" data-label="Roll number (certificate)">[Roll No.]</mark>) to the Indian Institute of Technology, Kharagpur, India, is a record of bona fide project work carried out by the candidate under my supervision and guidance and is worthy of consideration for the award of the degree of Master of Technology in <mark class="todo" data-label="Department / specialisation (certificate)">[Department / Specialisation]</mark> of the Institute.</p>
+  <div class="sign">
+    <div>Date: <mark class="todo" data-label="Certificate date">[date]</mark><br>Place: Kharagpur</div>
+    <div><mark class="todo" data-label="Supervisor name and designation">[Supervisor name]</mark><br>Supervisor, <mark class="todo" data-label="Supervisor department">[Department]</mark><br>Indian Institute of Technology Kharagpur</div>
+  </div>
+</section>
+
+<!-- ================= ACKNOWLEDGEMENTS ================= -->
+<section class="sheet" id="acknowledgements">
+  <h1>Acknowledgements</h1>
+  <p>I would like to express my sincere gratitude to my supervisor, <mark class="todo" data-label="Supervisor name (acknowledgements)">[Supervisor name]</mark>, for the guidance, encouragement and critical feedback that shaped this project at every stage, from the choice of the research question to the design of the experiments and the hardware tests.</p>
+  <p>I thank the <mark class="todo" data-label="Department name (acknowledgements)">[Department name]</mark>, Indian Institute of Technology Kharagpur, for the academic environment and the laboratory space in which the real-arm experiments were run. I also acknowledge the authors of MuJoCo and MuJoCo Menagerie for the simulator and the UR5e and Robotiq models, the maintainers of Stable-Baselines3, and Google Colab and Kaggle for the free compute on which the offloaded training seeds were run.</p>
+  <p><mark class="todo" data-label="Further acknowledgements (lab members, people who helped with hardware, family)">[Add further acknowledgements: laboratory colleagues, anyone who helped with the hardware or the filming, family and friends.]</mark></p>
+  <p style="text-align:right;font-family:var(--font-ui)">Bhuvan Raj Guguloth</p>
+</section>
+
+<!-- ================= ABSTRACT ================= -->
+<section class="sheet" id="abstract">
+  <h1>Abstract</h1>
+  <p>Sampling-based motion planners such as RRT-Connect find collision-free paths reliably when they are given enough computation, but their success falls as the planning budget shrinks. Residual reinforcement learning offers a way around this: keep a cheap classical controller and let a learned policy add small corrections where the controller falls short. This project tests that idea on collision-free six-dimensional pose reaching for a simulated UR5e arm with a Robotiq 2F-85 gripper, and then on a real Elephant Robotics MyCobot 280.</p>
+  <p>The method is a cheap RRT-Connect planner with a budget of 1,500 to 6,000 collision checks, a tracking controller that follows its path, and a Soft Actor-Critic (SAC) residual added to the tracker&rsquo;s command. Two residual designs were studied: an additive correction and an accumulated joint offset. On 200 held-out cluttered scenes, full RRT-Connect succeeds in 99.0% of episodes, the cheap planner alone in 79.5&ndash;90.0%, and the additive residual lowers success to 66&ndash;75% at every budget. The offset residual raises collisions from 8.5&ndash;20.5% to about 40%. I call this the <em>authority&ndash;safety dilemma</em>: a correction small enough to stay on the planner&rsquo;s safe path cannot fix its failures, and one large enough to fix them leaves the safe path. A planar 2-DOF arm reproduces the pattern and agrees with the UR5e on 8 of 9 design comparisons. The only setting where a residual improved on its base was torque control under a &plusmn;20% mass error.</p>
+  <p>The study also documents three silent defects of goal-conditioned training with hindsight relabelling and their tested fixes. In a second lane, the pipeline was ported to the MyCobot 280. On 200 simulated scenes the retrained residual again matches its planner (at 6,000 checks 93.5% for seed 1 and 93.0% for seed 0, against 93.5% for the planner). On the real arm, with virtual obstacles, all 30 runs (10 episodes with B2, the cheap planner and the residual) reached the goal within 1 cm and 5&deg; once a small final-approach correction was added, and the residual was again indistinguishable from its planner. Streaming a new target every 50 ms limits the arm to 10&deg;/s, so the runs were repeated by sending the same paths as a few collision-checked, firmware-planned segments: 30 of 30 runs succeeded again with a median run time of 5&ndash;6 s instead of 8&ndash;10 s, and 13 of 14 runs succeeded on gap, clutter, limit, edge, box, cylinder and mixed scenes. Two further test sets cover narrow gaps, clutter, goals near the joint limits and near full reach (100 episodes), and cluttered scenes with boxes and cylinders (75 episodes). The cheap planner fails mostly on goals near full reach and on narrow gaps, and loses 11 to 16 points on boxes and cylinders relative to spheres at the same layout; the residual neither helps nor hurts on any of them.</p>
+  <p><strong>Keywords:</strong> motion planning; residual reinforcement learning; RRT-Connect; soft actor-critic; hindsight experience replay; robot manipulator; MyCobot 280; obstacle avoidance</p>
+</section>
+
+<!-- ================= WHAT IS MISSING ================= -->
+<section class="sheet" id="missing">
+  <h1>Items still to fill in</h1>
+  <p>Everything highlighted in yellow in this report is text, a figure or a result that is not available yet or needs personal details. The list below is built from the page and links to each item.</p>
+  <ol class="missing-list" id="missing-list"></ol>
+</section>
+
+<!-- ================= CONTENTS ================= -->
+<section class="sheet" id="contents">
+  <h1>Contents</h1>
+  <div id="toc-main" class="lists"></div>
+</section>
+
+<section class="sheet lists" id="list-of-figures">
+  <h1>List of Figures</h1>
+  <ul id="lof"></ul>
+</section>
+
+<section class="sheet lists" id="list-of-tables">
+  <h1>List of Tables</h1>
+  <ul id="lot"></ul>
+</section>
+
+<section class="sheet" id="list-of-videos">
+  <h1>List of Videos</h1>
+  <ul id="lov" style="padding-left:0"></ul>
+</section>
+
+<!-- ================= SYMBOLS ================= -->
+<section class="sheet" id="symbols">
+  <h1>List of Symbols and Abbreviations</h1>
+  <h3>Symbols</h3>
+  <div class="tbl"><div class="scroll"><table class="sym">
+    <tbody>
+    <tr><td><var>q</var> &isin; &#8477;<sup>n</sup></td><td>joint configuration (n = 6 for UR5e and MyCobot, 2 for the planar arm)</td></tr>
+    <tr><td><var>q</var><sub>ref</sub>(<var>t</var>)</td><td>reference joint path produced by the planner, sampled at the control rate</td></tr>
+    <tr><td><var>q</var><sub>target</sub></td><td>integrated joint target sent to the position servos</td></tr>
+    <tr><td><var>a</var> &isin; [&minus;1, 1]<sup>n</sup></td><td>normalised action</td></tr>
+    <tr><td>&Delta;<var>q</var><sub>max</sub></td><td>largest joint-target change per step (0.04 rad UR5e; 0.0087 rad = 0.5&deg; MyCobot)</td></tr>
+    <tr><td><var>a</var><sub>base</sub></td><td>tracking command that steers <var>q</var><sub>target</sub> to <var>q</var><sub>ref</sub>(<var>t</var>+1)</td></tr>
+    <tr><td>&pi;<sub>res</sub>(<var>s</var>)</td><td>residual policy output</td></tr>
+    <tr><td>&alpha;</td><td>residual scale (ramped from 0 to 0.3 during training)</td></tr>
+    <tr><td><var>o</var><sub>t</sub></td><td>accumulated joint offset of the E5b residual, clipped to &plusmn;0.3 rad</td></tr>
+    <tr><td><var>f</var><sub>t</sub></td><td>fade factor that returns the offset to zero near the goal</td></tr>
+    <tr><td><var>N</var></td><td>planning budget in collision checks (1,500, 3,000 or 6,000)</td></tr>
+    <tr><td>&gamma;</td><td>discount factor (0.98 with HER, 0.99 without)</td></tr>
+    <tr><td><var>r</var><sub>min</sub></td><td>most negative per-step reward the environment can give</td></tr>
+    <tr><td><var>R</var><sub>coll</sub></td><td>absorbing collision reward, <var>r</var><sub>min</sub>/(1&minus;&gamma;) &minus; <var>w</var><sub>c</sub></td></tr>
+    <tr><td><var>w</var><sub>res</sub></td><td>weight of the residual penalty (0.1)</td></tr>
+    <tr><td><var>d</var><sub>safe</sub></td><td>clearance below which the margin penalty applies (5 cm UR5e; 2 cm MyCobot)</td></tr>
+    </tbody></table></div></div>
+  <h3>Abbreviations</h3>
+  <div class="tbl"><div class="scroll"><table class="sym">
+    <tbody>
+    <tr><td>B1, B2</td><td>baseline planners: analytic IK with a quintic trajectory; full-budget RRT-Connect</td></tr>
+    <tr><td>Base@N</td><td>cheap planner with <var>N</var> collision checks and a straight-line fallback</td></tr>
+    <tr><td>E1, E2, E5, E5b</td><td>UR5e experiments: position reaching, pose reaching, additive residual in clutter, offset residual in clutter</td></tr>
+    <tr><td>PE1&ndash;PE9</td><td>planar 2-DOF experiments</td></tr>
+    <tr><td>S1, S2, S4</td><td>task stages: position, pose, pose with obstacles</td></tr>
+    <tr><td>HER</td><td>Hindsight Experience Replay</td></tr>
+    <tr><td>SAC, TD3, DDPG, PPO</td><td>actor-critic algorithms (soft actor-critic, twin delayed DDPG, deep deterministic policy gradient, proximal policy optimisation)</td></tr>
+    <tr><td>RRT</td><td>rapidly exploring random tree</td></tr>
+    <tr><td>FK, IK</td><td>forward and inverse kinematics</td></tr>
+    <tr><td>TCP</td><td>tool centre point</td></tr>
+    <tr><td>C-space</td><td>configuration space</td></tr>
+    <tr><td>RQ</td><td>research question</td></tr>
+    <tr><td>TrimArm</td><td>final-approach correction used on the real arm (Section 4.7)</td></tr>
+    </tbody></table></div></div>
+</section>
+
+<!-- ================= CHAPTER 1 ================= -->
+<section class="sheet" id="ch1">
+  <h1><span class="ch">Chapter 1</span>Introduction</h1>
+
+  <h2 id="s1-1">1.1&nbsp;&nbsp;Background of Robot Motion Planning</h2>
+  <p>A robot arm that picks, places or assembles has to move its tool to a target pose without touching the table, itself or the objects around it. The planning problem is to find a sequence of joint configurations that connects the current configuration to one that realises the target pose, and that stays collision-free along the way. For an arm with six joints this search takes place in a six-dimensional configuration space, in which the obstacles of the workspace become complicated forbidden regions.</p>
+  <p>Two things make the problem practical at all. First, a good path is only useful if it arrives in time: a planner that needs seconds before a motion can start slows every task it serves. Second, the quality of the result matters as much as its existence, because a long or jerky path costs time and wears the hardware. This report studies how much planning computation can be removed, and whether a learned correction can make up for the loss.</p>
+
+  <h2 id="s1-2">1.2&nbsp;&nbsp;Sampling-Based Planning and RRT-Connect</h2>
+  <p>Sampling-based planners avoid building the forbidden regions explicitly. They sample configurations, test each one with a collision checker, and connect the free ones into a tree or a roadmap. RRT-Connect grows two trees, one from the start and one from the goal, and tries to join them greedily [1]. It is probabilistically complete and, in practice, very fast, which has made it a standard planner for manipulators.</p>
+  <p>Its cost is dominated by collision checks. With a large budget it finds a path in almost every scene; with a small one it sometimes fails, and a robot that cannot plan must fall back on something. The simplest fallback is a straight line in joint space, which ignores the obstacles entirely. The success of a cheap planner therefore depends on how often its budget is enough, and the failures are the dangerous ones, because the fallback path can run straight through an obstacle.</p>
+
+  <h2 id="s1-3">1.3&nbsp;&nbsp;Reinforcement Learning for Manipulation</h2>
+  <p>Reinforcement learning (RL) learns a controller from interaction. Off-policy actor-critic algorithms such as DDPG, TD3 and Soft Actor-Critic (SAC) reuse past transitions from a replay buffer, which makes them sample-efficient enough for robot reaching tasks [2, 3, 4]. When the reward is sparse, as in a pose-reaching task where only success pays, Hindsight Experience Replay (HER) relabels failed episodes with goals that the agent did reach, which turns each failure into a useful lesson [5].</p>
+  <p>Pure RL has no built-in notion of safety. In an obstacle environment it must discover by itself that touching an obstacle is bad, and with a sparse goal reward this is slow. In the experiments of this report a pure SAC+HER agent never learned the cluttered task in one million steps.</p>
+
+  <h2 id="s1-4">1.4&nbsp;&nbsp;Residual Policy Learning</h2>
+  <p>Residual policy learning starts from a controller that already works and trains a policy that adds a correction to its command [6, 7]. Learning begins from the competence of the controller instead of from scratch, which cuts the learning problem down to the cases in which the controller falls short. This is attractive for planning: a cheap planner succeeds in most scenes, and a residual only has to repair the rest.</p>
+  <p>Earlier work applies the idea to controllers that react to the current state. A planner is different. It commits to a whole path in advance and a tracking controller then follows that path, and the tracker can cancel a correction the very next step. How a residual interacts with a path-tracking base is the question this project examines.</p>
+
+  <h2 id="s1-5">1.5&nbsp;&nbsp;Motivation for the Proposed Research</h2>
+  <p>A cheap planner plus a learned residual would give a cheap, safe and robust controller if the correction fixed the planner&rsquo;s failures and left its successes alone. Three things were unknown at the start of the project:</p>
+  <ul>
+    <li><strong>Whether the residual can fix planner failures.</strong> The failures are 10&ndash;20% of scenes and each one needs a specific, selective correction.</li>
+    <li><strong>What form of correction can do it.</strong> A small additive correction is simple, but the tracker may undo it. A persistent offset can steer, but it may drift into the obstacles.</li>
+    <li><strong>Whether the answer holds on a real arm.</strong> Simulation results often do not carry over to hardware with its servo deadband, its lag and its vibration.</li>
+  </ul>
+
+  <h2 id="s1-6">1.6&nbsp;&nbsp;Problem Statement</h2>
+  <p>Let <var>q</var><sub>0</sub> be the start configuration of an arm and <var>g</var> a target tool pose, with a set of obstacles in the workspace. A <em>cheap planner</em> with a budget of <var>N</var> collision checks produces a reference path <var>q</var><sub>ref</sub>; a tracker follows it. The goal is a residual policy &pi;<sub>res</sub> such that the combined controller reaches <var>g</var> within 1 cm and 5&deg; without collision, in at least as many episodes as a full-budget planner (B2), and with the collision rate of B2.</p>
+
+  <h2 id="s1-7">1.7&nbsp;&nbsp;Research Objectives and Questions</h2>
+  <p>The objectives of this project are:</p>
+  <ol>
+    <li>to build a reproducible simulation benchmark for six-dimensional pose reaching among obstacles, with frozen test sets and planner baselines at three budgets;</li>
+    <li>to design and train residual controllers on top of a cheap planner, and to measure them against the planner alone and the full planner;</li>
+    <li>to explain, with measurements, why a residual succeeds or fails;</li>
+    <li>to check whether the findings hold on a different arm and on real hardware.</li>
+  </ol>
+  <div class="tbl" id="tab-1-1"><div class="cap"><b>Table 1.1:</b> Research questions and the experiments that answer them.</div><div class="scroll"><table>
+    <thead><tr><th>RQ</th><th>Question</th><th>Experiment</th></tr></thead>
+    <tbody>
+    <tr><td>RQ1</td><td>Which off-policy algorithm learns 6D reaching best under a fixed budget, SAC or TD3 (with HER)?</td><td>E1, PE1</td></tr>
+    <tr><td>RQ2</td><td>Do sparse rewards with HER beat dense shaped rewards?</td><td>E2, PE2</td></tr>
+    <tr><td>RQ3</td><td>Can a learned residual on a cheap RRT-Connect planner match the full planner&rsquo;s success and collision rate?</td><td>E5, E5b, PE3, PE4, PE4b</td></tr>
+    <tr><td>RQ4</td><td>Does a residual help where the base has a systematic model error (torque control, wrong masses)?</td><td>PE8</td></tr>
+    <tr><td>RQ5</td><td>Do design rankings from the cheap planar arm predict the UR5e?</td><td>PE9-lite</td></tr>
+    <tr><td>RQ6</td><td>Do the findings hold on a different arm, on harder scenes and with non-spherical obstacles, and on real hardware?</td><td>MyCobot lane: simulation, challenge sets, shape set, real-arm runs</td></tr>
+    </tbody></table></div></div>
+
+  <h2 id="s1-8">1.8&nbsp;&nbsp;Major Contributions of the Thesis</h2>
+  <ul>
+    <li><strong>A reproducible benchmark.</strong> A MuJoCo model of the UR5e with a gripper, frozen test sets, planner baselines at three budgets and a pure-RL reference, with every decision recorded in a versioned specification before the result it affects was seen.</li>
+    <li><strong>A diagnosed negative result.</strong> Two residual designs, the measured cause of each failure, and the authority&ndash;safety dilemma they bracket.</li>
+    <li><strong>Three reusable findings on goal-conditioned training.</strong> Silent defects of HER training with their tested fixes.</li>
+    <li><strong>A planar 2-DOF companion study.</strong> It reproduces the headline result, ranks design choices in agreement with the UR5e in 8 of 9 comparisons, and finds the one setting where a residual helps.</li>
+    <li><strong>A real-arm deployment.</strong> A MyCobot 280 lane with its own simulation model, retrained residuals, a hardware runner with safety checks, 60 real-arm runs (30 streamed and 30 as firmware segments) and 14 further runs on the challenge and shape scenes, trajectory-quality and accuracy measurements, a motion diagnostic of the arm, and synchronised videos of the real arm, its digital twin and the simulation (three- and five-panel layouts, drawn with the manufacturer&rsquo;s shell meshes).</li>
+    <li><strong>Harder scenes and other obstacle shapes.</strong> Two additional test sets, with the planner and policy results on them.</li>
+  </ul>
+
+  <h2 id="s1-9">1.9&nbsp;&nbsp;Organisation of the Thesis</h2>
+  <p>Chapter 2 reviews related work. Chapter 3 formulates the problem and the theory the method rests on. Chapter 4 describes the cheap planner, the two residual designs, the training safeguards and the real-arm setup. Chapter 5 gives the experimental setup, the test sets and the verification work. Chapter 6 reports and discusses the results of the UR5e study, the planar study and the MyCobot lane. Chapter 7 concludes. Appendix A contains two short derivations and Appendix B the commands for reproducing the results.</p>
+</section>
+
+<!-- ================= CHAPTER 2 ================= -->
+<section class="sheet" id="ch2">
+  <h1><span class="ch">Chapter 2</span>Literature Review</h1>
+
+  <h2 id="s2-1">2.1&nbsp;&nbsp;Introduction</h2>
+  <p>This chapter reviews the work the project builds on. Sections 2.2 and 2.3 cover classical and learned motion planning, Section 2.4 the off-policy algorithms used to train the residual, Section 2.5 hindsight relabelling, and Section 2.6 residual policy learning, which is closest to this work. Section 2.7 notes the evaluation conventions followed. The chapter closes with a comparison of the approaches (Table 2.1) and the research gap.</p>
+
+  <h2 id="s2-2">2.2&nbsp;&nbsp;Sampling-Based Motion Planning</h2>
+  <p>Rapidly exploring random trees grow a tree from the start through random samples [1]. RRT-Connect extends this with two trees and a greedy connect step, and is the planner used for B2 and for the cheap planner of this report. A planner of this kind returns a jagged path, which is usually shortened by shortcutting and then time-scaled to respect joint speed and acceleration limits. Here the time-scaling is a quintic polynomial. GPU-parallel planners such as cuRobo [8] set the bar for planning speed and show that the cost of planning can also be reduced by hardware.</p>
+  <div class="todo-block"><strong class="tag">To add</strong>Other planning families that a reader will expect (for example optimisation-based planners and the planning libraries commonly used with manipulators). I have not cited these because the project does not use them and I did not want to cite from memory.</div>
+
+  <h2 id="s2-3">2.3&nbsp;&nbsp;Learned Motion Planning</h2>
+  <p>Learned planners imitate a classical planner from large datasets. Motion Planning Networks learn to generate paths from demonstrations [9]. Motion Policy Networks train a policy on three million planning problems from point clouds [10]. Deep RL planners learn collision avoidance directly from distance-based observations, for industrial arms [11] and as a universal paradigm for several robots [12]. These methods replace the planner. The approach of this report keeps the planner and learns a correction to it.</p>
+
+  <h2 id="s2-4">2.4&nbsp;&nbsp;Off-Policy Actor-Critic Algorithms</h2>
+  <p>DDPG learns a deterministic policy from replayed transitions [2]. TD3 adds twin critics and delayed actor updates to curb overestimation [3]. SAC adds an entropy bonus that keeps the policy stochastic and tunes its weight automatically [4]. PPO is the standard on-policy alternative [13] and is used only in the planar study. The comparison of SAC and TD3 (RQ1) and of PPO and DDPG on the planar arm tests which of them fits reaching under a fixed step budget.</p>
+
+  <h2 id="s2-5">2.5&nbsp;&nbsp;Hindsight Experience Replay</h2>
+  <p>HER relabels failed episodes with goals the agent actually reached, which turns a sparse success signal into a dense one [5]. It assumes the reward can be recomputed from the achieved and desired goal alone. Chapter 5 shows what breaks when that is not true: goal-dependent observation features, and safety penalties that live in the transition rather than in the goal.</p>
+
+  <h2 id="s2-6">2.6&nbsp;&nbsp;Residual Policy Learning</h2>
+  <p>Silver et al. and Johannink et al. add a learned correction to a fixed controller, so learning starts from the controller&rsquo;s competence [6, 7]. Both report gains where the base controller is good but imperfect. Neither studies a base that tracks a planned path, where the tracker itself may undo the correction. The rotation representation used for the goal follows Zhou et al. [14].</p>
+
+  <h2 id="s2-7">2.7&nbsp;&nbsp;Evaluation Conventions</h2>
+  <p>Results are reported with bootstrap intervals over seeds and, because few seeds give wide intervals, with a pooled Wilson interval over test episodes, following the recommendations for deep RL evaluation [15].</p>
+
+  <h2 id="s2-8">2.8&nbsp;&nbsp;Limitations of Existing Methods and Research Gap</h2>
+  <div class="tbl" id="tab-2-1"><div class="cap"><b>Table 2.1:</b> Comparison of representative approaches along the dimensions that matter for this thesis.</div><div class="scroll"><table>
+    <thead><tr><th>Approach</th><th>Keeps a classical planner</th><th>Learns a correction</th><th>Studies a path-tracking base</th><th>Real arm</th></tr></thead>
+    <tbody>
+    <tr><td>RRT-Connect, shortcut, time-scaling [1]</td><td>Yes</td><td>No</td><td>n/a</td><td>Widely used</td></tr>
+    <tr><td>cuRobo [8]</td><td>Yes (GPU-parallel)</td><td>No</td><td>n/a</td><td>Yes</td></tr>
+    <tr><td>Motion Planning Networks, Motion Policy Networks [9, 10]</td><td>No (imitates it)</td><td>Replaces it</td><td>No</td><td>Partly</td></tr>
+    <tr><td>Deep RL planners [11, 12]</td><td>No</td><td>Replaces it</td><td>No</td><td>Partly</td></tr>
+    <tr><td>Residual policy learning [6, 7]</td><td>A reactive controller</td><td>Yes</td><td>No</td><td>Yes [7]</td></tr>
+    <tr class="hl"><td><strong>This thesis</strong></td><td>Yes (cheap RRT-Connect)</td><td>Yes (additive, offset)</td><td>Yes</td><td>Yes (MyCobot 280)</td></tr>
+    </tbody></table></div></div>
+  <p>Two gaps follow. Learned planners replace the classical planner, so they inherit the cost of collecting planning data and give up its guarantees. Residual learning keeps the base but has been studied on bases that react to the state and not on bases that follow a precomputed path. This thesis tests residual correction on exactly that case, measures why it fails or succeeds, and checks the result on a second arm and on hardware.</p>
+
+  <h2 id="s2-9">2.9&nbsp;&nbsp;Chapter Summary</h2>
+  <p>Classical planners are reliable with a large budget and fragile with a small one. Learned planners replace them, and residual learning corrects reactive controllers. Chapter 3 formulates the problem that combines the two.</p>
+  <div class="todo-block"><strong class="tag">To expand</strong>The literature review rests on 15 references that appear in the project&rsquo;s own notes. The reference thesis cites about 50. Add the remaining related work (robot-arm planning libraries, optimisation-based planning, safe RL and control barrier functions for the future-work section, residual RL on real manipulators) with proper citations.</div>
+</section>
+
+<!-- ================= CHAPTER 3 ================= -->
+<section class="sheet" id="ch3">
+  <h1><span class="ch">Chapter 3</span>Problem Formulation and Theoretical Background</h1>
+
+  <h2 id="s3-1">3.1&nbsp;&nbsp;Introduction</h2>
+  <p>This chapter fixes the notation and states the building blocks of the method: the pose-reaching task as a goal-conditioned decision problem, the rewards, the cheap planner and its tracker, the two residual formulations, the treatment of collisions, and hindsight relabelling. Chapter 4 assembles them into the full controller.</p>
+
+  <h2 id="s3-2">3.2&nbsp;&nbsp;Notation</h2>
+  <p>Scalars are written in italics (<var>t</var>, &alpha;), vectors in bold or with a subscript (<var>q</var>, <var>a</var>) and sets in calligraphic letters. The List of Symbols at the start of this report gives the main notation. Quantities that differ between the UR5e and the MyCobot lane (&Delta;<var>q</var><sub>max</sub>, control rate, obstacle sizes) are given for both in Table 4.1.</p>
+
+  <h2 id="s3-3">3.3&nbsp;&nbsp;The Pose-Reaching Task</h2>
+  <p>The arm has <var>n</var> position-servoed joints. At each control step the policy outputs an action <var>a</var> &isin; [&minus;1, 1]<sup>n</sup>, which is integrated into a joint target instead of being applied as an absolute position:</p>
+  <div class="eq"><var>q</var><sub>target</sub> &larr; clip(<var>q</var><sub>target</sub> + <var>a</var> &Delta;<var>q</var><sub>max</sub>, <var>q</var><sub>lo</sub>, <var>q</var><sub>hi</sub>)<span class="no">(3.1)</span></div>
+  <p>The target may lead the measured joint angles by a bounded amount, so the target cannot wind up while the arm is blocked. A goal <var>g</var> is a nine-dimensional vector: the tool position and the first two columns of the rotation matrix, the continuous six-dimensional rotation representation [14]. Goals are sampled in joint space and mapped through forward kinematics, with configurations in collision rejected, so every goal is reachable. An episode succeeds when the tool is within 1 cm and 5&deg; of the goal:</p>
+  <div class="eq">&#8741;<var>p</var> &minus; <var>p</var><sub>g</sub>&#8741; &lt; 1 cm &nbsp;&and;&nbsp; &theta;(<var>R</var>, <var>R</var><sub>g</sub>) &lt; 5&deg;<span class="no">(3.2)</span></div>
+  <p>The observation contains the joint angles (as sine and cosine and normalised), joint velocities, the tool pose, the previous action and the gap between target and measured joints. Obstacle stages add four obstacle slots (centre, radius, mask) and the clearance of each link and the gripper, clipped at 0.3 m. The goal error is computed inside the policy from whichever goal is in use, a design that matters for hindsight relabelling (Section 5.9).</p>
+
+  <h2 id="s3-4">3.4&nbsp;&nbsp;Rewards and Collisions</h2>
+  <p>Two reward modes are used. The sparse reward is 0 on success and &minus;1 otherwise. The dense reward is a weighted sum of position and orientation error, effort and smoothness terms and a success bonus. In obstacle stages both add a clearance-margin penalty that applies when any link is closer than <var>d</var><sub>safe</sub> to an obstacle.</p>
+  <p>A collision ends the episode. The penalty at that step is not a fixed number but an absorbing value chosen so that crashing is always worse than surviving to the end:</p>
+  <div class="eq"><var>R</var><sub>coll</sub> = <var>r</var><sub>min</sub> / (1 &minus; &gamma;) &minus; <var>w</var><sub>c</sub><span class="no">(3.3)</span></div>
+  <p>Here <var>r</var><sub>min</sub> is the most negative reward the environment can give in one step, which comes to &minus;207.5 (sparse) and &minus;663.8 (dense) on the UR5e. Appendix A.2 shows why this ordering holds. A fixed &minus;10 collision reward, used first, made crashing the best-paying behaviour (Section 5.9).</p>
+
+  <h2 id="s3-5">3.5&nbsp;&nbsp;Cheap Planner and Full Planner</h2>
+  <p>The <em>full planner</em> (B2) is RRT-Connect in joint space with exact obstacles, a 2 s cap, collision checks every 0.01 rad along an edge, 200 shortcut iterations and quintic time-scaling. The <em>cheap planner</em> (Base@N) is the same algorithm with three deliberate degradations: a budget of <var>N</var> &isin; {1500, 3000, 6000} collision checks, obstacles inflated (5 cm on the UR5e; 1.7 cm on the MyCobot) except within 0.3 rad of the start and goal, and 20 instead of 200 shortcut iterations. If planning fails within the budget, the base falls back to a straight joint-space line to the nearest collision-free inverse-kinematics solution, ignoring obstacles.</p>
+  <p>Test scenes are kept only if B2 finds a path. B2 is therefore a ceiling for the scene set, not an independent estimate of how hard it is.</p>
+
+  <h2 id="s3-6">3.6&nbsp;&nbsp;The Tracking Controller</h2>
+  <p>The reference path is followed by a tracker that aims the next integrated target at the next reference point:</p>
+  <div class="eq"><var>a</var><sub>base</sub> = clip( (<var>q</var><sub>ref</sub>(<var>t</var>+1) &minus; <var>q</var><sub>target</sub>) / &Delta;<var>q</var><sub>max</sub>, &minus;1, 1 )<span class="no">(3.4)</span></div>
+  <p>When the command is not clipped, applying <var>a</var><sub>base</sub> puts <var>q</var><sub>target</sub> exactly on <var>q</var><sub>ref</sub>(<var>t</var>+1). The tracker therefore erases, at every step, whatever deviation from the reference the previous step introduced. This property decides the fate of the additive residual (Section 6.4).</p>
+
+  <h2 id="s3-7">3.7&nbsp;&nbsp;Residual Formulations</h2>
+  <p><strong>E5: additive residual.</strong> The residual&rsquo;s output is scaled by &alpha; and added to the base command:</p>
+  <div class="eq"><var>a</var> = clip( <var>a</var><sub>base</sub> + &alpha; &pi;<sub>res</sub>(<var>s</var>), &minus;1, 1 )<span class="no">(3.5)</span></div>
+  <p><strong>E5b: accumulated offset.</strong> The residual&rsquo;s output integrates into a persistent joint offset, which can steer the target away from the reference:</p>
+  <div class="eq"><var>o</var><sub>t</sub> = clip( <var>o</var><sub>t&minus;1</sub> + &alpha; &pi;<sub>res</sub>(<var>s</var>) &Delta;<var>q</var><sub>max</sub>, &minus;0.3, 0.3 ), &nbsp; <var>q</var><sub>target</sub> = <var>q</var><sub>ref</sub> + <var>f</var><sub>t</sub> <var>o</var><sub>t</sub><span class="no">(3.6)</span></div>
+  <p>The fade <var>f</var><sub>t</sub> falls linearly to zero within 5 cm of the goal or over the last 10% of the reference, whichever comes first, so the target always returns to the true goal. The residual also sees <var>q</var><sub>ref</sub>(<var>t</var>) and <var>q</var><sub>ref</sub>(<var>t</var>+5).</p>
+
+  <h2 id="s3-8">3.8&nbsp;&nbsp;Hindsight Relabelling</h2>
+  <p>For the pure-RL agents, HER replaces the goal of a stored transition by one that was achieved later and recomputes the reward. Anything in the transition that depends on the goal must be recomputed too, and anything that does not depend on it (collision, clearance, smoothness) must be carried along. The residual agents are trained without HER, because a relabelled goal would not match the reference that the planner computed for the original goal.</p>
+
+  <h2 id="s3-9">3.9&nbsp;&nbsp;Evaluation Metrics</h2>
+  <p>Each episode is classified as a success, a collision, a timeout or a <em>pose miss</em> (the episode ends without contact but outside the 1 cm / 5&deg; tolerance). Success and collision rates are reported with the seed mean and a 95% bootstrap interval for trained methods, and with a Wilson interval for deterministic planners. Further metrics are final position and orientation error, path length, time to success, jerk, minimum clearance and planning latency.</p>
+
+  <h2 id="s3-10">3.10&nbsp;&nbsp;Chapter Summary</h2>
+  <p>The task is goal-conditioned pose reaching with an integrated joint target. A cheap planner supplies a reference path, a tracker follows it with the property that it cancels deviations, and two residual forms can be added: one bounded by the tracker, one persistent. Collisions end the episode with an absorbing penalty.</p>
+</section>
+
+<!-- ================= CHAPTER 4 ================= -->
+<section class="sheet" id="ch4">
+  <h1><span class="ch">Chapter 4</span>Proposed Framework: Cheap Planner with a Learned Residual</h1>
+
+  <h2 id="s4-1">4.1&nbsp;&nbsp;Introduction</h2>
+  <p>This chapter describes the controller as built: the architecture, the two residual designs with their training safeguards, the port to the MyCobot 280, the real-arm runner, and the handling of non-spherical obstacles. The experiments that test each part are listed in Table 4.2.</p>
+
+  <h2 id="s4-2">4.2&nbsp;&nbsp;Overall Architecture</h2>
+  <figure id="fig-4-1">
+    <div class="frame"><pre class="mermaid">flowchart LR
+    G["goal pose + obstacles"] --> P["cheap RRT-Connect<br/>N collision checks"]
+    P -->|"q_ref(t)"| T["tracking controller"]
+    T -->|"a_base"| S(("+"))
+    O["observation<br/>+ q_ref(t), q_ref(t+5)"] --> R["SAC residual policy"]
+    R -->|"alpha x pi_res"| S
+    S --> A["joint target to the arm"]
+    A --> O</pre></div>
+    <figcaption><b>Figure 4.1:</b> Architecture of the controller. The planner supplies a reference, the tracker follows it, and the residual adds a scaled correction to the tracker&rsquo;s command. The same structure is used on the UR5e, the planar arm and the MyCobot.</figcaption>
+  </figure>
+
+  <h2 id="s4-3">4.3&nbsp;&nbsp;Cheap Planner and Fallback</h2>
+  <p>The cheap planner is described in Section 3.5. During training the budget is drawn per episode from {1500, 3000, 6000}, so the residual sees planner failures of every severity. The planner and the tracker are the same code for every method, so differences in the results come from the residual and not from the base.</p>
+
+  <h2 id="s4-4">4.4&nbsp;&nbsp;Additive Residual (E5) and Training Safeguards</h2>
+  <p>The additive residual follows Equation (3.5). Because a residual that starts with a random output is worse than the base from the first step, four safeguards make training start at the base:</p>
+  <ul>
+    <li><strong>Start from the base.</strong> &alpha; ramps from 0 to 0.3 over 150,000 steps. The actor&rsquo;s mean head starts near zero and its log-std bias at &minus;3.</li>
+    <li><strong>Critic first.</strong> Only the critic trains for the first 50,000 gradient steps, so the actor stays frozen for about 200,000 environment steps.</li>
+    <li><strong>Penalise large corrections.</strong> A term <var>w</var><sub>res</sub>&#8741;&pi;<sub>res</sub>&#8741;&sup2; with <var>w</var><sub>res</sub> = 0.1.</li>
+    <li><strong>No HER.</strong> A relabelled goal would not match the reference.</li>
+  </ul>
+  <p>The residual was trained with both reward modes. A residual that has learned nothing is identical to the base, so every residual run starts on the planner&rsquo;s own validation line. Any change from that line is the actor&rsquo;s doing.</p>
+
+  <h2 id="s4-5">4.5&nbsp;&nbsp;Accumulated-Offset Residual (E5b)</h2>
+  <p>The offset residual follows Equation (3.6). It changes by at most 0.012 rad per step on the UR5e and can reach its 0.3 rad limit in about 25 steps. The penalty applies to the offset, <var>w</var><sub>res</sub>&#8741;<var>o</var>/0.3&#8741;&sup2;, with a sparse reward. The design went through three versions, each change decided on validation evidence before any test-set evaluation:</p>
+  <ul>
+    <li><strong>v0:</strong> wrong units (up to 0.3 rad of offset change per step). Archived.</li>
+    <li><strong>v1:</strong> the fade applied only within 5 cm of the goal. The saturated offset kept the tool about 24 cm away, so 98% of failures never entered the fade. Archived.</li>
+    <li><strong>v2:</strong> a time-based fade plus an offset penalty. Declared final before its results were known.</li>
+  </ul>
+
+  <h2 id="s4-6">4.6&nbsp;&nbsp;Port to the MyCobot 280</h2>
+  <p>The MyCobot lane applies the E5 recipe to an Elephant Robotics MyCobot 280 M5 with a suction head. The arm is much smaller and slower than the UR5e, so the scene and the controller were rescaled and the quantities that depend on the hardware were measured (Section 5.7). Table 4.1 lists what differs.</p>
+  <div class="tbl" id="tab-4-1"><div class="cap"><b>Table 4.1:</b> Differences between the UR5e study and the MyCobot lane.</div><div class="scroll"><table>
+    <thead><tr><th>Item</th><th>UR5e</th><th>MyCobot 280</th></tr></thead>
+    <tbody>
+    <tr><td>Control rate</td><td>25 Hz</td><td>20 Hz (the measured safe cycle is about 49 ms)</td></tr>
+    <tr><td>&Delta;<var>q</var><sub>max</sub> per step</td><td>0.04 rad (about 0.98 rad/s)</td><td>0.5&deg; = 0.0087 rad (10&deg;/s)</td></tr>
+    <tr><td>End effector</td><td>Robotiq 2F-85, rigid, 1.05 kg</td><td>suction head</td></tr>
+    <tr><td>Collision geometry</td><td>model capsules</td><td>capsules fitted to the link frames, radii 20&ndash;35 mm (estimates)</td></tr>
+    <tr><td>Obstacle radius</td><td>40&ndash;100 mm</td><td>15&ndash;35 mm</td></tr>
+    <tr><td>Goal distance</td><td>whole joint box</td><td>&le; 0.9 rad per joint from the start</td></tr>
+    <tr><td>Test scene rule</td><td>B2 finds a path</td><td>B2 finds a path within 20 s</td></tr>
+    <tr><td>S4 horizon</td><td>407 steps (16.3 s)</td><td>900 steps (45 s)</td></tr>
+    <tr><td>Cheap-planner inflation</td><td>5 cm</td><td>1.7 cm</td></tr>
+    <tr><td>Training seeds</td><td>3</td><td>2</td></tr>
+    </tbody></table></div></div>
+  <p>The kinematics come from the manufacturer&rsquo;s URDF and agree between MuJoCo and numpy to 10<sup>&minus;13</sup>. The servo is modelled as a first-order lag matching the measured 1.5&deg; lag at 10&deg;/s; the 0.5&ndash;0.75&deg; servo deadband is not modelled. The UR5e residual actor was first run unchanged in the MyCobot simulation as a zero-shot probe, and the residual was then retrained in the MyCobot simulation (two seeds, one million steps).</p>
+
+  <h2 id="s4-7">4.7&nbsp;&nbsp;Real-Arm Runner and the Final-Approach Correction</h2>
+  <p>The runner sends joint targets over USB with a send, 30 ms wait, read cycle of about 49&ndash;52 ms. All moves use the same integrated-target interface as in simulation. Safety checks stop the arm on any error: joint limits, a commanded step of at most 1&deg;, a speed cap, and an abort if the arm is more than 5&deg; from its target. The obstacles are <em>virtual</em> keep-out spheres checked on the commanded configuration; the arm never touches anything, and the planner and the policy are given the obstacle positions without perception.</p>
+  <p>On the first full batch, one B2 run stopped 1.46 cm from the goal. The shoulder joint (J2, loaded by gravity) came to rest up to 1.84&deg; short of a static target, more than the 0.5&ndash;0.75&deg; deadband measured unloaded. <strong>TrimArm</strong> corrects this: while the nominal target has held still for 8 ticks (below 0.15&deg; per tick), the commanded target is nudged by 0.2 times the measured shortfall, at most 0.1&deg; per tick and at most 2&deg; in total, and the correction decays to zero while the target moves. It applies to all methods alike and does not change the paths. It is a hardware workaround and not part of the trained method.</p>
+
+  <h2 id="s4-8">4.8&nbsp;&nbsp;Non-Spherical Obstacles</h2>
+  <p>Until this point every obstacle was a sphere. Each of the four obstacle slots can now hold a sphere, a box (half extents) or a cylinder (radius and half height), with an orientation. The policy&rsquo;s observation and the analytic clearance carry only a centre and a radius per slot. A shape&rsquo;s slot therefore stores the radius of its <em>enclosing sphere</em>, which is all the trained policy sees. Collisions are decided by MuJoCo contacts against the exact shape, and both planners also use the exact shape; the cheap planner&rsquo;s inflation grows every half size by 1.7 cm. A policy trained on spheres is thus tested on shapes it cannot see exactly, and no retraining was done.</p>
+
+  <h2 id="s4-9">4.9&nbsp;&nbsp;Computational Cost</h2>
+  <p>Training throughput was 52&ndash;189 environment steps per second on the UR5e (1.5&ndash;5.3 hours per million-step run on CPU), and 116 steps per second on the MyCobot simulation when measured before launch (about 69 per run with other jobs running). B2&rsquo;s planning time on the MyCobot test set has a median of 0.09 s. The cheap planner&rsquo;s cost is capped by its budget <var>N</var> by construction.</p>
+
+  <h2 id="s4-10">4.10&nbsp;&nbsp;Components and the Experiments That Test Them</h2>
+  <div class="tbl" id="tab-4-2"><div class="cap"><b>Table 4.2:</b> Components of the framework, the comparison that isolates each one, and the research question it addresses.</div><div class="scroll"><table>
+    <thead><tr><th>Component</th><th>Section</th><th>Isolating comparison</th><th>RQ</th></tr></thead>
+    <tbody>
+    <tr><td>Cheap planner with fallback</td><td>4.3</td><td>Base@N against B2</td><td>RQ3</td></tr>
+    <tr><td>Additive residual</td><td>4.4</td><td>E5 against Base@N; &alpha; sweep</td><td>RQ3</td></tr>
+    <tr><td>Offset residual</td><td>4.5</td><td>E5b against E5 and Base@N</td><td>RQ3</td></tr>
+    <tr><td>Residual under model error</td><td>(2-DOF)</td><td>PE8: residual against PD + gravity on perturbed plants</td><td>RQ4</td></tr>
+    <tr><td>Transfer from the planar arm</td><td>&mdash;</td><td>PE9-lite: ranking agreement</td><td>RQ5</td></tr>
+    <tr><td>MyCobot port</td><td>4.6</td><td>zero-shot probe, retrained residual</td><td>RQ6</td></tr>
+    <tr><td>TrimArm</td><td>4.7</td><td>v1 (no correction) against v2</td><td>RQ6</td></tr>
+    <tr><td>Harder scenes, obstacle shapes</td><td>4.8</td><td>s4_chal and s4_shape per type</td><td>RQ6</td></tr>
+    </tbody></table></div></div>
+  <div class="tbl" id="tab-4-3"><div class="cap"><b>Table 4.3:</b> Compute cost on the laptop (CPU only): planner wall time per test episode (200 episodes) and residual-policy inference per control step.</div><div class="scroll"><table>
+    <thead><tr><th>Component</th><th class="n">UR5e median (95th pct) ms</th><th class="n">MyCobot median (95th pct) ms</th></tr></thead>
+    <tbody>
+    <tr><td>B2, full RRT-Connect (planning time)</td><td class="n">22.8 (115)</td><td class="n">38.5 (129)</td></tr>
+    <tr><td>Cheap planner, 1,500 checks</td><td class="n">22.4 (67)</td><td class="n">149 (278)</td></tr>
+    <tr><td>Cheap planner, 3,000 checks</td><td class="n">72.9 (414)</td><td class="n">129 (393)</td></tr>
+    <tr><td>Cheap planner, 6,000 checks</td><td class="n">67.8 (788)</td><td class="n">127 (417)</td></tr>
+    <tr><td>Residual policy, one control step (3 &times; 256 network)</td><td class="n">&mdash;</td><td class="n">0.55 (1.5)</td></tr>
+    </tbody></table></div></div>
+  <p>Planning time is the wall time of one planner call at the start of an episode, taken from the evaluation logs. B2 is limited by time and the cheap planner by collision checks, so their wall times are of the same order here; the budget is the quantity the study controls, and the check count is machine-independent. The policy inference time was measured directly on the MyCobot actor (3,000 calls, other jobs running on the laptop), and the network size is the same on the UR5e; it is about 1% of the 50 ms control step, so inference cost is not a constraint.</p>
+
+
+  <h2 id="s4-11">4.11&nbsp;&nbsp;Chapter Summary</h2>
+  <p>The controller is a cheap RRT-Connect planner, a tracker that follows its path and a SAC residual in one of two forms. Training safeguards make it start from the base. The same structure was ported to a real arm with a runner that enforces safety checks, a small final-approach correction, and obstacles that are virtual.</p>
+</section>
+
+<!-- ================= CHAPTER 5 ================= -->
+<section class="sheet" id="ch5">
+  <h1><span class="ch">Chapter 5</span>Experimental Setup and Implementation</h1>
+
+  <h2 id="s5-1">5.1&nbsp;&nbsp;Introduction</h2>
+  <p>This chapter describes how the framework of Chapter 4 was evaluated: the simulated robots and tasks, the baselines, the test sets, the protocol and hyperparameters, the real-arm setup, and the verification work that came before the main experiments. Every method is trained and evaluated through the same code path, test sets and metrics, so differences in the results come from the methods and not from the protocol. Every setting was fixed in a versioned specification (SPEC.md, v0.25 for the UR5e; v0.12 for the planar study; v0.7 for the MyCobot lane) before the runs it applies to.</p>
+
+  <h2 id="s5-2">5.2&nbsp;&nbsp;Simulated Robots and Task Stages</h2>
+  <p>The UR5e is simulated in MuJoCo 3.17 with the UR5e model from MuJoCo Menagerie, six position-servoed joints and gravity compensation on, as in the real controller (without it the shoulder sagged 15&ndash;32 mrad, 2&ndash;3 cm at the tool). A Robotiq 2F-85 gripper is welded open as one rigid 1.05 kg body, with the tool point 14.16 cm from the flange. Physics runs at 0.002 s with a frame skip of 20, giving 25 Hz control. The planar companion is a two-link arm with an exactly computable configuration space. The MyCobot lane uses the same environment code with the quantities of Table 4.1.</p>
+  <div class="tbl" id="tab-5-1"><div class="cap"><b>Table 5.1:</b> Task stages (UR5e).</div><div class="scroll"><table>
+    <thead><tr><th>Stage</th><th>Task</th><th>Obstacles</th><th>Horizon</th><th>Used in</th></tr></thead>
+    <tbody>
+    <tr><td>S1</td><td>reach a position (2 cm)</td><td>none</td><td>150 steps (6 s)</td><td>E1</td></tr>
+    <tr><td>S2</td><td>reach a pose (1 cm, 5&deg;)</td><td>none</td><td>175 steps (7 s)</td><td>E2</td></tr>
+    <tr><td>S3</td><td>reach a pose</td><td>1&ndash;3 fixed spheres</td><td>&mdash;</td><td>debugging only</td></tr>
+    <tr><td>S4</td><td>reach a pose</td><td>1&ndash;4 random spheres per episode</td><td>407 steps (16.3 s) = 1.25 &times; p99 of B2 path duration</td><td>E5, E5b</td></tr>
+    </tbody></table></div></div>
+  <p>Collisions end the episode in S3 and S4. In S1 and S2, contact with the table or the arm itself is counted but not penalised.</p>
+
+  <h2 id="s5-3">5.3&nbsp;&nbsp;Baselines</h2>
+  <div class="tbl" id="tab-5-2"><div class="cap"><b>Table 5.2:</b> Baseline controllers.</div><div class="scroll"><table>
+    <thead><tr><th>Name</th><th>Description</th></tr></thead>
+    <tbody>
+    <tr><td>B1</td><td>analytic inverse kinematics and a quintic joint trajectory at the speed limit (S1, S2)</td></tr>
+    <tr><td>B2 (full planner)</td><td>RRT-Connect, exact obstacles, 2 s cap, edge checks every 0.01 rad, 200 shortcut iterations, quintic time-scaling</td></tr>
+    <tr><td>Base@N (cheap planner)</td><td>RRT-Connect with <var>N</var> &isin; {1500, 3000, 6000} collision checks, inflated obstacles, 20 shortcuts, straight-line fallback</td></tr>
+    <tr><td>Pure RL</td><td>SAC + HER from scratch, no planner</td></tr>
+    <tr><td>B5, B5&prime; (planar arm only)</td><td>computed-torque control; PD with gravity compensation</td></tr>
+    </tbody></table></div></div>
+
+  <h2 id="s5-4">5.4&nbsp;&nbsp;Test Sets</h2>
+  <p>Test and validation sets are frozen before training with disjoint seed ranges, and a scene is kept only if B2 finds a path. On the UR5e, S4 has 200 test and 100 validation episodes. The MyCobot lane builds its own S4 sets: 200 test episodes (71 candidate seeds rejected) and 100 validation episodes, with B2 duration at most 20 s (p50 10.0 s, p99 19.6 s at the first horizon of 489 steps). The rejection rate of 26% means that the set is the subset of draws that B2 completes within 20 s.</p>
+  <p><strong>Horizon decision.</strong> The first MyCobot sets used a horizon of 489 steps. The cheap planner&rsquo;s reference paths (20 shortcuts) turned out to be about twice as long as B2&rsquo;s (p50 294, p90 754, maximum 1,302 steps in the first 100 test episodes), and all 22 collision-free failures of Base@6000 in that sample had a reference longer than 489. The base was time-limited, not safety-limited. The horizon was changed to 900 steps (45 s), the episodes were left unchanged, the first runs were stopped at about 40,000 steps and archived, and everything reported for the MyCobot below uses 900.</p>
+  <h3>Challenge set s4_chal</h3>
+  <p>To cover what <code>s4_test</code> does not, a challenge set of 100 episodes (25 per type) was built with the same rules as S4 (start and goal clear by at least 1 cm, goal at most 0.9 rad from the start, B2 within 20 s). The four types are:</p>
+  <ul>
+    <li><strong>gap:</strong> two spheres (radius 2.5&ndash;3.5 cm) flank the straight tool path at its middle with 5&ndash;8 cm between their surfaces;</li>
+    <li><strong>clutter:</strong> four spheres within 0&ndash;3.5 cm of the straight tool path;</li>
+    <li><strong>limit:</strong> the shoulder joint (J2) of the goal is pushed 0.75&ndash;0.9 rad above the start, so a joint is 16&ndash;30&deg; from its limit, with 1&ndash;3 ordinary spheres;</li>
+    <li><strong>edge:</strong> a goal with the tool at least 0.27 m from the shoulder axis (near full reach), with 1&ndash;3 ordinary spheres.</li>
+  </ul>
+  <p>A goal within 10&deg; of a joint limit cannot occur under the protocol. Starts lie within &plusmn;17&deg; of the home pose and goals within 0.9 rad of the start, so the closest sampled goal was 17.5&deg; from a limit (on J2). The first definition of the limit type could therefore never be sampled, and its generator ran for 27 hours without finishing; the shoulder definition above is the closest the protocol allows. Candidates needed to fill the types were 189 (gap), 228,062 (clutter), 128 (limit) and 15,546 (edge).</p>
+  <figure id="fig-5-1">
+    <div class="frame"><img src="img/mc_scenes_chal.png" alt="Renderings of one gap, clutter, limit and edge scene at the start and goal poses" loading="lazy"></div>
+    <figcaption><b>Figure 5.1:</b> One scene of each type of the challenge set, with the arm at its start pose (top) and at its goal pose (bottom). Obstacles are red.</figcaption>
+  </figure>
+  <h3>Shape set s4_shape</h3>
+  <p>A third set covers cluttered scenes with non-spherical obstacles (75 episodes, 25 per type). It has the layout of the clutter type, four objects within 0&ndash;3.5 cm of the straight tool path, and the objects are <em>boxes</em> (half extents 1.2&ndash;2.5 cm per axis), <em>cylinders</em> (radius 1.2&ndash;2.2 cm, half height 2&ndash;3.5 cm) or a <em>mixed</em> draw of spheres, boxes and cylinders, with random orientations. The start and goal are at least 1 cm from the objects&rsquo; enclosing spheres, so every sphere-based method has a valid episode as well, and B2 (with exact shapes) finds a path within 20 s. About 1.5 million candidates were drawn for the 75 episodes.</p>
+  <figure id="fig-5-2">
+    <div class="frame"><img src="img/mc_scenes_shapes.png" alt="Renderings of boxes, cylinders and mixed obstacles at start and goal poses" loading="lazy"></div>
+    <figcaption><b>Figure 5.2:</b> One scene of each type of the shape set. The policy sees only the enclosing sphere of each object; collisions and the planners use the exact shape.</figcaption>
+  </figure>
+  <div class="tbl" id="tab-5-3"><div class="cap"><b>Table 5.3:</b> Test sets used in the report.</div><div class="scroll"><table>
+    <thead><tr><th>Set</th><th>Arm</th><th>Episodes</th><th>Content</th></tr></thead>
+    <tbody>
+    <tr><td>S4 test / validation</td><td>UR5e</td><td>200 / 100</td><td>1&ndash;4 random spheres</td></tr>
+    <tr><td>s4_test / s4_val</td><td>MyCobot</td><td>200 / 100</td><td>1&ndash;4 random spheres, B2 &le; 20 s, horizon 900</td></tr>
+    <tr><td>s4_chal</td><td>MyCobot</td><td>100</td><td>gap, clutter, limit, edge (25 each)</td></tr>
+    <tr><td>s4_shape</td><td>MyCobot</td><td>75</td><td>boxes, cylinders, mixed in clutter (25 each)</td></tr>
+    <tr><td>Planar P2, P3, P5a</td><td>2-DOF</td><td>1000 (PE3, PE4), 300 (PE8)</td><td>clutter, narrow passage, mass-perturbed plants</td></tr>
+    </tbody></table></div></div>
+
+  <h2 id="s5-5">5.5&nbsp;&nbsp;Experimental Protocol</h2>
+  <div class="tbl" id="tab-5-4"><div class="cap"><b>Table 5.4:</b> Experiments.</div><div class="scroll"><table>
+    <thead><tr><th>Experiment</th><th>Stage</th><th>Compares</th><th>Seeds &times; steps</th></tr></thead>
+    <tbody>
+    <tr><td>E1</td><td>S1</td><td>TD3 + HER against SAC + HER</td><td>3 &times; 500k</td></tr>
+    <tr><td>E2</td><td>S2</td><td>SAC sparse + HER against SAC dense</td><td>2 &times; 500k</td></tr>
+    <tr><td>E5</td><td>S4</td><td>pure SAC + HER; residual SAC with dense and with sparse reward</td><td>3 &times; 1M each</td></tr>
+    <tr><td>E5b</td><td>S4</td><td>accumulated-offset residual (v2 final)</td><td>3 &times; 1M</td></tr>
+    <tr><td>PE1&ndash;PE9</td><td>planar arm</td><td>the same questions on a 2-DOF arm</td><td>5&ndash;10 &times; 50k&ndash;300k</td></tr>
+    <tr><td>MyCobot residual</td><td>S4 (MyCobot)</td><td>retrained additive residual against the cheap planner, zero-shot UR5e actor</td><td>2 &times; 1M</td></tr>
+    </tbody></table></div></div>
+  <p><strong>Checkpoint rule.</strong> A residual run is evaluated at two checkpoints. The <em>primary</em> checkpoint has the best validation score after both the &alpha; ramp and the critic warm-up have finished, so that selection cannot pick an untrained residual, which is identical to the base. The <em>final</em> checkpoint is the last one (1M steps). The MyCobot results use the final checkpoint.</p>
+  <p><strong>Statistics.</strong> Trained methods report the seed mean with a 95% bootstrap interval over seeds, and a pooled Wilson interval over all test episodes that reflects episode-level variation only. Planners are deterministic and report the Wilson interval alone. Because the challenge and shape sets have 25 episodes per type, a type&rsquo;s rate carries about &plusmn;0.1.</p>
+
+  <h2 id="s5-6">5.6&nbsp;&nbsp;Hyperparameters</h2>
+  <div class="tbl" id="tab-5-5"><div class="cap"><b>Table 5.5:</b> Hyperparameter configuration (identical for the UR5e and MyCobot unless stated).</div><div class="scroll"><table>
+    <thead><tr><th>Group</th><th>Setting</th><th>Value</th></tr></thead>
+    <tbody>
+    <tr><td>Shared</td><td>networks; batch size</td><td>3 &times; 256; 256</td></tr>
+    <tr><td>Shared</td><td>parallel environments; gradient steps per transition</td><td>4; 0.25</td></tr>
+    <tr><td>Shared</td><td>discount &gamma;</td><td>0.98 with HER, 0.99 without</td></tr>
+    <tr><td>Shared</td><td>replay buffer</td><td>500k (E1, E2); 1M (E5, E5b)</td></tr>
+    <tr><td>Shared</td><td>learning rate</td><td>3&times;10<sup>&minus;4</sup> (SAC); 10<sup>&minus;3</sup> (TD3)</td></tr>
+    <tr><td>HER</td><td>strategy</td><td>&ldquo;future&rdquo;, k = 4</td></tr>
+    <tr><td>E1, E2</td><td>goal-distance curriculum</td><td>0.6 rad, +0.3 rad per 80% success, up to 3.2; 20% of goals always full range</td></tr>
+    <tr><td>Residual</td><td>&alpha; ramp; critic warm-up</td><td>0 &rarr; 0.3 over 150k steps; 50k gradient steps</td></tr>
+    <tr><td>Residual</td><td>penalty weight <var>w</var><sub>res</sub></td><td>0.1</td></tr>
+    <tr><td>Residual</td><td>entropy coefficient; target entropy; log-std bias</td><td>0.01; &minus;12; &minus;3</td></tr>
+    <tr><td>Residual</td><td>planner budget</td><td>drawn per episode from {1500, 3000, 6000}</td></tr>
+    </tbody></table></div></div>
+  <p>Dense-reward weights and <var>w</var><sub>res</sub> were set once and not swept; this is listed as a limitation.</p>
+
+  <h2 id="s5-7">5.7&nbsp;&nbsp;MyCobot 280 Hardware Setup</h2>
+  <p>The real arm is an Elephant Robotics MyCobot 280 M5 with a suction head, controlled over USB (COM13, 115,200 baud) through <code>pymycobot</code> 4.0.7. The facts that the simulation and the runner rely on were measured on this arm.</p>
+  <div class="tbl" id="tab-5-6"><div class="cap"><b>Table 5.6:</b> Measured hardware facts of the MyCobot 280.</div><div class="scroll"><table>
+    <thead><tr><th>Item</th><th>Value</th></tr></thead>
+    <tbody>
+    <tr><td>Safe joint limits (deg)</td><td>J1 &plusmn;170, J2 &minus;130&hellip;85, J3 &plusmn;155, J4 &plusmn;165, J5 &plusmn;165, J6 &plusmn;180</td></tr>
+    <tr><td>Single-call latency</td><td><code>get_angles</code> 13 ms, <code>send_angles</code> 7 ms, <code>is_moving</code> 5 ms</td></tr>
+    <tr><td>Command rule</td><td>a command arriving less than about 10 ms after a send is dropped (a 230 ms stall follows); send, 30 ms wait, read is clean: cycle of 49&ndash;52 ms</td></tr>
+    <tr><td>Settled error</td><td>0.5&ndash;0.75&deg; short of target on every joint, in the direction of motion (deadband); up to 1.84&deg; on the gravity-loaded J2</td></tr>
+    <tr><td>Tracking</td><td>0.5&deg;/tick (10&deg;/s) at 20 Hz: lag of about 1.5&deg; (3 ticks); steps of 1&deg; or more caused stalls of 270&ndash;530 ms</td></tr>
+    <tr><td>Forward-kinematics accuracy</td><td>3.6 mm 3-D RMS (6.0 mm maximum) against the arm&rsquo;s own <code>get_coords</code>, 15 poses; a steady offset of about 5&ndash;6 mm</td></tr>
+    <tr><td>Encoder resolution</td><td>0.088&deg;</td></tr>
+    </tbody></table></div></div>
+  <p>The runs were filmed with the laptop&rsquo;s USB webcam, and a phone for the first tests. Each video is synchronised to the run by a 1 kHz beep that starts the episode when the microphone hears it, and otherwise by the arm&rsquo;s first movement after a 5 s hold (accurate to about &plusmn;0.3 s). The virtual obstacles do not exist in the camera image, so they appear in the two model panels of each video. Figure 5.3 shows the two viewpoints of the simulation panels: a top isometric camera, and a side camera that matches the direction in which the real camera looks.</p>
+  <figure id="fig-5-3">
+    <div class="frame"><img src="img/mc_viewport.png" alt="The model of the MyCobot 280 with its shell meshes and virtual obstacles, from a top isometric camera and from a side camera" loading="lazy" style="max-width:44rem"></div>
+    <figcaption><b>Figure 5.3:</b> The two simulation viewpoints used in the comparison videos: a top isometric view (left) and a side view (right) that matches the real camera. The model is drawn with the manufacturer&rsquo;s shell meshes (visual only); the red spheres are virtual obstacles and the axes mark the goal pose.</figcaption>
+  </figure>
+  <figure id="fig-5-4">
+    <div class="fig-todo"><span><mark class="todo" data-label="Photograph of the real MyCobot 280 setup (arm, laptop, USB, camera position)">[Photograph of the real MyCobot 280 setup: arm, laptop, USB cable and webcam position]</mark></span></div>
+    <figcaption><b>Figure 5.4:</b> The real-arm setup.</figcaption>
+  </figure>
+
+  <h2 id="s5-8">5.8&nbsp;&nbsp;Compute and Software Environment</h2>
+  <p>All training ran on CPU: an Intel i5-1240P laptop plus free Google Colab (2-core) and Kaggle (4-core) sessions. A one-million-step run took 1.5&ndash;5.3 hours at 52&ndash;189 steps per second on the UR5e. Seeds run elsewhere were merged back with configuration-hash checks, so a merged run is the run that its configuration says it is. The stack is MuJoCo 3.17, Stable-Baselines3 2.9.2, PyTorch (CPU) and Python 3.11. The MyCobot training and the real-arm runs used the same laptop, with the arm connected over USB.</p>
+
+  <h2 id="s5-9">5.9&nbsp;&nbsp;Implementation Verification and Design Refinements</h2>
+  <h3>5.9.1&nbsp;&nbsp;Tests</h3>
+  <p>The UR5e package has 75 tests, the planar package 74 and the MyCobot lane 11. Besides the usual unit tests they check that relabelled HER samples carry the right goal, that the collision penalty makes crashing worse than surviving in both reward modes, that MuJoCo and numpy forward kinematics agree, that a zero residual reproduces the base exactly, that the final-approach correction closes a static shortfall within its limits, and that rotated boxes and cylinders collide exactly as an independent geometric calculation says they should.</p>
+  <h3>5.9.2&nbsp;&nbsp;Three silent defects of goal-conditioned training</h3>
+  <p>Three defects broke training without raising an error. Each looked like an algorithm that simply was not learning, and all three share one cause: anything in a transition that depends on the goal, or is lost when the goal is relabelled, must be recomputed or carried along with it.</p>
+  <div class="tbl" id="tab-5-7"><div class="cap"><b>Table 5.7:</b> Silent defects found during development, their symptoms and the tested fixes.</div><div class="scroll"><table>
+    <thead><tr><th>#</th><th>Defect</th><th>Symptom</th><th>Fix</th></tr></thead>
+    <tbody>
+    <tr><td>1</td><td>Goal errors (goal minus tool) inside the observation</td><td>HER relabels the goal but not the errors, so about 80% of the training samples point at the wrong goal; E1 stayed at 0% after 120&ndash;160k steps</td><td>goal-independent observation; the errors are computed inside the policy from whichever goal is in use (<code>GoalErrorExtractor</code>)</td></tr>
+    <tr><td>2</td><td>The HER buffer of Stable-Baselines3 passes empty info dictionaries by default</td><td>collision and clearance penalties vanish from relabelled rewards</td><td><code>SafetyHerReplayBuffer</code> stores the goal-independent term as one float (8 bytes) per transition and adds it back on every relabel; <code>compute_reward</code> raises on a missing term</td></tr>
+    <tr><td>3</td><td>A collision ended the episode with a one-off &minus;10</td><td>staying alive cost about &minus;50 discounted, so crashing at step 9 (about &minus;17) paid better; pure SAC crashed in 100% of episodes</td><td>absorbing penalty of Equation (3.3), tested so that crashing is worse than surviving any number of steps</td></tr>
+    </tbody></table></div></div>
+  <p>Defect 3 was found only because the first E5 run&rsquo;s pure-RL arm collided in every episode. After the fix, collisions were spread through the episode like a random policy&rsquo;s (median step 80), which confirmed that the exploit was gone.</p>
+  <h3>5.9.3&nbsp;&nbsp;Refinements on the MyCobot lane</h3>
+  <ul>
+    <li><strong>Inverse kinematics.</strong> A scalar solver took about 1 s per goal and starved B2&rsquo;s 2 s budget, so B2 succeeded in only 17&ndash;25% of scenes. A batched damped-least-squares solver (25 ms per goal) brought it to 97%.</li>
+    <li><strong>Collision capsules.</strong> The first capsule radii (25&ndash;40 mm) made B2 fail on clutter that the real arm can pass; slimmer capsules (20&ndash;35 mm) fixed this. The radii are estimates and not measurements.</li>
+    <li><strong>Dry runs.</strong> The runner was tested with a simulated arm (lag 0.15 s, deadband 0.7&deg;, noise 0.1&deg;) on 30 episodes before it touched the real arm: B2 30/30, Base@3000 27/30 (two collisions), median final error 0.7 cm and 3.3&deg; against the 1 cm and 5&deg; limits, so the deadband uses most of the margin.</li>
+  </ul>
+
+  <h2 id="s5-10">5.10&nbsp;&nbsp;Chapter Summary</h2>
+  <p>All methods share one environment, the same frozen test sets, the same checkpoint rule and the same metrics. The MyCobot lane has its own scenes, horizon and hardware measurements. Three silent training defects and several lane-specific refinements were found and fixed before the main experiments.</p>
+</section>
+
+<!-- ================= CHAPTER 6 (part a) ================= -->
+<section class="sheet" id="ch6">
+  <h1><span class="ch">Chapter 6</span>Results and Discussion</h1>
+
+  <h2 id="s6-1">6.1&nbsp;&nbsp;Introduction</h2>
+  <p>This chapter reports the results in the order of the research questions. Sections 6.2 to 6.4 cover the UR5e study (reaching without obstacles, motion planning in clutter, and the diagnosis of why the residual fails). Section 6.5 reports the planar 2-DOF study. Sections 6.6 to 6.9 report the MyCobot lane: the simulation, the challenge set, the shape set and the real-arm runs. Section 6.10 answers the research questions. Success and collision rates are percentages of test episodes unless a value is given as a fraction. &ldquo;Hybrid&rdquo; is the cheap planner plus the residual; &ldquo;Base@N&rdquo; is the cheap planner alone.</p>
+
+  <h2 id="s6-2">6.2&nbsp;&nbsp;Reaching Without Obstacles (E1, E2)</h2>
+  <figure id="fig-6-1">
+    <div class="frame"><img src="img/learning_curves_e1_e2.png" alt="E1 and E2 validation learning curves" loading="lazy"></div>
+    <figcaption><b>Figure 6.1:</b> Validation success against training steps for E1 (position reaching) and E2 (pose reaching).</figcaption>
+  </figure>
+  <div class="tbl" id="tab-6-1"><div class="cap"><b>Table 6.1:</b> E1 and E2: final validation at 500k steps, 100 episodes per seed. The targets were at least 95% (E1) and at least 90% (E2).</div><div class="scroll"><table>
+    <thead><tr><th>Experiment</th><th class="n">Success (per seed)</th><th class="n">Final position error</th><th>Notes</th></tr></thead>
+    <tbody>
+    <tr class="best"><td>E1 SAC + HER</td><td class="n">20.7% (19 / 23 / 20)</td><td class="n">22.2 cm</td><td>stuck short of the goal in 60% of failures</td></tr>
+    <tr><td>E1 TD3 + HER</td><td class="n">12.7% (11 / 17 / 10)</td><td class="n">29.1 cm</td><td>stuck in 49% of failures</td></tr>
+    <tr class="best"><td>E2 sparse + HER</td><td class="n">4.5% (3 / 6)</td><td class="n">35.4 cm</td><td>touches the table or itself in 38.5% of episodes</td></tr>
+    <tr><td>E2 dense</td><td class="n">0.0% (0 / 0)</td><td class="n">30.2 cm</td><td>ends closer to the goal but never within 1 cm and 5&deg;</td></tr>
+    </tbody></table></div></div>
+  <p>SAC beat TD3 (RQ1), and sparse reward with HER beat dense reward on success but not on final error (RQ2). Both experiments fell far short of their targets within the step budget. They are reported as shortfalls: they show what pure RL achieved here, not what SAC can reach with more steps. A pilot with &gamma; = 0.95 (an effective horizon of about 20 steps, against the roughly 80 needed for a 3.2 rad move) learned nothing; &gamma; was then chosen from the step horizon of the task, and a goal-distance curriculum was added.</p>
+
+  <h2 id="s6-3">6.3&nbsp;&nbsp;Motion Planning in Clutter (E5, E5b)</h2>
+  <p>On the 200 held-out S4 scenes, full RRT-Connect succeeds in 99.0% of episodes. The cheap planner alone succeeds in 79.5% to 90.0%, depending on its budget, and no learned hybrid reaches it.</p>
+  <figure id="fig-6-2">
+    <div class="frame"><img src="img/e5_budget_s4_test.png" alt="S4 test success and collision against planning budget" loading="lazy"></div>
+    <figcaption><b>Figure 6.2:</b> S4 test success and collision against the planning budget, for B2, the cheap planner and the residual designs.</figcaption>
+  </figure>
+  <div class="tbl" id="tab-6-2"><div class="cap"><b>Table 6.2:</b> UR5e, S4 test set, 200 episodes per seed, success / collision in %. Trained arms show the mean over 3 seeds at the primary checkpoint (final 1M checkpoint in brackets).</div><div class="scroll"><table>
+    <thead><tr><th>Method</th><th class="n">1500 checks</th><th class="n">3000 checks</th><th class="n">6000 checks</th></tr></thead>
+    <tbody>
+    <tr><td>Full B2 (reference)</td><td class="n">99.0 / 0.5</td><td class="n">99.0 / 0.5</td><td class="n">99.0 / 0.5</td></tr>
+    <tr class="best"><td>Cheap planner alone</td><td class="n">79.5 / 20.5</td><td class="n">86.0 / 14.0</td><td class="n">90.0 / 8.5</td></tr>
+    <tr><td>E5 dense residual</td><td class="n">66.2 [61.5] / 21.5</td><td class="n">71.5 [66.5] / 15.3</td><td class="n">74.8 [69.7] / 10.3</td></tr>
+    <tr><td>E5 sparse residual</td><td class="n">66.3 [59.8] / 21.0</td><td class="n">70.8 [64.2] / 14.7</td><td class="n">74.0 [67.2] / 9.5</td></tr>
+    <tr><td>E5b offset residual</td><td class="n">57.2 [59.3] / 42.8</td><td class="n">58.3 [62.0] / 41.7</td><td class="n">60.0 [63.8] / 39.8</td></tr>
+    <tr><td>Pure SAC + HER</td><td class="n">0.0 / 53.8</td><td class="n">&mdash;</td><td class="n">&mdash;</td></tr>
+    </tbody></table></div></div>
+  <ul>
+    <li><strong>The gap is not noise.</strong> At 6,000 checks the dense hybrid&rsquo;s 95% seed interval is 72.0&ndash;77.0%, entirely below the planner&rsquo;s episode-level interval of 85.1&ndash;93.4%.</li>
+    <li><strong>More training makes E5 worse.</strong> The final checkpoint is below the primary in every E5 arm and budget. E5b&rsquo;s final checkpoint is slightly better than its primary but still far below the planner.</li>
+    <li><strong>Pure RL from scratch learns nothing</strong> in one million steps: 0% success and collisions in 53.8% of episodes.</li>
+  </ul>
+  <figure id="fig-6-3">
+    <div class="frame"><img src="img/e5_outcome_split.png" alt="Outcome split per arm and budget" loading="lazy"></div>
+    <figcaption><b>Figure 6.3:</b> Outcome split (success, collision, pose miss, timeout) per arm and budget. E5&rsquo;s lost successes are almost all pose misses; E5b&rsquo;s are collisions.</figcaption>
+  </figure>
+  <figure id="vid-6-1">
+    <div class="frame"><video controls preload="metadata" playsinline src="vid/ur5e_ep8_side_by_side.mp4"></video></div>
+    <figcaption><b>Video 6.1:</b> S4 test episode 8, one cluttered scene and four controllers (cheap planner, E5 hybrid, E5b hybrid and full RRT-Connect). The cheap planner runs out of budget and falls back to a straight line through the obstacles. Neither residual steers off it, and only full RRT-Connect reaches the goal.</figcaption>
+  </figure>
+
+  <h2 id="s6-4">6.4&nbsp;&nbsp;Why the Residual Fails: the Authority&ndash;Safety Dilemma</h2>
+  <figure id="fig-6-4">
+    <div class="frame"><img src="img/e5_validation_curves.png" alt="Validation curves of the residual arms against the planner line" loading="lazy"></div>
+    <figcaption><b>Figure 6.4:</b> Validation success of the residual arms on S4, against the planner&rsquo;s line. Every residual seed starts exactly on the planner&rsquo;s line (88% / 12%) while its actor is frozen, drops below it as soon as the actor starts to train, and does not recover by 1M steps.</figcaption>
+  </figure>
+  <h3>E5 has no authority (measured)</h3>
+  <ul>
+    <li><strong>The tracker cancels the residual.</strong> It re-aims at <var>q</var><sub>ref</sub>(<var>t</var>+1) every step, which takes back whatever the residual added the step before. On every unsaturated step (87% of steps) the residual moves the target by at most &alpha;&Delta;<var>q</var><sub>max</sub> = 0.0120 rad (Appendix A.1).</li>
+    <li><strong>The collisions are the planner&rsquo;s.</strong> At each budget the hybrid&rsquo;s collision rate is within 2 points of the planner&rsquo;s. Its whole loss is pose misses: 12.7&ndash;15.8% of episodes, against 0&ndash;0.5% for the planner.</li>
+    <li><strong>It spoils the goal pose.</strong> On episodes in which both avoid contact, the planner ends 0.41 cm and 0.9&deg; from the goal and the hybrid 0.72&ndash;0.75 cm and 1.3&deg;, enough to fail a 1 cm and 5&deg; test.</li>
+  </ul>
+  <h3>E5b has authority but saturates (measured)</h3>
+  <p>The offset ends episodes at a median of 0.26&ndash;0.30 rad, at or near its &plusmn;0.30 rad limit, in failures and successes alike. Across seeds and checkpoints, 87&ndash;96% of collisions happen with |<var>o</var>| at least 0.15 rad. Collisions rise two to five times above the planner&rsquo;s.</p>
+  <figure id="fig-6-5">
+    <div class="frame"><img src="img/e5_alpha_sweep.png" alt="Alpha sweep" loading="lazy" style="max-width:36rem"></div>
+    <figcaption><b>Figure 6.5:</b> Validation success and collision against the residual scale &alpha; fixed at evaluation time. E5 falls monotonically from 0.88 at &alpha; = 0 (the planner alone) to 0.76 at &alpha; = 0.3, so the residual never helps at any scale. E5b already drops to 0.70&ndash;0.78 at &alpha; = 0.1, because &alpha; sets how fast the offset moves and not its limit.</figcaption>
+  </figure>
+  <div class="lead-note"><p><strong>Reading.</strong> A correction bounded tightly enough to stay on the planner&rsquo;s safe path cannot fix the planner&rsquo;s failures. One free enough to fix them leaves the safe path. Neither learned the selective behaviour the claim needs: do nothing in the 80&ndash;90% of episodes where the planner succeeds, and act only where it fails.</p></div>
+  <h3>Untested hypotheses for why neither learned selectivity</h3>
+  <ol>
+    <li>The signal for when to act is sparse: only the 10&ndash;20% of episodes where the planner fails reward any correction.</li>
+    <li>Max-entropy noise drifts through the integrator. SAC is rewarded for staying stochastic, and integrating random actions walks the offset to its limit.</li>
+    <li><var>w</var><sub>res</sub> = 0.1 is weak against the reward scale, and the collision penalty arrives only after contact, not on approach.</li>
+  </ol>
+  <div class="todo-block"><strong class="tag">To add</strong>A figure of the offset trajectory over an episode (median |<var>o</var>| against time, failures against successes) would show the saturation directly. The numbers are in the notes; the plot has not been made.</div>
+
+  <h2 id="s6-5">6.5&nbsp;&nbsp;Planar 2-DOF Companion Study</h2>
+  <p>A planar two-link arm with an exactly computable configuration space serves as a fast and interpretable testbed. It also gives a best-known path length for every episode.</p>
+  <div class="tbl" id="tab-6-3"><div class="cap"><b>Table 6.3:</b> Planar arm, algorithm and reward choices (PE1, PE2; 10 seeds &times; 50k steps, validation success).</div><div class="scroll"><table>
+    <thead><tr><th>Method</th><th class="n">Success</th></tr></thead>
+    <tbody>
+    <tr class="best"><td>SAC + HER</td><td class="n">78.8%</td></tr>
+    <tr><td>TD3 + HER</td><td class="n">63.6%</td></tr>
+    <tr><td>DDPG + HER</td><td class="n">42.1%</td></tr>
+    <tr><td>PPO, dense</td><td class="n">0.0%</td></tr>
+    <tr><td>SAC sparse + HER, no curriculum</td><td class="n">71.0%</td></tr>
+    <tr><td>SAC dense, with / without curriculum</td><td class="n">5.3% / 2.0%</td></tr>
+    </tbody></table></div></div>
+  <div class="tbl" id="tab-6-4"><div class="cap"><b>Table 6.4:</b> Planar arm, planner plus residual in clutter (PE3, PE4, PE4b; 5 seeds, 1000 test episodes, primary checkpoint). Success in % at the three budgets.</div><div class="scroll"><table>
+    <thead><tr><th>Experiment</th><th>Budgets</th><th class="n">Planner alone</th><th class="n">Additive residual</th><th class="n">Offset residual</th><th class="n">Pure SAC + HER</th><th class="n">Full B2</th></tr></thead>
+    <tbody>
+    <tr><td>PE3, P2 clutter</td><td>4000 / 6400 / 9000</td><td class="n">76.7 / 84.6 / 96.7</td><td class="n">74.0 / 81.5 / 92.8</td><td class="n">&mdash;</td><td class="n">1.1</td><td class="n">100.0</td></tr>
+    <tr><td>PE4, P3 narrow passage</td><td>700 / 2300 / 3500</td><td class="n">80.0 / 85.7 / 88.4</td><td class="n">71.7 / 76.6 / 79.0</td><td class="n">77.8 / 82.4 / 84.3</td><td class="n">0.2</td><td class="n">99.9</td></tr>
+    </tbody></table></div></div>
+  <figure id="fig-6-6">
+    <div class="frame"><img src="img/pe34_budget.png" alt="2-DOF success against budget" loading="lazy"></div>
+    <figcaption><b>Figure 6.6:</b> Planar arm: test success against planning budget for PE3, PE4 and PE4b.</figcaption>
+  </figure>
+  <ul>
+    <li><strong>Same pattern as E5.</strong> The additive hybrid is below its planner at every budget, with the planner&rsquo;s collision rate. The gap grows with task difficulty: 1&ndash;4 points on PE3, 8&ndash;9 on PE4, 12&ndash;15 on the UR5e.</li>
+    <li><strong>The offset helps on the planar arm.</strong> It beats the additive residual by 5.8 points but stays 3.3 points below the planner, with 2&ndash;4 points more collisions and about 10% longer paths.</li>
+  </ul>
+  <figure id="fig-6-7">
+    <div class="frame"><img src="img/pe4_p3_test.gif" alt="PE4 planner alone against additive hybrid, workspace and configuration space" loading="lazy"></div>
+    <figcaption><b>Figure 6.7:</b> PE4, narrow-passage stage. Workspace (left) and configuration space (right; grey is in collision). Test episode 9: the planner alone succeeds and the hybrid stops 1.26 cm short. Test episode 0: both follow the straight-line fallback into the obstacle.</figcaption>
+  </figure>
+  <h3>Torque control under model error (PE8)</h3>
+  <div class="tbl" id="tab-6-5"><div class="cap"><b>Table 6.5:</b> Planar arm, torque control on the exact and &plusmn;20% mass plants (PE8; 5 seeds, 300 test episodes), success in %.</div><div class="scroll"><table>
+    <thead><tr><th>Controller</th><th class="n">Exact mass</th><th class="n">Mass &times;0.8</th><th class="n">Mass &times;1.2</th></tr></thead>
+    <tbody>
+    <tr><td>B5, computed torque</td><td class="n">100.0</td><td class="n">10.3</td><td class="n">10.7</td></tr>
+    <tr><td>B5&prime;, PD + gravity</td><td class="n">100.0</td><td class="n">19.0</td><td class="n">15.3</td></tr>
+    <tr class="best"><td>Residual on B5&prime;</td><td class="n">43.0</td><td class="n">33.0</td><td class="n">30.3</td></tr>
+    <tr><td>Pure SAC + HER</td><td class="n">0.1</td><td class="n">0.1</td><td class="n">0.1</td></tr>
+    </tbody></table></div></div>
+  <figure id="fig-6-8">
+    <div class="frame"><img src="img/pe8_plants.png" alt="PE8 results on the exact and mass-perturbed plants" loading="lazy"></div>
+    <figcaption><b>Figure 6.8:</b> Planar torque control on the exact and &plusmn;20% mass plants.</figcaption>
+  </figure>
+  <p>This is the one place where a residual beats its base: the base&rsquo;s gravity term is systematically wrong on the perturbed plants, and there the residual roughly doubles success. It costs most of the exact-plant performance, which falls from 100% to 43%. PE8&rsquo;s primary and final checkpoints coincide, because the runs are 300k steps long and checkpoints are kept every 100k.</p>
+  <h3>Do planar rankings transfer to the UR5e? (PE9-lite)</h3>
+  <div class="tbl" id="tab-6-6"><div class="cap"><b>Table 6.6:</b> Effect of each design choice on the planar arm and on the UR5e, in percentage points of success.</div><div class="scroll"><table>
+    <thead><tr><th>Design choice</th><th class="n">2-DOF</th><th class="n">UR5e</th><th>Same ranking?</th></tr></thead>
+    <tbody>
+    <tr><td>SAC against TD3 (+HER)</td><td class="n">+15.2</td><td class="n">+8.0</td><td class="dash-yes">yes</td></tr>
+    <tr><td>sparse + HER against dense</td><td class="n">+73.5</td><td class="n">+4.5</td><td class="dash-yes">yes</td></tr>
+    <tr><td>goal-distance curriculum on against off</td><td class="n">+7.8</td><td class="n">+7.0 (1-seed probe)</td><td class="dash-yes">yes</td></tr>
+    <tr><td>hybrid against planner alone (PE3 / PE4 against E5)</td><td class="n">&minus;3.1 / &minus;9.1</td><td class="n">&minus;14.5</td><td class="dash-yes">yes, yes</td></tr>
+    <tr><td>hybrid against pure RL (PE3 / PE4 against E5)</td><td class="n">+80.4 / +76.4</td><td class="n">+71.5</td><td class="dash-yes">yes, yes</td></tr>
+    <tr class="hl"><td><strong>offset against additive residual</strong></td><td class="n">+5.8</td><td class="n">&minus;13.2</td><td class="dash-no">no</td></tr>
+    <tr><td>offset hybrid against planner alone</td><td class="n">&minus;3.3</td><td class="n">&minus;27.7</td><td class="dash-yes">yes</td></tr>
+    </tbody></table></div></div>
+  <p>Eight of the nine rankings agree. The cheap testbed predicted the training choices and the headline result. It did not predict how much the offset redesign costs in safety, which is the part that depends on geometry: a two-dimensional configuration space against one to four spheres around a six-joint arm.</p>
+</section>
+
+<!-- ================= CHAPTER 6 (part b) ================= -->
+<section class="sheet" id="ch6b">
+  <h2 id="s6-6" style="margin-top:0">6.6&nbsp;&nbsp;MyCobot 280 in Simulation</h2>
+  <p>The lane first asked whether the UR5e result carries over to a different arm. The UR5e residual actor was run unchanged in the MyCobot simulation (a zero-shot probe), and the residual was then retrained there with the E5 recipe, two seeds and one million steps.</p>
+  <div class="tbl" id="tab-6-7"><div class="cap"><b>Table 6.7:</b> MyCobot, <code>s4_test</code> (200 episodes, horizon 900), success / collision in %.</div><div class="scroll"><table>
+    <thead><tr><th>Method</th><th class="n">1500 checks</th><th class="n">3000 checks</th><th class="n">6000 checks</th></tr></thead>
+    <tbody>
+    <tr><td>B2 (full planner)</td><td class="n">100 / 0.0</td><td class="n">100 / 0.0</td><td class="n">100 / 0.0</td></tr>
+    <tr class="best"><td>Cheap planner alone</td><td class="n">89.5 / 10.0</td><td class="n">92.5 / 5.0</td><td class="n">93.5 / 2.5</td></tr>
+    <tr><td>UR5e residual, zero-shot (primary, seed 0)</td><td class="n">89.5 / 10.0</td><td class="n">92.0 / 5.5</td><td class="n">93.0 / 3.0</td></tr>
+    <tr><td>MyCobot residual, seed 0 (final, 1M)</td><td class="n">88.0 / 11.5</td><td class="n">91.5 / 6.0</td><td class="n">93.0 / 3.0</td></tr>
+    <tr><td>MyCobot residual, seed 1 (final, 1M)</td><td class="n">89.5 / 10.0</td><td class="n">92.5 / 5.0</td><td class="n">93.5 / 2.5</td></tr>
+    </tbody></table></div></div>
+  <figure id="fig-6-9">
+    <div class="frame"><img src="img/mc_s4_test.png" alt="MyCobot s4_test success by budget for B2, the planner and the residuals" loading="lazy"></div>
+    <figcaption><b>Figure 6.9:</b> MyCobot, <code>s4_test</code> success by budget. The vertical axis starts at 80%.</figcaption>
+  </figure>
+  <figure id="fig-6-10">
+    <div class="frame"><img src="img/mc_val_curves.png" alt="Validation success of the two MyCobot residuals against steps" loading="lazy"></div>
+    <figcaption><b>Figure 6.10:</b> Validation success of the two retrained residuals. Both stay at the planner&rsquo;s line (0.93) while the actor is frozen and end at 0.92. The vertical axis is narrow (0.90&ndash;0.945).</figcaption>
+  </figure>
+  <ul>
+    <li><strong>The retrained residual equals the cheap planner.</strong> It stays within the 95% intervals of the planner (for example 88.0 [83.5, 92.5] and 89.5 [85.0, 93.5] against 89.5 at 1,500 checks). Seed 1 matches the planner exactly; seed 0 is 1&ndash;1.5 points lower.</li>
+    <li><strong>The zero-shot UR5e actor behaves the same way</strong>, within 0.5 points of the planner at every budget.</li>
+    <li><strong>The horizon matters more than the residual.</strong> At the first horizon of 489 steps the cheap planner was flat at 84.0, 81.0 and 80.5% for the three budgets: its longer reference paths ran out of time. Raising the horizon to 900 removed this (Section 5.4).</li>
+  </ul>
+
+  <h2 id="s6-7">6.7&nbsp;&nbsp;Narrow Gaps, Clutter and Hard Goals (the Challenge Set)</h2>
+  <p>The challenge set of Section 5.4 was evaluated in simulation with B2, the cheap planner and the retrained residual (seed 1, final checkpoint).</p>
+  <div class="tbl" id="tab-6-8"><div class="cap"><b>Table 6.8:</b> MyCobot, <code>s4_chal</code> (25 episodes per type), success / collision as fractions.</div><div class="scroll"><table>
+    <thead><tr><th>Method</th><th class="n">gap</th><th class="n">clutter (4 spheres)</th><th class="n">limit (J2)</th><th class="n">edge</th><th class="n">all</th></tr></thead>
+    <tbody>
+    <tr><td>B2</td><td class="n">1.00 / 0.00</td><td class="n">1.00 / 0.00</td><td class="n">1.00 / 0.00</td><td class="n">0.88 / 0.00</td><td class="n">0.97 / 0.00</td></tr>
+    <tr><td>Base@1500</td><td class="n">0.44 / 0.56</td><td class="n">0.68 / 0.32</td><td class="n">0.76 / 0.24</td><td class="n">0.08 / 0.92</td><td class="n">0.49 / 0.51</td></tr>
+    <tr><td>Base@3000</td><td class="n">0.64 / 0.36</td><td class="n">0.96 / 0.04</td><td class="n">0.96 / 0.04</td><td class="n">0.28 / 0.64</td><td class="n">0.71 / 0.27</td></tr>
+    <tr class="best"><td>Base@6000</td><td class="n">0.68 / 0.24</td><td class="n">1.00 / 0.00</td><td class="n">1.00 / 0.00</td><td class="n">0.56 / 0.20</td><td class="n">0.81 / 0.11</td></tr>
+    <tr><td>Hybrid@1500</td><td class="n">0.44 / 0.56</td><td class="n">0.76 / 0.24</td><td class="n">0.72 / 0.28</td><td class="n">0.08 / 0.92</td><td class="n">0.50 / 0.50</td></tr>
+    <tr><td>Hybrid@3000</td><td class="n">0.64 / 0.36</td><td class="n">0.96 / 0.04</td><td class="n">0.92 / 0.08</td><td class="n">0.28 / 0.64</td><td class="n">0.70 / 0.28</td></tr>
+    <tr><td>Hybrid@6000</td><td class="n">0.68 / 0.24</td><td class="n">1.00 / 0.00</td><td class="n">0.96 / 0.04</td><td class="n">0.56 / 0.20</td><td class="n">0.80 / 0.12</td></tr>
+    </tbody></table></div></div>
+  <figure id="fig-6-11">
+    <div class="frame"><img src="img/mc_chal_types.png" alt="Success per challenge type for B2, the planner and the residual at 3000 and 6000 checks" loading="lazy"></div>
+    <figcaption><b>Figure 6.11:</b> Success per challenge type at 3,000 (left) and 6,000 checks (right).</figcaption>
+  </figure>
+  <ul>
+    <li><strong>The hard cases for the cheap planner are <code>edge</code> and <code>gap</code>,</strong> not clutter or the shoulder-limit type. At 6,000 checks the base still fails 44% of edge and 32% of gap episodes, while four-sphere clutter and the limit type are solved at 96&ndash;100% from 3,000 checks.</li>
+    <li><strong>B2 solves every gap, clutter and limit episode.</strong> Its three edge failures end without a collision, 1.5 cm, 0.5 cm and 14.4 cm from the goal.</li>
+    <li><strong>The residual again equals its planner.</strong> Base and hybrid differ in only 1&ndash;3 of 100 episodes at each budget, and the aggregate success differs by at most 0.01.</li>
+  </ul>
+
+  <h2 id="s6-8">6.8&nbsp;&nbsp;Boxes and Cylinders in Clutter (the Shape Set)</h2>
+  <div class="tbl" id="tab-6-9"><div class="cap"><b>Table 6.9:</b> MyCobot, <code>s4_shape</code> (25 episodes per type), success / collision as fractions.</div><div class="scroll"><table>
+    <thead><tr><th>Method</th><th class="n">box</th><th class="n">cylinder</th><th class="n">mixed</th><th class="n">all</th></tr></thead>
+    <tbody>
+    <tr><td>B2</td><td class="n">1.00 / 0.00</td><td class="n">0.96 / 0.04</td><td class="n">1.00 / 0.00</td><td class="n">0.99 / 0.01</td></tr>
+    <tr><td>Base@1500</td><td class="n">0.64 / 0.36</td><td class="n">0.64 / 0.36</td><td class="n">0.48 / 0.52</td><td class="n">0.59 / 0.41</td></tr>
+    <tr><td>Base@3000</td><td class="n">0.80 / 0.16</td><td class="n">0.76 / 0.24</td><td class="n">0.84 / 0.16</td><td class="n">0.80 / 0.19</td></tr>
+    <tr class="best"><td>Base@6000</td><td class="n">0.96 / 0.00</td><td class="n">0.84 / 0.12</td><td class="n">0.88 / 0.12</td><td class="n">0.89 / 0.08</td></tr>
+    <tr><td>Hybrid@1500</td><td class="n">0.64 / 0.36</td><td class="n">0.64 / 0.36</td><td class="n">0.48 / 0.52</td><td class="n">0.59 / 0.41</td></tr>
+    <tr><td>Hybrid@3000</td><td class="n">0.84 / 0.12</td><td class="n">0.76 / 0.24</td><td class="n">0.84 / 0.16</td><td class="n">0.81 / 0.17</td></tr>
+    <tr><td>Hybrid@6000</td><td class="n">0.96 / 0.00</td><td class="n">0.84 / 0.12</td><td class="n">0.88 / 0.12</td><td class="n">0.89 / 0.08</td></tr>
+    </tbody></table></div></div>
+  <figure id="fig-6-12">
+    <div class="frame"><img src="img/mc_shapes_vs_spheres.png" alt="Success on four spheres, boxes, cylinders and mixed shapes at the same clutter layout" loading="lazy"></div>
+    <figcaption><b>Figure 6.12:</b> The same clutter layout with spheres, boxes, cylinders and mixed objects. The cheap planner loses points on every shape; B2 does not.</figcaption>
+  </figure>
+  <ul>
+    <li><strong>Shapes cost the cheap planner relative to spheres.</strong> With four objects near the path, Base@3000 succeeds on 0.96 of the sphere scenes and 0.80 of the shape scenes (all 75), and Base@6000 on 1.00 and 0.89. Rotated boxes and cylinders block more of the path than the spheres do. Cylinders are the hardest (0.84 at 6,000 checks).</li>
+    <li><strong>B2 stays at 0.99.</strong> Its one failure is a collision in a cylinder episode.</li>
+    <li><strong>The residual neither helps nor hurts,</strong> even though it sees each object only as an enclosing sphere: base and hybrid differ in 0&ndash;2 of 75 episodes at each budget.</li>
+  </ul>
+  <p>These sets have 25 episodes per type and one trained policy, so a type&rsquo;s rate carries about &plusmn;0.1. The collision verdict is against the exact shape, and the hardware runs were not repeated on these sets.</p>
+  <p>On the real arm, one episode of each challenge and shape type was run in the firmware-segment mode (Section 6.9.6): 13 of 14 runs succeeded, and the one stop was B2 on the edge scene.</p>
+
+  <h2 id="s6-9">6.9&nbsp;&nbsp;Real-Arm Results</h2>
+  <p>The arm was driven in two ways. In the first (Sections 6.9.1 to 6.9.5) a new joint target is streamed every 50 ms, in steps of at most 0.5&deg;, which caps the speed at 10&deg;/s. In the second (Section 6.9.6) the same path is sent as a few firmware-planned segments, which is several times faster. Both use the same controllers and the same ten episodes.</p>
+  <h3>6.9.1&nbsp;&nbsp;Success and final error</h3>
+  <p>The first 10 <code>s4_test</code> episodes were run on the arm with every controller, in the same order, at speed 20 with virtual obstacles. The hybrid is the seed-1 final residual with the cheap planner at 3,000 checks. In simulation, the same 10 episodes succeed for every method.</p>
+  <div class="tbl" id="tab-6-10"><div class="cap"><b>Table 6.10:</b> Real arm, 10 episodes per method. v1 is the first version with no correction; v2 adds the final-approach correction (TrimArm).</div><div class="scroll"><table>
+    <thead><tr><th>Method</th><th class="n">v1 success</th><th class="n">v1 final error, median (max)</th><th class="n">v2 success</th><th class="n">v2 final error, median (max)</th><th class="n">v2 orientation, median (max)</th></tr></thead>
+    <tbody>
+    <tr><td>B2</td><td class="n">9 / 10</td><td class="n">0.79 (1.46) cm</td><td class="n">10 / 10</td><td class="n">0.69 (0.96) cm</td><td class="n">3.5 (4.3)&deg;</td></tr>
+    <tr><td>Cheap planner @3000</td><td class="n">10 / 10</td><td class="n">0.82 (0.97) cm</td><td class="n">10 / 10</td><td class="n">0.59 (0.89) cm</td><td class="n">3.2 (4.2)&deg;</td></tr>
+    <tr><td>Hybrid @3000</td><td class="n">10 / 10</td><td class="n">0.67 (0.97) cm</td><td class="n">10 / 10</td><td class="n">0.53 (0.88) cm</td><td class="n">2.8 (4.2)&deg;</td></tr>
+    </tbody></table></div></div>
+  <figure id="fig-6-13">
+    <div class="frame"><img src="img/mc_real_error.png" alt="Final position error of the 30 corrected real-arm runs" loading="lazy"></div>
+    <figcaption><b>Figure 6.13:</b> Final position error of the 30 corrected real-arm runs. Every run is below the 1 cm limit; the margin is thin.</figcaption>
+  </figure>
+  <ul>
+    <li><strong>No collisions and no safety aborts</strong> occurred in any of the 60 runs (30 per version).</li>
+    <li><strong>The v1 failure was systematic.</strong> B2 on episode 9 stopped 1.46 cm from the goal and stayed there. A re-run was identical (same encoder counts). The target was static and the shoulder stood 1.84&deg; short, more than the deadband measured unloaded. TrimArm fixed it, and all 30 runs were repeated with it.</li>
+    <li><strong>The hybrid and the cheap planner are indistinguishable</strong> at 10 episodes, as in simulation: the residual does not beat its planner on the real arm. Ten episodes cannot separate differences below roughly 25 points.</li>
+    <li>The two versions were not run in randomised order (v1 first, v2 later, on the same arm), so the improvement could include drift. It is large only for the one stalled episode.</li>
+  </ul>
+
+  <h3>6.9.2&nbsp;&nbsp;Trajectory quality</h3>
+  <div class="tbl" id="tab-6-11"><div class="cap"><b>Table 6.11:</b> Trajectory quality on the real arm, medians over episodes 0&ndash;9 (the 30 corrected runs).</div><div class="scroll"><table>
+    <thead><tr><th>Method</th><th class="n">duration (s)</th><th class="n">tool path (mm)</th><th class="n">path / straight line</th><th class="n">joint path (deg)</th><th class="n">peak joint speed (deg/s)</th><th class="n">tracking error mean (max) (deg)</th><th class="n">closest approach (cm)</th></tr></thead>
+    <tbody>
+    <tr><td>B2</td><td class="n">7.4</td><td class="n">107</td><td class="n">1.42</td><td class="n">147</td><td class="n">9.8</td><td class="n">1.01 (1.56)</td><td class="n">0.92</td></tr>
+    <tr><td>Cheap planner @3000</td><td class="n">8.8</td><td class="n">198</td><td class="n">1.88</td><td class="n">170</td><td class="n">9.8</td><td class="n">0.95 (1.60)</td><td class="n">1.45</td></tr>
+    <tr><td>Hybrid @3000</td><td class="n">9.0</td><td class="n">195</td><td class="n">1.85</td><td class="n">176</td><td class="n">10.0</td><td class="n">0.97 (1.55)</td><td class="n">1.47</td></tr>
+    </tbody></table></div></div>
+  <figure id="fig-6-14">
+    <div class="frame"><img src="img/mc_real_metrics.png" alt="Duration, tool path and closest approach of the real-arm runs by method" loading="lazy"></div>
+    <figcaption><b>Figure 6.14:</b> Duration, tool path length and closest approach to a virtual obstacle over the 30 real-arm runs.</figcaption>
+  </figure>
+  <p>B2 paths are about 45% shorter and 15&ndash;20% faster than those of the cheap planner. The cheap planner and the hybrid are the same: the residual neither shortens nor smooths the path. Speed stays at the 10&deg;/s cap. Peak acceleration (46&ndash;56&deg;/s&sup2;) and jerk (about 290&deg;/s&sup3;) are dominated by the 0.088&deg; encoder step and the vibration, and are equal across methods, so they are not compared.</p>
+
+  <h3>6.9.3&nbsp;&nbsp;Model accuracy and clearance</h3>
+  <ul>
+    <li><strong>Model against the arm.</strong> At episode 0&rsquo;s final pose, the arm&rsquo;s own <code>get_coords</code> minus the model&rsquo;s forward kinematics is [4.6, 2.8, 2.1] mm, 5.7 mm in 3-D, identical in 12 runs: a steady offset in line with the 3.6 mm RMS found on 15 poses. The success metric is computed from the model, so a reported 0.3 cm error could be up to about 0.9 cm in the arm&rsquo;s own frame in the worst case.</li>
+    <li><strong>Clearance to the virtual obstacles</strong> (model, measured joints): contact ticks were zero in all 30 runs. The closest approach was 0.0&ndash;0.3 cm for B2 (episodes 0, 3, 7) and at least 1.1 cm for the cheap planner and the hybrid. A straight joint-space move would have hit an obstacle in episodes 0, 8 and 9.</li>
+  </ul>
+
+  <h3>6.9.4&nbsp;&nbsp;Vibration</h3>
+  <p>The operator saw slight vibration during motion. A set of runs on episode 0 (B2, two runs per setting) tested the settings that could cause it.</p>
+  <div class="tbl" id="tab-6-12"><div class="cap"><b>Table 6.12:</b> Vibration experiment: smoothness metrics by command setting.</div><div class="scroll"><table>
+    <thead><tr><th>Setting</th><th class="n">high-frequency motion (deg)</th><th class="n">acceleration roughness (deg/tick&sup2;)</th><th class="n">no-advance ticks</th></tr></thead>
+    <tbody>
+    <tr><td>speed 20, a command every 50 ms (default)</td><td class="n">0.065</td><td class="n">0.129</td><td class="n">0%</td></tr>
+    <tr><td>speed 10 / speed 30, every 50 ms</td><td class="n">0.067</td><td class="n">0.136</td><td class="n">0%</td></tr>
+    <tr><td>speed 20, no end correction</td><td class="n">0.065</td><td class="n">0.135</td><td class="n">0%</td></tr>
+    <tr><td>speed 20 / speed 10, every 100 ms</td><td class="n">0.080 / 0.075</td><td class="n">0.214 / 0.206</td><td class="n">1% / 0%</td></tr>
+    </tbody></table></div></div>
+  <p>The speed setting has no effect, because the steps are below its cap. The end correction does not change the moving part. Commanding every 100 ms is rougher, which is why 50 ms was kept. Tick timing is steady (standard deviation 0.8 ms, maximum 56 ms). The 20 Hz log cannot resolve the vibration itself. Candidate causes are the servo restarting its motion profile at each command, the deadband, the gravity load on the shoulder and encoder quantisation; none was isolated.</p>
+  <div class="todo-block"><strong class="tag">Open</strong>The cause of the vibration is not established. Section 6.9.6 shows that streaming is a poor way to command this arm, but neither the vibration nor the smoothness of the new mode was measured. A higher-rate log, an accelerometer reading or a high-speed camera would settle it; add the result here and in the conclusions.</div>
+
+  <h3>6.9.5&nbsp;&nbsp;Real arm, digital twin and simulation side by side</h3>
+  <p>Two layouts are used. Videos 6.2 to 6.6 (the streaming runs) have three panels on one time axis: the <em>real arm</em> as filmed, the <em>real arm&rsquo;s measured joint angles replayed in the model</em> (the digital twin, which is where the real arm stands relative to the virtual obstacles and the goal), and the <em>simulation</em> of the same episode. The later videos (6.7 onward, the firmware-segment runs) have five panels: the camera on the left and, on the right, the digital twin and the simulation each from a top isometric camera and from the side (Figure 5.3). In both, the obstacles are virtual and appear only in the model panels, and the model panels draw the manufacturer&rsquo;s shell meshes of the MyCobot 280 M5 (from the <code>mycobot_ros</code> description package) over the unchanged capsule model; the meshes are only drawn and change nothing in the physics, collisions or results (the same episode gives an identical trajectory and outcome with and without them). The meshes live in <code>assets/m5_meshes/</code>, the renderers in <code>scripts/render_mesh_compare.py</code> and <code>scripts/render_grid_compare.py</code>.</p>
+  <figure id="fig-6-15">
+    <div class="frame"><img src="img/mc_grid_ep9.png" alt="Five panels: real arm camera; real joints replayed in the model and simulation, each from a top isometric and a side camera" loading="lazy"></div>
+    <figcaption><b>Figure 6.15:</b> A frame of the five-panel comparison video for episode 9 (hybrid, 3,000 checks, firmware segments): the camera (left); the real joints replayed in the model (top right) and the simulation (bottom right), each from a top isometric and a side camera. The run succeeded with 0.25 cm and 0.7&deg;. The simulation panels are time-compressed to the real run.</figcaption>
+  </figure>
+  <div class="grid2">
+    <figure id="vid-6-2"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep0_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.2:</b> <code>s4_test</code> episode 0, hybrid @3000 (streaming, three panels).</figcaption></figure>
+    <figure id="vid-6-3"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep7_b2.mp4"></video></div>
+      <figcaption><b>Video 6.3:</b> <code>s4_test</code> episode 7, B2.</figcaption></figure>
+    <figure id="vid-6-4"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep7_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.4:</b> <code>s4_test</code> episode 7, hybrid @3000. Compare with Video 6.3: the same scene with a different controller.</figcaption></figure>
+    <figure id="vid-6-5"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep8_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.5:</b> <code>s4_test</code> episode 8, hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-6"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep9_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.6:</b> <code>s4_test</code> episode 9, hybrid @3000.</figcaption></figure>
+  </div>
+  <div class="todo-block"><strong class="tag">Pending</strong>The hardware batches cover 10 episodes of <code>s4_test</code> and one episode per challenge and shape type. A larger batch (episodes 10&ndash;19) and more episodes per type would narrow the gap that so few runs cannot resolve (about 25 points).</div>
+
+  <h3>6.9.6&nbsp;&nbsp;Faster execution with firmware segments</h3>
+  <p>Streaming is slow by construction: the 0.5&deg; step per 50 ms was chosen because larger steps made the serial link stall for 270&ndash;530 ms, and every command restarts the arm&rsquo;s own motion profile. A motion diagnostic on one joint (J1, 20&deg; and 60&deg; moves, no obstacles) measured how the arm behaves under other command styles.</p>
+  <div class="tbl" id="tab-6-12a"><div class="cap"><b>Table 6.12a:</b> Motion diagnostic on J1: time and rate by command style. Rates are over the 10&ndash;90% part of the move.</div><div class="scroll"><table>
+    <thead><tr><th>Command style</th><th>Move</th><th class="n">time to arrive</th><th class="n">rate (deg/s)</th><th>Remark</th></tr></thead>
+    <tbody>
+    <tr><td>Streaming 0.5&deg; every 50 ms, speed 20 (used so far)</td><td>20&deg;</td><td class="n">2.05&ndash;2.08 s</td><td class="n">9.6&ndash;9.8</td><td>no stalls; stops 0.7&deg; short</td></tr>
+    <tr><td>One <code>send_angles</code>, speed 20</td><td>20&deg; / 60&deg;</td><td class="n">1.04 s / 2.4&ndash;2.5 s</td><td class="n">about 35</td><td>the firmware plans the move</td></tr>
+    <tr><td>One <code>send_angles</code>, speed 40</td><td>60&deg;</td><td class="n">1.55&ndash;1.61 s</td><td class="n">about 71</td><td></td></tr>
+    <tr><td>One <code>send_angles</code>, speed 60</td><td>60&deg;</td><td class="n">1.39 s</td><td class="n">57&ndash;76</td><td>little gain over speed 40</td></tr>
+    <tr><td>4 waypoints, next sent while moving (polled at about 70 ms)</td><td>20&deg;</td><td class="n">1.6&ndash;2.0 s</td><td class="n">11&ndash;15</td><td>choppy; the polling loop was too slow to blend</td></tr>
+    <tr><td>Streaming 1&deg; every 40 ms, send only, speed 50</td><td>20&deg;</td><td class="n">0.95 s out, 1.76 s back</td><td class="n"></td><td>one send call blocked 449 ms</td></tr>
+    <tr><td>Streaming 2&deg; every 40 ms, send only, speed 50</td><td>20&deg;</td><td class="n">2.1 s</td><td class="n"></td><td>the firmware lagged the commands</td></tr>
+    </tbody></table></div></div>
+  <p>One firmware-planned move is three to seven times faster than streaming, and larger streaming steps still stall even when nothing is read between sends. Every style stops 0.75&ndash;0.85&deg; short of its target, the servo deadband. The readings were too slow (10&ndash;20 Hz during fast moves) to compare smoothness; that was not measured.</p>
+  <p><strong>Segment execution.</strong> The runner plays the episode first in the model with the usual controller, thins the resulting joint path to a few waypoints (Douglas&ndash;Peucker, tolerance 6&deg;), and sends each waypoint as one <code>send_angles</code> at speed 40. The arm settles at each waypoint before the next is sent. The policy and the plans are unchanged; the difference is that the residual&rsquo;s effect is <em>replayed from the simulation</em> and not corrected tick by tick from the arm&rsquo;s measurements. This is a change in the hardware protocol, and the results below are labelled accordingly.</p>
+  <p><strong>Safety.</strong> Every segment is checked against the table, the arm itself and the virtual obstacles in their exact shapes, for the straight joint-space line and for any combination of the joints&rsquo; progress along it (a grid and random samples), and a segment that fails is split. During the run the arm is stopped on a joint limit, on a joint outside the span of its end values, on a persistent deviation from the line, on a segment not reached in time, or on a measured pose that touches anything in the model.</p>
+  <p><strong>Firmware behaviour found.</strong> A move from standstill follows a straight joint-space line to within 1&ndash;1.5&deg;. Sending the next waypoint while the arm is still moving makes the wrist (J4&ndash;J6) start 0.3&ndash;0.5 s late, and during fast moves the wrist readings freeze for 0.3&ndash;0.5 s. Earlier versions of the batch were stopped by safety checks that were too strict for this (stale readings, a servo stopping 1.6&deg; short, a 1 s read stall); no collision occurred, the checks were relaxed where the cause was the reading and not the arm, and all 30 runs were repeated with the final code.</p>
+  <div class="tbl" id="tab-6-12b"><div class="cap"><b>Table 6.12b:</b> Real arm, 10 episodes per method, firmware segments (speed 40) against streaming (Table 6.10). Medians, maximum in brackets. Wall time includes the final-approach correction, 3&ndash;4 s of every segment run.</div><div class="scroll"><table>
+    <thead><tr><th>Mode</th><th>Method</th><th class="n">success</th><th class="n">collisions</th><th class="n">wall time (s)</th><th class="n">final position error (cm)</th><th class="n">final orientation error (&deg;)</th></tr></thead>
+    <tbody>
+    <tr><td>segments</td><td>B2</td><td class="n">10 / 10</td><td class="n">0</td><td class="n">6.1 (18.4)</td><td class="n">0.35 (0.73)</td><td class="n">2.7 (3.9)</td></tr>
+    <tr><td>segments</td><td>Cheap planner @3000</td><td class="n">10 / 10</td><td class="n">0</td><td class="n">4.7 (10.7)</td><td class="n">0.34 (0.81)</td><td class="n">2.7 (3.2)</td></tr>
+    <tr><td>segments</td><td>Hybrid @3000</td><td class="n">10 / 10</td><td class="n">0</td><td class="n">5.0 (11.7)</td><td class="n">0.42 (0.53)</td><td class="n">2.1 (2.9)</td></tr>
+    <tr><td>streaming</td><td>B2</td><td class="n">10 / 10</td><td class="n">0</td><td class="n">8.0 (31.8)</td><td class="n">0.69 (0.96)</td><td class="n">3.5 (4.3)</td></tr>
+    <tr><td>streaming</td><td>Cheap planner @3000</td><td class="n">10 / 10</td><td class="n">0</td><td class="n">9.4 (43.3)</td><td class="n">0.59 (0.89)</td><td class="n">3.2 (4.2)</td></tr>
+    <tr><td>streaming</td><td>Hybrid @3000</td><td class="n">10 / 10</td><td class="n">0</td><td class="n">10.0 (45.5)</td><td class="n">0.53 (0.88)</td><td class="n">2.8 (4.2)</td></tr>
+    </tbody></table></div></div>
+  <ul>
+    <li><strong>Speed.</strong> The median time falls by about 1.7 to 2 times, and the slowest episodes by 3 to 4 times (the longest hybrid run from 45 s to 12 s). Segment counts are small: a median of 8 for B2 and 6 for the cheap planner and the hybrid.</li>
+    <li><strong>Accuracy and safety are not worse.</strong> All 30 runs succeed with no virtual collision and no abort, and the final errors are smaller than with streaming. The hybrid still does not beat its planner.</li>
+    <li><strong>Smoothness is not measured.</strong> The joint readings are too slow and the wrist readings freeze, so smoothness rests on the operator&rsquo;s judgement and the camera. The streamed and segment runs were not randomised in order (streaming first, same arm).</li>
+  </ul>
+  <figure id="fig-6-16">
+    <div class="frame"><img src="img/mc_seg_vs_stream.png" alt="Wall time per real-arm run for streaming and firmware segments, by method" loading="lazy"></div>
+    <figcaption><b>Figure 6.16:</b> Wall time of each of the 30 real-arm runs, streaming (circles) and firmware segments (squares), with the median as a bar. The longest streamed runs, up to 45 s, fall to 12 s or less.</figcaption>
+  </figure>
+  <!--SEGVIDEOS-->  <p>Videos 6.7 onward show the firmware-segment runs in the five-panel layout: the camera on the left, and on the right the real arm&rsquo;s measured joint angles replayed in the model (top) and the simulation (bottom), each from a top isometric camera and from the side, the direction the real camera looks from. The simulation panels are time-compressed to the length of the real run and say so in their label. The red spheres, boxes and cylinders are the virtual obstacles.</p>
+  <div class="grid2">
+    <figure id="vid-6-7"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep9_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.7:</b> Episode 9, hybrid @3000. The same case as Video 6.6, now driven by firmware segments.</figcaption></figure>
+    <figure id="vid-6-8"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep8_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.8:</b> Episode 8, hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-9"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep7_b2.mp4"></video></div>
+      <figcaption><b>Video 6.9:</b> Episode 7, B2.</figcaption></figure>
+    <figure id="vid-6-10"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep7_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.10:</b> Episode 7, hybrid @3000: the same scene with a different controller.</figcaption></figure>
+    <figure id="vid-6-11"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep2_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.11:</b> Challenge set, gap scene (episode 2), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-12"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep25_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.12:</b> Challenge set, clutter scene (episode 25), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-13"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep50_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.13:</b> Challenge set, limit scene (episode 50), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-14"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep75_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.14:</b> Challenge set, edge scene (episode 75), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-15"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep0_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.15:</b> Shape set, box obstacles (episode 0), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-16"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep25_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.16:</b> Shape set, cylinder obstacles (episode 25), hybrid @3000.</figcaption></figure>
+  </div>
+<!--/SEGVIDEOS-->  <p>Videos 6.7 onward show the firmware-segment runs in the five-panel layout: the camera on the left, and on the right the real arm&rsquo;s measured joint angles replayed in the model (top) and the simulation (bottom), each from a top isometric camera and from the side, the direction the real camera looks from. The simulation panels are time-compressed to the length of the real run and say so in their label. The red spheres, boxes and cylinders are the virtual obstacles.</p>
+  <div class="grid2">
+    <figure id="vid-6-7"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep8_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.7:</b> Episode 8, hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-8"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep7_b2.mp4"></video></div>
+      <figcaption><b>Video 6.8:</b> Episode 7, B2.</figcaption></figure>
+    <figure id="vid-6-9"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep7_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.9:</b> Episode 7, hybrid @3000: the same scene with a different controller.</figcaption></figure>
+  </div>
+<!--/SEGVIDEOS-->
+
+  <h2 id="s6-10">6.10&nbsp;&nbsp;Discussion of Findings</h2>
+  <div class="tbl" id="tab-6-13"><div class="cap"><b>Table 6.13:</b> Answers to the research questions.</div><div class="scroll"><table>
+    <thead><tr><th>RQ</th><th>Answer</th><th>Evidence</th></tr></thead>
+    <tbody>
+    <tr><td>RQ1</td><td>SAC learns best, then TD3, then DDPG; PPO fails.</td><td>E1: 20.7% against 12.7%; PE1: 78.8%, 63.6%, 42.1%, 0%</td></tr>
+    <tr><td>RQ2</td><td>Sparse reward with HER beats dense on success, not on final error.</td><td>E2: 4.5% against 0%; PE2: 71.0% against 5.3%</td></tr>
+    <tr><td>RQ3</td><td><strong>No.</strong> The additive residual is below its planner at every budget; the offset residual raises collisions two to five times. On the MyCobot the residual equals its planner.</td><td>Table 6.2, Table 6.7</td></tr>
+    <tr><td>RQ4</td><td>Yes, under a systematic model error: success roughly doubles. It gives up most of the exact-plant performance.</td><td>Table 6.5</td></tr>
+    <tr><td>RQ5</td><td>Mostly: 8 of 9 rankings agree. The offset redesign helps on the planar arm and hurts on the UR5e.</td><td>Table 6.6</td></tr>
+    <tr><td>RQ6</td><td>The residual equals its planner on a second arm, on the real arm, on harder scenes and on box and cylinder obstacles. The cheap planner itself is weakest on goals near full reach, narrow gaps and shapes.</td><td>Tables 6.7&ndash;6.11, 6.12b</td></tr>
+    </tbody></table></div></div>
+  <p><strong>The residual does not add to a planner that tracks a path.</strong> The result holds in every setting tested, and the measurements say why: the tracker cancels a bounded correction, and an unbounded one leaves the safe path. The planar arm shows that this is not a property of the UR5e, and the MyCobot shows that it is not a property of one arm or one simulator.</p>
+  <p><strong>On the MyCobot the residual equals its planner, whereas on the UR5e it falls below it.</strong> A possible reason, not tested here, is scale. On the MyCobot, &alpha;&Delta;<var>q</var><sub>max</sub> = 0.3 &times; 0.0087 rad = 0.0026 rad per step, against 0.012 rad on the UR5e, so a residual on the MyCobot has less room to spoil the goal pose. A direct test would train the MyCobot residual with a larger &alpha; or &Delta;<var>q</var><sub>max</sub> and compare.</p>
+  <p><strong>The cheap planner&rsquo;s weakness depends on the scene, not on the residual.</strong> Goals near full reach, narrow gaps and rotated boxes and cylinders are where it loses most. These are also the cases a better base, a gated residual or a safety-filtered correction should target, which is the direction of the future work.</p>
+  <p><strong>The hardware adds one lesson that simulation could not.</strong> A deadband and a gravity load can leave the arm short of a goal by more than the success tolerance allows, and the fix had to be a small controller outside the learned part. The trained policy was not changed for the real arm.</p>
+
+  <h2 id="s6-11">6.11&nbsp;&nbsp;Chapter Summary</h2>
+  <p>On the UR5e, full RRT-Connect succeeds in 99.0% of scenes, the cheap planner in 79.5&ndash;90.0%, and both residual designs do worse than the planner for different reasons. The planar arm reproduces this and agrees with the UR5e on 8 of 9 rankings. On the MyCobot, in simulation and on hardware, the residual equals its planner. The cheap planner fails most on goals near full reach, narrow gaps and non-spherical obstacles, and the residual does not change that. On the real arm, commanding firmware-planned segments instead of 50 ms steps made runs about twice as fast in the median and up to four times faster in the longest cases.</p>
+</section>
+
+<!-- ================= CHAPTER 7 ================= -->
+<section class="sheet" id="ch7">
+  <h1><span class="ch">Chapter 7</span>Conclusion and Future Scope</h1>
+
+  <h2 id="s7-1">7.1&nbsp;&nbsp;Summary of the Research</h2>
+  <p>This project asked whether a cheap sampling-based planner combined with a learned residual correction can match a full-budget planner for collision-free pose reaching. A MuJoCo benchmark for the UR5e, two residual designs, a planar companion study and a deployment on a real MyCobot 280 were built to answer it. The answer is no in every setting tested, and the measurements show why.</p>
+
+  <h2 id="s7-2">7.2&nbsp;&nbsp;Major Findings</h2>
+  <ul>
+    <li><strong>RQ1 and RQ2.</strong> SAC beat TD3 (20.7% against 12.7% on the UR5e; 78.8% against 63.6% on the planar arm), and sparse reward with HER beat dense reward on success. Both UR5e reaching experiments fell short of their targets within the step budget.</li>
+    <li><strong>RQ3.</strong> Full RRT-Connect succeeded in 99.0% of the 200 cluttered scenes and the cheap planner in 79.5&ndash;90.0%. The additive residual lowered success to 66&ndash;75%; the offset residual raised collisions from 8.5&ndash;20.5% to about 40%. The additive residual has no authority because the tracker cancels it (at most 0.012 rad), and the offset has authority but saturates at its limit.</li>
+    <li><strong>RQ4 and RQ5.</strong> The only setting where a residual beat its base was torque control under a &plusmn;20% mass error. The planar arm agreed with the UR5e on 8 of 9 design rankings; the exception was the offset residual.</li>
+    <li><strong>RQ6.</strong> On the MyCobot 280 the residual equals its planner in simulation (93.5% against 93.5% at 6,000 checks for seed 1) and on the real arm (30 of 30 runs within 1 cm and 5&deg; with the final-approach correction, no collisions, no aborts). The cheap planner is weakest on goals near full reach (56% at 6,000 checks), narrow gaps (68%) and boxes and cylinders (89%, against 100% on spheres at the same layout). Driving the arm by firmware segments instead of 50 ms streaming cut the median run time from 8&ndash;10 s to 5&ndash;6 s and the slowest run from 45 s to 12 s, with the same 30 of 30 success and no collisions.</li>
+    <li><strong>Methodology.</strong> Three silent defects of goal-conditioned training were found and fixed, and they are tested so that they cannot return unnoticed.</li>
+  </ul>
+
+  <h2 id="s7-3">7.3&nbsp;&nbsp;Contributions of the Work</h2>
+  <p>The contributions listed in Section 1.8 stand as follows. The benchmark, the baselines and the versioned specification are reproducible from the repository. The negative result comes with its measured causes. The planar study shows that the pattern does not depend on the arm, and it identifies the setting in which a residual helps. The MyCobot lane shows that the finding survives a change of arm, harder scenes, other obstacle shapes and real hardware. The three training defects and their fixes are reusable beyond this project.</p>
+
+  <h2 id="s7-4">7.4&nbsp;&nbsp;Limitations of the Study</h2>
+  <ul>
+    <li><strong>Budget.</strong> 500k to 1M steps per run, 2 to 3 seeds, 0.25 gradient steps per transition and CPU-only compute. More steps could change the reaching and residual results.</li>
+    <li><strong>Virtual obstacles and no perception.</strong> The obstacle positions are given to the planner and the policy. On the real arm the obstacles are virtual keep-out spheres, and nothing physical was placed in the workspace. Real objects would need a camera and detection.</li>
+    <li><strong>Obstacle shapes.</strong> Training uses spheres. The shape set tests boxes and cylinders in simulation with the policy seeing enclosing spheres; on the arm one episode per shape type was run (virtual obstacles in their exact shapes). Walls, shelves, meshes and more than four objects are not tested.</li>
+    <li><strong>Goals near joint limits.</strong> The protocol (start near home, goal within 0.9 rad) cannot produce goals within about 15&deg; of a limit, so they are not covered.</li>
+    <li><strong>One base design.</strong> A single degraded RRT-Connect with a straight-line fallback. A different base could leave the residual more room.</li>
+    <li><strong>Small hardware sample.</strong> Ten episodes per method, one run each, v1 and v2 not randomised. Model capsule radii and tool length are estimates, the servo deadband is not modelled, and the arm&rsquo;s own coordinates differ from the model by about 6 mm.</li>
+    <li><strong>Motion quality.</strong> Streaming is limited to 10&deg;/s and is not smooth. Firmware segments are faster, but their smoothness was not measured, and in that mode the residual is replayed from the simulation rather than corrected from measurements.</li>
+    <li><strong>Untuned weights.</strong> The dense-reward weights and <var>w</var><sub>res</sub> were set once and not swept.</li>
+    <li><strong>Challenge and shape sets.</strong> 25 episodes per type, one policy, one episode per scene.</li>
+  </ul>
+
+  <h2 id="s7-5">7.5&nbsp;&nbsp;Future Research Directions</h2>
+  <ul>
+    <li><strong>Gated residual.</strong> Act only near predicted conflicts, such as low clearance on the planned path, so the default is the planner.</li>
+    <li><strong>Safety-filtered residual.</strong> Project the correction onto clearance-preserving actions with a control barrier function, or train with a Lagrangian collision constraint.</li>
+    <li><strong>TD3 for integrated actions.</strong> A deterministic actor with decaying noise tests whether max-entropy noise drives the offset to saturation.</li>
+    <li><strong>Demonstrations.</strong> Pre-train the residual on corrections derived from the full planner.</li>
+    <li><strong>Larger residual authority on the MyCobot.</strong> Train with a larger &alpha; or &Delta;<var>q</var><sub>max</sub> to test the scale explanation of Section 6.10.</li>
+    <li><strong>Real objects.</strong> A camera with colour-based detection and a taught pixel-to-joint mapping would replace the virtual obstacles. The available guide uses this method on the same arm.</li>
+    <li><strong>Shapes in training.</strong> Retrain the residual with box and cylinder obstacles and a richer obstacle observation.</li>
+    <li><strong>A first-class hardware batch.</strong> More episodes, randomised order, and more than one episode per challenge and shape type on the arm.</li>
+    <li><strong>Measured smoothness and closed-loop segments.</strong> An accelerometer or a high-speed camera to quantify vibration and smoothness, and a segment mode in which the policy is re-run from the arm&rsquo;s measurements at each waypoint.</li>
+  </ul>
+</section>
+
+<!-- ================= APPENDICES ================= -->
+<section class="sheet" id="appA">
+  <h1><span class="ch">Appendix A</span>Short Derivations</h1>
+  <p>This appendix proves two properties used in Chapters 3 and 6.</p>
+
+  <h2 id="sA-1">A.1&nbsp;&nbsp;Authority bound of the additive residual</h2>
+  <p>Let <var>q</var><sub>target</sub> be the current integrated target and let the base command of Equation (3.4) be unsaturated, so that |(<var>q</var><sub>ref</sub>(<var>t</var>+1) &minus; <var>q</var><sub>target</sub>)/&Delta;<var>q</var><sub>max</sub>| &le; 1 in every joint. The additive controller applies <var>a</var> = clip(<var>a</var><sub>base</sub> + &alpha;&pi;<sub>res</sub>, &minus;1, 1) and integrates it, giving</p>
+  <div class="eq"><var>q</var><sub>target</sub>&prime; = <var>q</var><sub>target</sub> + <var>a</var>&Delta;<var>q</var><sub>max</sub> = <var>q</var><sub>ref</sub>(<var>t</var>+1) + &alpha;&pi;<sub>res</sub>&Delta;<var>q</var><sub>max</sub><span class="no">(A.1)</span></div>
+  <p>when the sum is not clipped. Since |&pi;<sub>res</sub>| &le; 1, the deviation of the new target from the reference is at most &alpha;&Delta;<var>q</var><sub>max</sub> = 0.3 &times; 0.04 = 0.012 rad per joint on the UR5e (0.0026 rad on the MyCobot), whatever the policy outputs. At the next step the tracker aims at <var>q</var><sub>ref</sub>(<var>t</var>+2) from this target, so the deviation does not accumulate. Where the base command is saturated or the sum is clipped, the residual can only move the command less. The bound explains the measured 0.0120 rad on the 87% of unsaturated steps in Section 6.4.</p>
+
+  <h2 id="sA-2">A.2&nbsp;&nbsp;The absorbing collision penalty orders crashing below surviving</h2>
+  <p>Every non-collision step gives a reward of at least <var>r</var><sub>min</sub>, so the discounted return of surviving any number of steps is at least</p>
+  <div class="eq"><var>r</var><sub>min</sub> (1 + &gamma; + &gamma;&sup2; + &hellip;) = <var>r</var><sub>min</sub> / (1 &minus; &gamma;)<span class="no">(A.2)</span></div>
+  <p>when <var>r</var><sub>min</sub> is negative and the sum is taken to infinity, which only makes the bound lower than any finite episode&rsquo;s return. A collision gives the absorbing reward <var>R</var><sub>coll</sub> = <var>r</var><sub>min</sub>/(1 &minus; &gamma;) &minus; <var>w</var><sub>c</sub>, which is lower than this bound by <var>w</var><sub>c</sub> &gt; 0. Crashing is therefore worse than surviving any number of steps. A fixed collision reward of &minus;10, as used first, is above the discounted cost of staying alive (about &minus;50), which is why crashing at step 9 (about &minus;17) paid better.</p>
+</section>
+
+<section class="sheet" id="appB">
+  <h1><span class="ch">Appendix B</span>Reproducing the Results</h1>
+  <h3>Setup and tests (UR5e and planar arm)</h3>
+  <pre class="code">py -3.11 -m venv .venv
+.venv/Scripts/python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.14.1
+.venv/Scripts/python -m pip install -r requirements.lock
+.venv/Scripts/python -m pip install -e ".[dev,viz]"
+.venv/Scripts/python -m pip install -e 2-dof
+
+python -m pytest              # UR5e suite (75 tests)
+python -m pytest 2-dof        # planar suite (74 tests)</pre>
+  <h3>Training and tables (UR5e)</h3>
+  <pre class="code">python scripts/train.py  --exp configs/exp/e5.yaml --run residual --seed 0
+python scripts/launch.py --exp configs/exp/e5.yaml --workers 2 --threads 1
+python scripts/e5_table.py              # results/tables/e5.md
+python scripts/thesis_figures.py        # learning curves, validation curves, outcome split, PE3 / PE4, PE8</pre>
+  <h3>MyCobot lane (from <code>mycobot/</code>)</h3>
+  <pre class="code">python -m pytest tests/test_mcrl.py                          # 11 tests
+python scripts/make_challenge.py                            # testsets/s4_chal.npz
+python scripts/make_shapes.py                               # testsets/s4_shape.npz
+python scripts/evaluate.py --set s4_chal --methods b2 --budgets 1500 3000 6000 \
+       --run results/runs/m5/residual_b99f130c_s1 --checkpoint final
+python scripts/breakdown.py s4_chal s4_shape                # per-type tables
+
+# real arm (needs the arm on USB; --dry-run uses a simulated arm)
+python scripts/run_real.py --set s4_test --episode 8 --method hybrid --budget 3000 \
+       --run results/runs/m5/residual_b99f130c_s1 --checkpoint final --dry-run
+python scripts/run_real.py --set s4_test --episode 8 --method hybrid --budget 3000 --execute      # streaming, real arm
+
+# real arm, firmware segments (Section 6.9.6)
+python scripts/run_segments.py --set s4_test --episode 9 --method hybrid --budget 3000 \
+       --run results/runs/m5/residual_b99f130c_s1 --checkpoint final --dry-run         # check the plan on a simulated arm
+python scripts/run_segments.py --probe --execute                                        # small multi-joint straight-line test
+bash scripts/seg_batch.sh                                                               # the 30-run segment batch
+python scripts/seg_summary.py                                                           # segments against streaming
+python scripts/motion_diag.py COM13 --only incr,p2p --speeds 20,30,40                   # motion diagnostic, J1 only
+
+# videos: one continuous recording, stitched offline
+python scripts/film_batch.py run  --name chal1 --set s4_chal --episodes 2 25 50 75 --methods b2 hybrid
+python scripts/film_batch.py make --name chal1 --layout grid          # five-panel videos in results/media/</pre>
+  <div class="todo-block"><strong class="tag">To verify</strong>The MyCobot commands above were run during development, including <code>run_segments.py</code> on the challenge and shape sets. Check them once more on a clean checkout before submission.</div>
+</section>
+
+<!-- ================= REFERENCES ================= -->
+<section class="sheet" id="references">
+  <h1>References</h1>
+  <ol class="refs" style="max-width:none;font-family:var(--font-ui);font-size:14px">
+    <li>Kuffner, J., LaValle, S. (2000). RRT-Connect: an efficient approach to single-query path planning. <em>ICRA 2000</em>.</li>
+    <li>Lillicrap, T. et al. (2015). Continuous control with deep reinforcement learning (DDPG). arXiv:1509.02971.</li>
+    <li>Fujimoto, S., van Hoof, H., Meger, D. (2018). Addressing function approximation error in actor-critic methods (TD3). arXiv:1802.09477.</li>
+    <li>Haarnoja, T. et al. (2018). Soft Actor-Critic. arXiv:1801.01290.</li>
+    <li>Andrychowicz, M. et al. (2017). Hindsight Experience Replay. arXiv:1707.01495.</li>
+    <li>Silver, T. et al. (2018). Residual Policy Learning. arXiv:1812.06298.</li>
+    <li>Johannink, T. et al. (2019). Residual reinforcement learning for robot control. <em>ICRA 2019</em>, arXiv:1812.03201.</li>
+    <li>Sundaralingam, B. et al. (2023). cuRobo: parallelized collision-free robot motion generation. arXiv:2310.17274.</li>
+    <li>Qureshi, A. H. et al. (2019). Motion Planning Networks. arXiv:1806.05767.</li>
+    <li>Fishman, A. et al. (2022). Motion Policy Networks. <em>CoRL 2022</em>, arXiv:2210.12209.</li>
+    <li>Deep-reinforcement-learning-based path planning for industrial robots using distance sensors as observation (2023). arXiv:2301.05980.</li>
+    <li>URPlanner: a universal paradigm for collision-free robotic motion planning based on DRL (2025). arXiv:2505.20175.</li>
+    <li>Schulman, J. et al. (2017). Proximal Policy Optimization algorithms. arXiv:1707.06347.</li>
+    <li>Zhou, Y. et al. (2019). On the continuity of rotation representations in neural networks. <em>CVPR 2019</em>, arXiv:1812.07035.</li>
+    <li>Agarwal, R. et al. (2021). Deep RL at the edge of the statistical precipice. arXiv:2108.13264.</li>
+  </ol>
+  <p style="font-family:var(--font-ui);font-size:13.5px;color:var(--muted)">Software and models: MuJoCo, MuJoCo Menagerie (UR5e and Robotiq 2F-85 models, vendored in <code>assets/menagerie/</code>, upstream licences apply), Stable-Baselines3, PyTorch, and the manufacturer&rsquo;s URDF for the MyCobot 280.</p>
+  <div class="todo-block"><strong class="tag">To add</strong>The reference list has 15 entries. Add the citations for the literature that Section 2.2 and Section 2.9 mark as missing, and a reference for the MyCobot 280 hardware and its manufacturer documentation.</div>
+</section>
+
+</main>
+</div>
+
+<script>
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  // ---- contents (rail and main page) from the headings
+  var rail = $('#toc'), main = $('#toc-main');
+  var heads = $$('.doc section h1, .doc section h2').filter(function (h) { return h.id || h.parentElement.id; });
+  var mainUl = document.createElement('ul'); mainUl.style.paddingLeft = '0';
+  heads.forEach(function (h) {
+    var id = h.id || h.parentElement.id;
+    var isH1 = h.tagName === 'H1';
+    var chEl = h.querySelector('.ch');
+    var label = chEl ? chEl.textContent.trim() + '  ' + h.textContent.replace(chEl.textContent, '').replace(/\s+/g, ' ').trim() : h.textContent.replace(/\s+/g, ' ').trim();
+    if (isH1 && (id === 'contents' || id === 'cover')) return;
+    var a = document.createElement('a'); a.href = '#' + id; a.textContent = label; a.className = isH1 ? 'l1' : 'l2';
+    rail.appendChild(a);
+    var li = document.createElement('li');
+    li.style.cssText = 'list-style:none;margin:' + (isH1 ? '.7rem 0 .2rem' : '0 0 .1rem') + ';padding-left:' + (isH1 ? '0' : '1.2rem');
+    var b = document.createElement('a'); b.href = '#' + id; b.textContent = label; if (isH1) b.style.fontWeight = '600';
+    li.appendChild(b); mainUl.appendChild(li);
+  });
+  main.appendChild(mainUl);
+
+  // ---- lists of figures, tables and videos from captions
+  function fill(sel, target, capSel) {
+    var ul = $(target);
+    $$(sel).forEach(function (el) {
+      var cap = $(capSel, el); if (!cap) return;
+      var li = document.createElement('li'); var a = document.createElement('a');
+      a.href = '#' + el.id; a.textContent = cap.textContent.replace(/\s+/g, ' ').trim();
+      li.appendChild(a); ul.appendChild(li);
+    });
+  }
+  fill('figure[id^="fig-"]', '#lof', 'figcaption');
+  fill('.tbl[id^="tab-"]', '#lot', '.cap');
+  fill('figure[id^="vid-"]', '#lov', 'figcaption');
+  $$('#lov li').forEach(function (li) { li.style.cssText = 'list-style:none;margin-bottom:.25rem;font-family:var(--font-ui);font-size:14px'; });
+
+  // ---- yellow items: build the list and the count
+  var items = $$('mark.todo, .todo-block');
+  var ol = $('#missing-list');
+  items.forEach(function (el, i) {
+    el.id = el.id || 'todo-' + (i + 1);
+    var label = el.getAttribute('data-label');
+    var isBlock = el.classList.contains('todo-block');
+    if (!label) { var t = el.cloneNode(true); var tag = t.querySelector('.tag'); var tagText = tag ? tag.textContent : ''; if (tag) tag.remove(); label = t.textContent.replace(/\s+/g, ' ').trim(); if (label.length > 150) label = label.slice(0, 147) + '...'; label = (tagText ? tagText + ': ' : '') + label; }
+    var sec = el.closest('section'); var secName = sec && sec.querySelector('h1') ? sec.querySelector('h1').textContent.replace(/\s+/g, ' ').trim() : '';
+    var li = document.createElement('li'); var a = document.createElement('a'); a.href = '#' + el.id; a.textContent = label;
+    li.appendChild(a); if (secName) { var s = document.createElement('span'); s.style.color = 'var(--muted)'; s.textContent = '  (' + secName + ')'; li.appendChild(s); }
+    ol.appendChild(li);
+  });
+  $$('.fig-todo').forEach(function (el) { /* figure placeholders hold a mark.todo already */ });
+  $('#todo-count').textContent = items.length;
+
+  // ---- toggles
+  var tt = $('#toc-toggle'), railEl = $('#rail');
+  tt.addEventListener('click', function () { var open = railEl.classList.toggle('open'); tt.setAttribute('aria-expanded', open); tt.textContent = open ? 'Hide contents' : 'Show contents'; });
+  var hy = $('#todo-toggle');
+  hy.addEventListener('click', function () { var h = document.body.classList.toggle('hide-todos'); hy.textContent = h ? 'Show yellow' : 'Hide yellow'; });
+  // keep the contents button text right on wide screens
+  function sync() { if (window.matchMedia('(min-width: 62.01rem)').matches) { tt.style.display = 'none'; } else { tt.style.display = ''; } }
+  sync(); window.addEventListener('resize', sync);
+})();
+</script>
+

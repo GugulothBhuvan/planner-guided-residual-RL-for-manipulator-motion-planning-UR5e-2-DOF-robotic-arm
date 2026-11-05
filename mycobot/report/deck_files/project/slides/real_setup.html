@@ -1,0 +1,15 @@
+<section id="real_setup" data-transition="fade" style="background:#F5F3EC;color:#12202B;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<p style="font-size:26px;letter-spacing:4px;text-transform:uppercase;color:#1F7A74">Real MyCobot 280, streaming</p>
+<h2 style="font-family:'EB Garamond', Georgia, serif;font-size:68px;font-weight:500;line-height:1.1">30 of 30 runs succeed on the real arm</h2>
+<div style="display:flex;gap:48px;align-items:center">
+<img src="/_blob/e83963358ef75a17a1ff1225d98e224e" alt="Duration, tool path and closest approach of the real-arm runs by method" style="width:900px;height:560px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D4C5;border-radius:16px">
+<div style="display:flex;flex-direction:column;gap:24px;flex:1">
+<p style="font-size:30px;color:#46525B">First 10 test episodes, B2, cheap planner and hybrid, with virtual obstacles.</p>
+<p style="font-size:32px"><b style="color:#1F7A74">No collisions</b> and no safety aborts</p>
+<p style="font-size:32px"><b style="color:#1F7A74">Under 1 cm</b> and 4.3° final error</p>
+<p style="font-size:30px;color:#46525B">A final-approach correction was needed: under load the shoulder stopped 1.46 cm short in one B2 run.</p>
+<p style="font-size:30px;color:#46525B">The hybrid and the cheap planner are indistinguishable.</p>
+</div>
+</div>
+<aside>The command cycle is send, 30 ms wait, read: about 49 ms. Each tick moves each joint by at most 0.5 degrees. Obstacles are virtual keep-out spheres checked on the measured pose.</aside>
+</section>

@@ -1,0 +1,9 @@
+<section id="why" data-transition="fade" style="background:#12202B;color:#F5F3EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:56px">
+<p style="font-size:26px;letter-spacing:4px;text-transform:uppercase;color:#7FD1C9">Why it fails</p>
+<h2 style="font-family:'EB Garamond', Georgia, serif;font-size:92px;font-weight:500;line-height:1.08;width:1500px">A residual cannot help a planner whose path is already tracked</h2>
+<div style="display:flex;gap:48px">
+<p style="flex:1;font-size:34px;color:#D8E0E3"><b style="color:#F5F3EC">Bounded, so cancelled.</b> The additive residual can move the target by at most 0.012 rad per joint, and the tracker pulls it back.</p>
+<p style="flex:1;font-size:34px;color:#D8E0E3"><b style="color:#F5F3EC">Unbounded, so unsafe.</b> The offset residual has authority, but it saturates and leaves the safe path.</p>
+</div>
+<aside>The authority and safety dilemma. The bound is derived in Appendix A and measured on the 87% of unsaturated steps: 0.0120 rad.</aside>
+</section>

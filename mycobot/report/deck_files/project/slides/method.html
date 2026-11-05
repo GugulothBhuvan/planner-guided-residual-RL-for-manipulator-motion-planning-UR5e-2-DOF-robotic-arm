@@ -1,0 +1,30 @@
+<section id="method" data-transition="fade" style="background:#F5F3EC;color:#12202B;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<p style="font-size:26px;letter-spacing:4px;text-transform:uppercase;color:#1F7A74">Method</p>
+<h2 style="font-family:'EB Garamond', Georgia, serif;font-size:72px;font-weight:500;line-height:1.1">A cheap planner, a tracker and a residual policy</h2>
+<div style="display:flex;align-items:center;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #D9D4C5;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:34px">Cheap RRT-Connect</h3>
+<p style="font-size:26px;color:#46525B">N collision checks, then a straight-line fallback</p>
+</div>
+<x-shape kind="arrow-right" style="width:64px;height:40px;background:#1F7A74"></x-shape>
+<div style="flex:1;background:#FBFAF6;border:1px solid #D9D4C5;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:34px">Path tracker</h3>
+<p style="font-size:26px;color:#46525B">base action that follows the reference path</p>
+</div>
+<x-shape kind="arrow-right" style="width:64px;height:40px;background:#1F7A74"></x-shape>
+<div style="flex:1;background:#12202B;color:#F5F3EC;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:34px;color:#7FD1C9">Residual SAC</h3>
+<p style="font-size:26px;color:#D8E0E3">learned correction added to the base action</p>
+</div>
+<x-shape kind="arrow-right" style="width:64px;height:40px;background:#1F7A74"></x-shape>
+<div style="flex:1;background:#FBFAF6;border:1px solid #D9D4C5;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:34px">Arm</h3>
+<p style="font-size:26px;color:#46525B">integrated joint target, limited step per tick</p>
+</div>
+</div>
+<div style="display:flex;gap:32px">
+<p style="flex:1;font-size:30px;color:#46525B"><b style="color:#12202B">E5, additive.</b> The command is clip(base + α · residual). Authority is bounded by α times the step limit.</p>
+<p style="flex:1;font-size:30px;color:#46525B"><b style="color:#12202B">E5b, offset.</b> The residual integrates an offset that persists, up to a limit, so it can leave the reference path.</p>
+</div>
+<aside>Both residual designs were pre-registered. The additive one is the main recipe; the offset one is the second iteration after the additive result was understood.</aside>
+</section>

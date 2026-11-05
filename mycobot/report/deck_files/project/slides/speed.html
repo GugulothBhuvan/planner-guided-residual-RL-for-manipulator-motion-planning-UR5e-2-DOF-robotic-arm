@@ -1,0 +1,13 @@
+<section id="speed" data-transition="fade" style="background:#F5F3EC;color:#12202B;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<p style="font-size:26px;letter-spacing:4px;text-transform:uppercase;color:#A85A0C">The speed problem</p>
+<h2 style="font-family:'EB Garamond', Georgia, serif;font-size:68px;font-weight:500;line-height:1.1">The arm moved at 10°/s because of how we commanded it</h2>
+<table style="font-size:30px;width:1664px;color:#12202B">
+<tr><th style="width:46%;text-align:left">Command style</th><th style="width:18%;text-align:right">Move</th><th style="width:18%;text-align:right">Time</th><th style="width:18%;text-align:right">Rate</th></tr>
+<tr><td>Streaming 0.5° every 50 ms (used so far)</td><td style="text-align:right">20°</td><td style="text-align:right">2.05 s</td><td style="text-align:right">9.7°/s</td></tr>
+<tr><td>One firmware move, speed 20</td><td style="text-align:right">60°</td><td style="text-align:right">2.4 s</td><td style="text-align:right">about 35°/s</td></tr>
+<tr><td>One firmware move, speed 40</td><td style="text-align:right">60°</td><td style="text-align:right">1.6 s</td><td style="text-align:right">about 71°/s</td></tr>
+<tr><td>One firmware move, speed 60</td><td style="text-align:right">60°</td><td style="text-align:right">1.4 s</td><td style="text-align:right">57–76°/s</td></tr>
+</table>
+<p style="font-size:30px;color:#46525B">Larger streaming steps stall even when nothing is read between sends: one send call blocked for 449 ms.</p>
+<aside>One joint, J1, with no obstacles. Streaming restarts the arm's own motion profile at every command; a single firmware move is planned once and is 3 to 7 times faster. Smoothness could not be compared because the joint readings were too slow.</aside>
+</section>

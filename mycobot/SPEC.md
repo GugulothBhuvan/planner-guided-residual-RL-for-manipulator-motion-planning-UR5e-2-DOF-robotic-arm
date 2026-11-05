@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Draft v0.13 — 2026-11-05 |
+| **Status** | Draft v0.14 — 2026-11-05 |
 | **Parent** | [../SPEC.md](../SPEC.md) v0.25 (UR5e). This lane reuses its agents, residual recipe and protocol. |
 | **Goal** | Deploy the planner + residual pipeline on a real MyCobot 280 M5 (suction head) and test it against the same baselines. |
 | **Deadline** | 24 h from 2026-11-02 (user). Scope below is cut to fit; cuts are listed in M9. |
@@ -234,7 +234,8 @@ Instead of streaming a 0.5 deg goal every 50 ms, the episode is played first in 
 
   13 of 14 runs succeeded with no collision; the one stop is B2 skimming an obstacle (its paths pass within millimetres of the obstacles, as in M7e) with the arm's 1 deg offset enough to touch it in the model; the guard stopped the arm as designed. One run per case, so this shows feasibility, not rates.
 - **Video layouts:** `scripts/render_grid_compare.py` makes the 5-panel layout (camera on the left; real arm in the model and simulation on the right, each from a top isometric and a side camera, official M5 meshes; the simulation panels are time-compressed to the real run and labelled) used for the report and slides; `film_batch.py make --layout grid` writes `results/media/grid_<set>_ep<N>_<method>.mp4`. The earlier 3-panel composites are kept.
-- **Not done:** a measurement of smoothness; more than one episode per challenge or shape type on the arm.
+- **Report and slides (2026-11-05):** the published report (Version 3) has the segment-mode section 6.9.6, Table 4.3 (planner wall time per budget, residual inference 0.55 ms per step), the viewport and scene figures redrawn with the meshes (Figure 5.3, Sections 6.7 and 6.8), Figure 6.16 (wall time, segments against streaming) and ten five-panel videos (`results/media/grid_*.mp4`: `s4_test` episodes 9, 8 and 7 (B2 and hybrid), challenge gap/clutter/limit/edge, shape box/cylinder). A copy of the report page and the slide-deck sources is in `report/`. The 17-slide deck is the artifact "Planner-Guided Residual RL".
+- **Not done:** a measurement of smoothness; more than one episode per challenge or shape type on the arm; five-panel versions of the streaming-mode videos (they stay three-panel); B2 and mixed-shape five-panel videos for the challenge and shape sets (filmed, not rendered).
 
 ## M8 Decisions log
 
