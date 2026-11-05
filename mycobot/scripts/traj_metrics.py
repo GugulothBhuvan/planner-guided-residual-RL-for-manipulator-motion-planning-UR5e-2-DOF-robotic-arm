@@ -31,6 +31,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import evaluate  # noqa: E402
 from mcrl.envs.pose_env import EnvConfig, MyCobotPoseEnv  # noqa: E402
+from mcrl.shapes import load_testset  # noqa: E402
 from ur5rl.eval import testsets  # noqa: E402
 
 DT = 0.05
@@ -87,7 +88,7 @@ def main():
             continue
         name, ep_i, method = m[1], int(m[2]), m[3]
         if name not in sets:
-            eps, meta = testsets.load(name, ROOT / "testsets")
+            eps, meta = load_testset(name, ROOT / "testsets")
             sets[name] = eps
             envs[name] = MyCobotPoseEnv(EnvConfig(**evaluate.stage_env(meta)))
         data = json.load(open(f))

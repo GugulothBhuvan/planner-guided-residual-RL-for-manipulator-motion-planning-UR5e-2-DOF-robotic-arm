@@ -2,7 +2,9 @@
 
   gap     two spheres flank the straight tool path at its middle with a 5-8 cm clear gap between their surfaces
   clutter four spheres within a few cm of the straight tool path (s4 uses 1-4 spheres within +-5 cm, uniformly)
-  limit   goal with one joint within 3-10 deg of its limit, 1-3 s4-style spheres
+  limit   goal with the shoulder (J2) pushed 0.75-0.9 rad above the start, so a joint is within 16-30 deg of its limit
+          (the closest the s4 protocol allows: starts are near the home pose and goals within 0.9 rad of the start),
+          1-3 s4-style spheres
   edge    goal tool position >= 0.27 m from the shoulder axis (near full reach), 1-3 s4-style spheres
 
 Common rules (as s4): start and goal collision-free and >= 1 cm clear of every sphere, goal <= 0.9 rad from the start in
@@ -53,10 +55,13 @@ def sample(cat, env, rng):
     """One candidate episode of this type (not yet checked for B2 feasibility), or None."""
     q_start = env._sample_start()
     if cat == "limit":
+        # Starts lie within ~17 deg of the home pose and goals within 0.9 rad of the start, so under the s4 protocol no
+        # joint can get within ~16 deg of a limit except the shoulder (J2, upper limit 85 deg): push J2 up by 0.75-0.9 rad.
         for _ in range(400):
             q = env._sample_goal_q(q_start)
+            q[1] = q_start[1] + rng.uniform(0.75, 0.9)
             margin = np.rad2deg(np.minimum(q - LIMITS_RAD[:, 0], LIMITS_RAD[:, 1] - q))
-            if 3.0 <= margin.min() <= 10.0:
+            if margin.min() <= 30.0 and not env._in_collision(q) and env._tcp_pose(q)[0][2] > 0.0:
                 q_goal = q
                 break
         else:

@@ -119,3 +119,70 @@ def test_trim_arm_closes_static_shortfall_within_limits():
     for k in range(1, 41):  # the target moves again: the trim decays to zero within ~20 ticks
         trimmed.tick(target + np.deg2rad(0.3) * k)
     assert np.abs(trimmed.trim).max() < 1e-9
+
+
+def _dist_to_shape(p, kind, c, size, R):
+    """Distance from points p (n,3) to a box / vertical cylinder at c with local rotation R (0 inside)."""
+    local = (p - c) @ R
+    if kind == 1:
+        return np.linalg.norm(np.maximum(np.abs(local) - size, 0.0), axis=-1)
+    radial = np.maximum(np.linalg.norm(local[:, :2], axis=-1) - size[0], 0.0)
+    axial = np.maximum(np.abs(local[:, 2]) - size[1], 0.0)
+    return np.hypot(radial, axial)
+
+
+@pytest.mark.parametrize("kind", [1, 2])
+def test_box_and_cylinder_collide_by_exact_shape(env, kind):
+    """MuJoCo contacts against a rotated box / cylinder obstacle agree with an independent point-sampled distance
+    between the arm's capsules and the shape (outside a 3 mm band), and differ from the enclosing sphere's verdict."""
+    from mcrl import shapes
+    from ur5rl.envs import rotations as rot
+    rng = np.random.default_rng(7 + kind)
+    env.reset(seed=0)
+    agree = n_hit = n_miss = sphere_only = 0
+    for _ in range(400):
+        q = rng.uniform(env.q_lo, env.q_hi)
+        env._set_obstacles(np.zeros((env.K, 3)), np.full(env.K, 0.05), np.zeros(env.K, bool))
+        if env._in_collision(q) or env._tcp_pose(q)[0][2] <= 0.02:
+            continue
+        c = env._tcp_pose(q)[0] + rng.uniform(-0.08, 0.08, 3)
+        size = np.array([0.012, 0.02, 0.03]) if kind == 1 else np.array([0.015, 0.035, 0.0])
+        quat = rng.normal(size=4)
+        quat /= np.linalg.norm(quat)
+        R = rot.quat_to_mat(quat)
+        rb = shapes.bounding_radius(kind, size)
+        shape, sz, qt = (np.zeros(env.K, np.int64), np.zeros((env.K, 3)), np.tile([1.0, 0, 0, 0], (env.K, 1)))
+        shape[0], sz[0], qt[0] = kind, size, quat
+        centers, radii, mask = np.zeros((env.K, 3)), np.full(env.K, 0.05), np.zeros(env.K, bool)
+        centers[0], radii[0], mask[0] = c, rb, True
+        env._set_obstacles(centers, radii, mask, shape, sz, qt)
+        hit = env._in_collision(q)
+        p0, p1 = env.clearance.segments(env.data)
+        t = np.linspace(0, 1, 25)[None, :, None]
+        pts = (p0[:, None] + t * (p1 - p0)[:, None]).reshape(-1, 3)
+        d = (_dist_to_shape(pts, kind, c, size, R).reshape(len(p0), -1) - env.clearance.radius[:, None]).min()
+        if abs(d) < 0.003:
+            continue
+        agree += int(hit == (d < 0))
+        n_hit += int(d < 0)
+        n_miss += int(d >= 0)
+        sphere_only += int((env.clearance.capsule_distances(env.data, c[None], np.array([rb])).min() < 0) and not hit)
+    assert n_hit >= 10 and n_miss >= 10
+    assert agree == n_hit + n_miss
+    assert sphere_only > 0  # the enclosing sphere would have reported collisions the exact shape does not have
+    env._set_obstacles(np.zeros((env.K, 3)), np.full(env.K, 0.05), np.zeros(env.K, bool))
+
+
+def test_shape_episode_roundtrip_and_sphere_default(env):
+    env.reset(seed=1)
+    ep = env.episode()
+    assert "shape" not in ep  # spheres only: the episode format is unchanged
+    shape, sz, qt = (np.array([1, 2, 0, 0]), np.array([[.02, .02, .02], [.015, .03, 0], [0, 0, 0], [0, 0, 0]]),
+                     np.tile([1.0, 0, 0, 0], (4, 1)))
+    ep = dict(ep, centers=np.array([[.1, 0, .2], [.15, .05, .2], [0, 0, 0], [0, 0, 0]]), radii=np.array([.035, .033, .05, .05]),
+              mask=np.array([True, True, False, False]), shape=shape, size=sz, quat=qt)
+    env.reset(seed=1, options={"episode": ep})
+    again = env.episode()
+    assert (again["shape"] == shape).all() and np.allclose(again["size"], sz)
+    env.reset(seed=1)  # a plain reset restores spheres
+    assert not env.ob_shape.any()

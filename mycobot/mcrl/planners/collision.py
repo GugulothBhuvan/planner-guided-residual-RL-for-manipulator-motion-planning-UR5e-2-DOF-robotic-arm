@@ -7,6 +7,7 @@ from __future__ import annotations
 import mujoco
 import numpy as np
 
+from mcrl import shapes
 from mcrl.envs.pose_env import SCENE_XML
 
 
@@ -22,13 +23,15 @@ class CollisionChecker:
         self.mocap = np.array([m.body_mocapid[m.body(f"obstacle{k}").id] for k in range(self.K)])
         self.n_checks = 0
 
-    def set_obstacles(self, centers, radii, mask, inflate=0.0):
+    def set_obstacles(self, centers, radii, mask, inflate=0.0, shape=None, size=None, quat=None):
+        """Spheres by `radii`; with `shape` / `size` / `quat` (mcrl/shapes.py) boxes and cylinders in their exact form,
+        every half size grown by `inflate`."""
         m, d = self.model, self.data
+        if shape is None:
+            shape, size, quat = shapes.default_arrays(self.K)
         for k in range(self.K):
-            r = float(radii[k]) + inflate
-            d.mocap_pos[self.mocap[k]] = centers[k] if mask[k] else (0.0, 0.0, -5.0)
-            m.geom_size[self.geom[k], 0] = m.geom_rbound[self.geom[k]] = r
-            m.geom_aabb[self.geom[k], 3:] = r
+            shapes.apply(m, d, self.geom[k], self.mocap[k], centers[k], mask[k], int(shape[k]), size[k], quat[k],
+                         radii[k], inflate)
 
     def __call__(self, q):
         """True if configuration q touches the table, floor, an obstacle or itself."""

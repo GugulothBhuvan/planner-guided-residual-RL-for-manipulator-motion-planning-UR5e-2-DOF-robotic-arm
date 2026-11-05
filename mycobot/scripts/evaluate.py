@@ -28,6 +28,7 @@ import numpy as np
 import yaml
 
 from mcrl.envs.pose_env import EnvConfig, MyCobotPoseEnv as UR5ePoseEnv
+from mcrl.shapes import load_testset
 from mcrl.envs.residual import ResidualEnv
 from ur5rl.eval import testsets
 from ur5rl.eval.locking import SummaryLock
@@ -197,7 +198,7 @@ def main():
     p.add_argument("--skip-base", action="store_true", help="--budgets adds hybrid@N only (base@N already evaluated)")
     args = p.parse_args()
 
-    episodes, meta = testsets.load(args.set, ROOT / "testsets")
+    episodes, meta = load_testset(args.set, ROOT / "testsets")
     episodes = episodes[:args.limit] if args.limit else episodes
     env_cfg = stage_env(meta)
     methods = list(args.methods)

@@ -17,7 +17,7 @@ import numpy as np
 
 from ur5rl.envs import rotations as rot
 from mcrl.envs.clearance import ROBOT_BODIES, Clearance
-from mcrl import robot
+from mcrl import robot, shapes
 
 SCENE_XML = Path(__file__).resolve().parents[2] / "assets" / "scene_mc280.xml"
 HOME_Q = robot.HOME_Q
@@ -112,6 +112,7 @@ class MyCobotPoseEnv(gym.Env):
         self.ob_center = np.zeros((self.K, 3))
         self.ob_radius = np.full(self.K, 0.05)
         self.ob_mask = np.zeros(self.K, bool)
+        self.ob_shape, self.ob_size, self.ob_quat = shapes.default_arrays(self.K)  # spheres unless an episode says otherwise
         self.goal = np.zeros(9)
         self.goal_R = np.eye(3)
         self.prev_action = np.zeros(6)
@@ -175,14 +176,15 @@ class MyCobotPoseEnv(gym.Env):
                 continue
             return q
 
-    def _set_obstacles(self, centers, radii, mask):
+    def _set_obstacles(self, centers, radii, mask, shape=None, size=None, quat=None):
+        """`radii` is the sphere radius, or for a box / cylinder the radius of its enclosing sphere (mcrl/shapes.py)."""
         m, d = self.model, self.data
         self.ob_center[:], self.ob_radius[:], self.ob_mask[:] = centers, radii, mask
+        self.ob_shape, self.ob_size, self.ob_quat = (shapes.default_arrays(self.K) if shape is None else
+                                                      (np.asarray(shape, np.int64), np.asarray(size, float), np.asarray(quat, float)))
         for k in range(self.K):
-            d.mocap_pos[self.obs_mocap[k]] = centers[k] if mask[k] else (0.0, 0.0, -5.0)
-            g = self.obs_geom[k]
-            m.geom_size[g, 0] = m.geom_rbound[g] = radii[k]
-            m.geom_aabb[g, 3:] = radii[k]
+            shapes.apply(m, d, self.obs_geom[k], self.obs_mocap[k], centers[k], mask[k], int(self.ob_shape[k]),
+                         self.ob_size[k], self.ob_quat[k], radii[k])
 
     def _clear_at(self, q, centers, radii, margin=0.01):
         d = self.data
@@ -217,8 +219,11 @@ class MyCobotPoseEnv(gym.Env):
 
     def episode(self):
         """The current episode as a dict that reset(options={"episode": ...}) reproduces (test sets, §9.2)."""
-        return dict(q_start=self.q_start.copy(), q_goal=self.q_goal.copy(), centers=self.ob_center.copy(),
-                    radii=self.ob_radius.copy(), mask=self.ob_mask.copy())
+        ep = dict(q_start=self.q_start.copy(), q_goal=self.q_goal.copy(), centers=self.ob_center.copy(),
+                  radii=self.ob_radius.copy(), mask=self.ob_mask.copy())
+        if self.ob_shape.any():
+            ep.update(shape=self.ob_shape.copy(), size=self.ob_size.copy(), quat=self.ob_quat.copy())
+        return ep
 
     def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
@@ -226,7 +231,8 @@ class MyCobotPoseEnv(gym.Env):
         ep = (options or {}).get("episode")
         if ep is not None:  # replay a stored episode (frozen test sets)
             q_start, q_goal = np.asarray(ep["q_start"], float), np.asarray(ep["q_goal"], float)
-            self._set_obstacles(np.asarray(ep["centers"]), np.asarray(ep["radii"]), np.asarray(ep["mask"], bool))
+            self._set_obstacles(np.asarray(ep["centers"]), np.asarray(ep["radii"]), np.asarray(ep["mask"], bool),
+                                *(ep[k] for k in shapes.SHAPE_KEYS) if "shape" in ep else (None, None, None))
         else:
             self._set_obstacles(np.zeros((self.K, 3)), np.full(self.K, 0.05), np.zeros(self.K, bool))
             q_start = self._sample_start()
@@ -244,8 +250,9 @@ class MyCobotPoseEnv(gym.Env):
         mujoco.mj_resetData(m, d)
         d.mocap_pos[self.goal_mocap] = p_goal
         d.mocap_quat[self.goal_mocap] = rot.mat_to_quat(R_goal)
-        for k in range(self.K):
+        for k in range(self.K):  # mj_resetData restores the mocap poses of the model
             d.mocap_pos[self.obs_mocap[k]] = self.ob_center[k] if self.ob_mask[k] else (0.0, 0.0, -5.0)
+            d.mocap_quat[self.obs_mocap[k]] = self.ob_quat[k] if self.ob_shape[k] else (1.0, 0.0, 0.0, 0.0)
         d.qpos[:6] = q_start
         d.ctrl[:6] = q_start
         mujoco.mj_forward(m, d)

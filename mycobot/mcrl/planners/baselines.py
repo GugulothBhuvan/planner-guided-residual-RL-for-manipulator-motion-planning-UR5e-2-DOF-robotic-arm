@@ -32,6 +32,11 @@ class Plan:
     reason: str = ""
 
 
+def shape_kw(env):
+    """The env's obstacle shapes for CollisionChecker.set_obstacles (planners see the exact shape, SPEC M4c)."""
+    return dict(shape=env.ob_shape, size=env.ob_size, quat=env.ob_quat)
+
+
 def goal_pose(env):
     T = np.eye(4)
     T[:3, :3] = rot.r6d_to_mat(env.goal[3:])
@@ -61,7 +66,7 @@ def goal_configs(env, checker):
 def plan_b1(env, checker=None):
     """IK (nearest collision-free branch) + quintic. No obstacle avoidance: S1/S2 only."""
     checker = checker or CollisionChecker()
-    checker.set_obstacles(env.ob_center, env.ob_radius, env.ob_mask)
+    checker.set_obstacles(env.ob_center, env.ob_radius, env.ob_mask, **shape_kw(env))
     t0 = time.perf_counter()
     goals = goal_configs(env, checker)
     if not goals:
@@ -82,11 +87,11 @@ def plan_b2(env, rng, checker=None, budget=2.0, inflate=0.0, shortcut_iters=200,
     themselves "collide" and the base would fail for a reason unrelated to path quality.
     """
     exact = checker or CollisionChecker()
-    exact.set_obstacles(env.ob_center, env.ob_radius, env.ob_mask)
+    exact.set_obstacles(env.ob_center, env.ob_radius, env.ob_mask, **shape_kw(env))
     infl = None
     if inflate > 0:
         infl = inflated_checker or CollisionChecker()
-        infl.set_obstacles(env.ob_center, env.ob_radius, env.ob_mask, inflate=inflate)
+        infl.set_obstacles(env.ob_center, env.ob_radius, env.ob_mask, inflate=inflate, **shape_kw(env))
     space = JointSpace(env.q_lo, env.q_hi)
     t0 = time.perf_counter()
     goals = goal_configs(env, exact)

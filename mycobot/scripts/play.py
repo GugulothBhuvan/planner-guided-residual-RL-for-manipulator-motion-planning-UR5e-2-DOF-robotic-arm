@@ -43,6 +43,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 
 from ur5rl.envs import rotations as rot
 from mcrl.envs.pose_env import EnvConfig, MyCobotPoseEnv as UR5ePoseEnv
+from mcrl.shapes import load_testset
 from ur5rl.viz import overlays
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -120,7 +121,7 @@ class Replay(Player):
         from evaluate import load_policy, stage_env
         from mcrl.envs.residual import ResidualEnv
         from ur5rl.eval import testsets
-        self.episodes, meta = testsets.load(args.testset, ROOT / "testsets")
+        self.episodes, meta = load_testset(args.testset, ROOT / "testsets")
         env_cfg = dict(stage_env(meta), visual=True)
         self.method, self.index, self.model, self.alpha = args.method, args.episode, None, 0.0
         if args.method in ("base", "hybrid"):

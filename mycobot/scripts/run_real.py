@@ -29,7 +29,7 @@ from mcrl.envs.pose_env import EnvConfig  # noqa: E402
 from mcrl.envs.residual import ResidualEnv  # noqa: E402
 from mcrl.planners.baselines import ReferenceTracker, plan_b2  # noqa: E402
 from mcrl.planners.collision import CollisionChecker  # noqa: E402
-from ur5rl.eval import testsets  # noqa: E402
+from mcrl.shapes import load_testset  # noqa: E402
 from ur5rl.planners.quintic import time_scale  # noqa: E402
 from ur5rl.planners.rrt_connect import JointSpace, rrt_connect, shortcut  # noqa: E402
 
@@ -56,6 +56,20 @@ def go_to(arm, env, q_goal, rng):
         arm.tick(q_goal)
 
 
+def beep():
+    """1 kHz, 300 ms, in a thread so the control loop is not delayed (the tone starts with tick 0)."""
+    import threading
+    import winsound
+    threading.Thread(target=winsound.Beep, args=(1000, 300), daemon=True).start()
+
+
+def hold(arm, q, seconds):
+    if seconds > 0:
+        print(f"holding the start pose for {seconds:.0f} s, then the episode begins", flush=True)
+    for _ in range(int(seconds / robot.CONTROL_DT)):
+        arm.tick(q)
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--set", default="s4_test")
@@ -70,13 +84,15 @@ def main():
     p.add_argument("--send-every", type=int, default=1, help="send a new target every N control ticks (1 = 50 ms)")
     p.add_argument("--out-dir", default="results/real", help="log directory under mycobot/ (experiments use their own)")
     p.add_argument("--tag-suffix", default="", help="appended to the log name (experiments)")
+    p.add_argument("--hold-before", type=float, default=0.0, help="seconds to hold the start pose before the episode (filming)")
+    p.add_argument("--beep", action="store_true", help="sound a 1 kHz tone at the first control tick (sync cue for a phone video)")
     p.add_argument("--no-trim", action="store_true", help="disable the final-approach correction (TrimArm)")
     p.add_argument("--execute", action="store_true", help="required to move the real arm")
     args = p.parse_args()
     if not args.dry_run and not args.execute:
         sys.exit("refusing to move the real arm without --execute (use --dry-run to simulate)")
 
-    episodes, meta = testsets.load(args.set, ROOT / "testsets")
+    episodes, meta = load_testset(args.set, ROOT / "testsets")
     ep = episodes[args.episode]
     env_cfg = evaluate.stage_env(meta)
     arm = FakeArm(np.clip(robot.HOME_Q, robot.LIMITS_RAD[:, 0], robot.LIMITS_RAD[:, 1]), seed=args.episode) \
@@ -94,6 +110,7 @@ def main():
             env = HardwareEnv(EnvConfig(**env_cfg), arm)
             env.reset(seed=args.episode, options={"episode": ep})
             go_to(arm, env, env.q_start, rng)
+            hold(arm, env.q_start, args.hold_before)
             obs, _ = env.reset(seed=args.episode, options={"episode": ep})
             plan = plan_b2(env, rng, CollisionChecker())
             if not plan.ok:
@@ -111,6 +128,7 @@ def main():
             renv = ResidualEnv(inner, alpha=alpha, **base_kw)
             renv.reset(seed=args.episode, options={"episode": ep})
             go_to(arm, inner, inner.q_start, rng)
+            hold(arm, inner.q_start, args.hold_before)
             obs, info0 = renv.reset(seed=args.episode, options={"episode": ep})
             print("base plan ok:", info0["base_ok"], "plan time %.2f s" % info0["base_plan_time"], flush=True)
             act = (lambda o: model.predict(o, deterministic=True)[0]) if model else (lambda o: np.zeros(6))
@@ -118,6 +136,9 @@ def main():
         print(f"start error {np.rad2deg(np.abs(arm.q - base.q_start).max()):.2f} deg; running up to "
               f"{base.cfg.episode_length} ticks", flush=True)
         t0 = time.perf_counter()
+        epoch0 = time.time()
+        if args.beep:
+            beep()
         while True:
             obs, _, term, trunc, info = step_env.step(act(obs))
             ticks.append(dict(t=base.t, wall=time.perf_counter() - t0, success=info["is_success"], collision=info["collision"], d_pos=info["d_pos"],
@@ -129,7 +150,7 @@ def main():
         summary = dict(tag=tag, status=status, success=bool(final["success"]), collision=bool(any(x["collision"] for x in ticks)),
                        d_pos_cm=100 * final["d_pos"], theta_deg=float(np.rad2deg(final["theta"])), ticks=len(ticks),
                        wall_s=wall, dry_run=args.dry_run, trim=not args.no_trim,
-                       speed=args.speed, send_every=args.send_every,
+                       epoch_start=epoch0, speed=args.speed, send_every=args.send_every,
                        coords_end=None if args.dry_run else arm.final_coords())
     except (SafetyAbort, KeyboardInterrupt, Exception) as exc:
         arm.stop()
