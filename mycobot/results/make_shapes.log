@@ -1,0 +1,7 @@
+  box: 11/25 after 309478 candidates
+box: 25 episodes from 543465 candidates
+  cylinder: 16/25 after 283450 candidates
+cylinder: 25 episodes from 414543 candidates
+  mixed: 7/25 after 251397 candidates
+mixed: 25 episodes from 517021 candidates
+{"stage": "s4", "n": 75, "categories": ["box", "cylinder", "mixed"], "per_category": 25, "candidates": {"box": 543465, "cylinder": 414543, "mixed": 517021}, "horizon": 900, "b2_duration_p50": 14.55, "b2_duration_max": 19.85, "note": "SPEC M4c: cluttered boxes / cylinders / mixed; generator scripts/make_shapes.py (rng seed 20261105)"}

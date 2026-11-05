@@ -29,5 +29,45 @@
     "rule": "decision 2026-11-02: 900 steps (cheap-planner paths p90 ~754 steps); sets built at 489 by max(200, ceil(1.25 * p99 B2 duration / 0.05 s))",
     "horizon_steps": 900,
     "built_at": 489
+  },
+  "s4_chal": {
+    "stage": "s4",
+    "n": 100,
+    "categories": [
+      "gap",
+      "clutter",
+      "limit",
+      "edge"
+    ],
+    "per_category": 25,
+    "candidates": {
+      "gap": 189,
+      "clutter": 228062,
+      "limit": 128,
+      "edge": 15546
+    },
+    "horizon": 900,
+    "b2_duration_p50": 15.05,
+    "b2_duration_max": 19.950000000000003,
+    "note": "SPEC M4b: gap / clutter / limit / edge; generator scripts/make_challenge.py (rng seed 20261103)"
+  },
+  "s4_shape": {
+    "stage": "s4",
+    "n": 75,
+    "categories": [
+      "box",
+      "cylinder",
+      "mixed"
+    ],
+    "per_category": 25,
+    "candidates": {
+      "box": 543465,
+      "cylinder": 414543,
+      "mixed": 517021
+    },
+    "horizon": 900,
+    "b2_duration_p50": 14.55,
+    "b2_duration_max": 19.85,
+    "note": "SPEC M4c: cluttered boxes / cylinders / mixed; generator scripts/make_shapes.py (rng seed 20261105)"
   }
 }

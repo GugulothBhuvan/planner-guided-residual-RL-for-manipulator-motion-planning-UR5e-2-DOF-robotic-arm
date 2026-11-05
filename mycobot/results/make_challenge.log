@@ -1,0 +1,5 @@
+gap: 25 episodes from 189 candidates
+clutter: 25 episodes from 228062 candidates
+limit: 25 episodes from 128 candidates
+edge: 25 episodes from 15546 candidates
+{"stage": "s4", "n": 100, "categories": ["gap", "clutter", "limit", "edge"], "per_category": 25, "candidates": {"gap": 189, "clutter": 228062, "limit": 128, "edge": 15546}, "horizon": 900, "b2_duration_p50": 15.05, "b2_duration_max": 19.950000000000003, "note": "SPEC M4b: gap / clutter / limit / edge; generator scripts/make_challenge.py (rng seed 20261103)"}
