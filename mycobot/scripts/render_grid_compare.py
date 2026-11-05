@@ -180,7 +180,7 @@ def main():
 
     state = {"j": -1, "i": 0, "last_cam": None}
     sub_real = f"{names[args.method]} | {'SUCCESS' if s.get('success') else 'MISS'} {s.get('d_pos_cm', 0):.2f} cm, {s.get('theta_deg', 0):.1f} deg"
-    header = (f"{args.set} episode {args.episode}  |  {names[args.method]}  |  firmware-segment execution  |  "
+    header = (f"{args.set} episode {args.episode}  |  {names[args.method]}  |  {'firmware-segment execution' if s.get('mode') == 'segments' else 'streaming execution (0.5 deg per 50 ms)'}  |  "
               f"real arm: {'SUCCESS' if s.get('success') else 'MISS'} {s.get('d_pos_cm', 0):.2f} cm, {s.get('theta_deg', 0):.1f} deg  |  "
               f"simulation: {outcome}{note}")
 

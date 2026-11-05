@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Draft v0.14 — 2026-11-05 |
+| **Status** | Draft v0.15 — 2026-11-06 |
 | **Parent** | [../SPEC.md](../SPEC.md) v0.25 (UR5e). This lane reuses its agents, residual recipe and protocol. |
 | **Goal** | Deploy the planner + residual pipeline on a real MyCobot 280 M5 (suction head) and test it against the same baselines. |
 | **Deadline** | 24 h from 2026-11-02 (user). Scope below is cut to fit; cuts are listed in M9. |
@@ -255,6 +255,8 @@ Instead of streaming a 0.5 deg goal every 50 ms, the episode is played first in 
 | 2026-11-05 | official M5 shell meshes (`assets/m5_meshes/`, from `mycobot_ros`) are drawn over the model in the 3-panel videos only; the capsule model, limits, collisions and policy are unchanged (`scripts/render_mesh_compare.py`) | user wanted better-looking videos; checked: episode 8 identical trajectory and outcome with and without the meshes. The JN repo (`mycobot_mujoco`) was compared and not used: its base is 25 mm higher than the M5's, and the real arm's data fit the M5 URDF better (15.5 vs 9.7 mm raw 3-D error) |
 | 2026-11-05 | raw webcam recordings (`results/video/webcam_*_webcam.mp4`, 277 MB) are kept local, not committed; composites and run logs are | size; the composites carry the result, the raw clips are inputs to re-rendering |
 | 2026-11-05 | hardware execution by firmware segments (`run_segments.py`) added next to the 50 ms streaming runner; streaming results (M7b-d) are kept as they are | the 10 deg/s cap and stop-and-go come from streaming, not the arm (M7f); user chose option A. The residual is replayed from the simulation in this mode (no tick-by-tick correction from measurements) |
+| 2026-11-06 | report completed offline: related work (Sections 2.2, 2.7) and references 16-42 added; Figure 6.4a (E5b offset over an episode, replayed from the three final checkpoints by `../scripts/e5b_offset_trace.py`, `../scripts/plot_offset_trace.py`); B2 and mixed-shape five-panel videos; streaming videos 6.2-6.6 re-rendered in the five-panel layout; Appendix B re-run on a clean clone | closes the gaps listed in the report's yellow notes that need no arm; nothing in the method, protocol or results changed | 
+| 2026-11-06 | `render_grid_compare.py` header names the execution mode from the log (`mode: segments` or streaming) | the first streaming re-render was labelled `firmware-segment execution`; fixed and rerendered |
 
 ## M9 Cuts and limitations
 

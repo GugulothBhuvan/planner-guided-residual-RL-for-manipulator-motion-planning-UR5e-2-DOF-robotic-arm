@@ -1,7 +1,7 @@
 # MyCobot 280 lane — planner-guided residual on a real arm
 
 Deployment of the project's method (cheap RRT-Connect planner + additive SAC residual) on an Elephant Robotics
-MyCobot 280 (M5, suction head). Spec and all numbers: [SPEC.md](SPEC.md) (v0.14).
+MyCobot 280 (M5, suction head). Spec and all numbers: [SPEC.md](SPEC.md) (v0.15).
 
 ## What was done
 1. **Hardware facts** (pymycobot 4.0.7, COM13): 20 Hz command cycle, joint limits, ~0.5–0.75° servo deadband, ~1° lag.

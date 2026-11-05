@@ -354,11 +354,11 @@ tr.hl td { background: var(--accent-soft); }
   <h1><span class="ch">Chapter 2</span>Literature Review</h1>
 
   <h2 id="s2-1">2.1&nbsp;&nbsp;Introduction</h2>
-  <p>This chapter reviews the work the project builds on. Sections 2.2 and 2.3 cover classical and learned motion planning, Section 2.4 the off-policy algorithms used to train the residual, Section 2.5 hindsight relabelling, and Section 2.6 residual policy learning, which is closest to this work. Section 2.7 notes the evaluation conventions followed. The chapter closes with a comparison of the approaches (Table 2.1) and the research gap.</p>
+  <p>This chapter reviews the work the project builds on. Sections 2.2 and 2.3 cover classical and learned motion planning, Section 2.4 the off-policy algorithms used to train the residual, Section 2.5 hindsight relabelling, and Section 2.6 residual policy learning, which is closest to this work. Section 2.7 covers safe learning and the transfer to real robots, and Section 2.8 notes the evaluation conventions followed. The chapter closes with a comparison of the approaches (Table 2.1) and the research gap.</p>
 
   <h2 id="s2-2">2.2&nbsp;&nbsp;Sampling-Based Motion Planning</h2>
   <p>Rapidly exploring random trees grow a tree from the start through random samples [1]. RRT-Connect extends this with two trees and a greedy connect step, and is the planner used for B2 and for the cheap planner of this report. A planner of this kind returns a jagged path, which is usually shortened by shortcutting and then time-scaled to respect joint speed and acceleration limits. Here the time-scaling is a quintic polynomial. GPU-parallel planners such as cuRobo [8] set the bar for planning speed and show that the cost of planning can also be reduced by hardware.</p>
-  <div class="todo-block"><strong class="tag">To add</strong>Other planning families that a reader will expect (for example optimisation-based planners and the planning libraries commonly used with manipulators). I have not cited these because the project does not use them and I did not want to cite from memory.</div>
+  <p>Rapidly exploring random trees were introduced as a way to search high-dimensional spaces by random growth [17]. Probabilistic roadmaps take the other classical route: they sample a graph of collision-free configurations once and answer many queries in the same scene from it [16]. Asymptotically optimal variants (RRT*, PRM*) add rewiring so that the path improves with more samples, at the price of more computation [18]. Planners of this kind are packaged in the libraries normally used with manipulators: the Open Motion Planning Library [19] and MoveIt, which builds on it [20]. A second family treats planning as trajectory optimisation. CHOMP improves an initial trajectory by covariant gradient descent on a smoothness and obstacle cost [21]; STOMP perturbs the trajectory with noise and needs no gradient of the cost [22]; TrajOpt solves a sequence of convex problems with convex collision checking [23]. Optimisation gives smooth trajectories but depends on the initial guess and can stop in a local minimum, so it is often run after, or beside, a sampling-based planner. This report keeps RRT-Connect because its cost is a count of collision checks that can be capped, and that cap is the budget the study varies.</p>
 
   <h2 id="s2-3">2.3&nbsp;&nbsp;Learned Motion Planning</h2>
   <p>Learned planners imitate a classical planner from large datasets. Motion Planning Networks learn to generate paths from demonstrations [9]. Motion Policy Networks train a policy on three million planning problems from point clouds [10]. Deep RL planners learn collision avoidance directly from distance-based observations, for industrial arms [11] and as a universal paradigm for several robots [12]. These methods replace the planner. The approach of this report keeps the planner and learns a correction to it.</p>
@@ -372,25 +372,31 @@ tr.hl td { background: var(--accent-soft); }
   <h2 id="s2-6">2.6&nbsp;&nbsp;Residual Policy Learning</h2>
   <p>Silver et al. and Johannink et al. add a learned correction to a fixed controller, so learning starts from the controller&rsquo;s competence [6, 7]. Both report gains where the base controller is good but imperfect. Neither studies a base that tracks a planned path, where the tracker itself may undo the correction. The rotation representation used for the goal follows Zhou et al. [14].</p>
 
-  <h2 id="s2-7">2.7&nbsp;&nbsp;Evaluation Conventions</h2>
+  <h2 id="s2-7-safe">2.7&nbsp;&nbsp;Safe Learning and Transfer to Real Robots</h2>
+  <p>Combining a learned component with a planner is attractive because the planner can supply the guarantee that learning lacks, and several lines of work use this idea. Learning a sampling distribution for a sampling-based planner keeps the planner and its collision checking and uses the network only to propose where to sample [24]. PRM-RL builds a roadmap whose edges are accepted only if a learned point-to-point policy can follow them, so the learned part acts as the local planner; it was shown on mobile robots [25]. This report differs in that the learned part corrects the commands that track a finished path.</p>
+  <p>The authority&ndash;safety dilemma found in Chapter 6 is the problem that safe reinforcement learning addresses. Surveys separate methods that change the objective, for example constrained policy optimisation [27], from methods that change the action [26]. A shield replaces actions that would leave the safe set by safe ones [28]; a safety layer corrects the action by a linear model of the constraint that is learned from data [29]; and a control barrier function gives a condition on the action that keeps the state inside a safe set when it holds at every step [30]. Cheng et al. combine a barrier-function controller with a model-free policy and learn the model error, so that exploration stays safe [31]. These are the ideas behind the safety-filtered residual of Section 7.5: a filter of this kind would let the residual be free enough to correct the planner and still stop it from leaving the planner&rsquo;s safe path.</p>
+  <p>Learning for a physical arm adds the gap between simulation and the real arm. Domain randomisation trains over varied simulator parameters so that the real arm looks like one more variation [34]; surveys of simulation-to-real transfer [35] and a review of lessons from training real robots with reinforcement learning [36] list the other remedies. Residual methods are one of them, because the analytic part carries the model and only the error is learned: TossingBot learns a residual on top of a physics-based controller [32], and residual reinforcement learning from demonstrations speeds up learning on sparse-reward manipulation tasks [33]. In this study the policy is trained in MuJoCo [37] with Stable-Baselines3 [38] and run on the MyCobot 280 [40&ndash;42]. Dynamics were not randomised; the servo deadband of the real arm is not modelled (Section 4.6), and the hardware runs are evaluated against that.</p>
+
+  <h2 id="s2-8-eval">2.8&nbsp;&nbsp;Evaluation Conventions</h2>
   <p>Results are reported with bootstrap intervals over seeds and, because few seeds give wide intervals, with a pooled Wilson interval over test episodes, following the recommendations for deep RL evaluation [15].</p>
 
-  <h2 id="s2-8">2.8&nbsp;&nbsp;Limitations of Existing Methods and Research Gap</h2>
+  <h2 id="s2-9">2.9&nbsp;&nbsp;Limitations of Existing Methods and Research Gap</h2>
   <div class="tbl" id="tab-2-1"><div class="cap"><b>Table 2.1:</b> Comparison of representative approaches along the dimensions that matter for this thesis.</div><div class="scroll"><table>
     <thead><tr><th>Approach</th><th>Keeps a classical planner</th><th>Learns a correction</th><th>Studies a path-tracking base</th><th>Real arm</th></tr></thead>
     <tbody>
     <tr><td>RRT-Connect, shortcut, time-scaling [1]</td><td>Yes</td><td>No</td><td>n/a</td><td>Widely used</td></tr>
     <tr><td>cuRobo [8]</td><td>Yes (GPU-parallel)</td><td>No</td><td>n/a</td><td>Yes</td></tr>
+    <tr><td>CHOMP, STOMP, TrajOpt (optimisation) [21&ndash;23]</td><td>No (optimises a trajectory)</td><td>No</td><td>n/a</td><td>Yes</td></tr>
     <tr><td>Motion Planning Networks, Motion Policy Networks [9, 10]</td><td>No (imitates it)</td><td>Replaces it</td><td>No</td><td>Partly</td></tr>
     <tr><td>Deep RL planners [11, 12]</td><td>No</td><td>Replaces it</td><td>No</td><td>Partly</td></tr>
+    <tr><td>PRM-RL [25]</td><td>Yes (roadmap)</td><td>Learns the local policy</td><td>No</td><td>Mobile robots</td></tr>
     <tr><td>Residual policy learning [6, 7]</td><td>A reactive controller</td><td>Yes</td><td>No</td><td>Yes [7]</td></tr>
     <tr class="hl"><td><strong>This thesis</strong></td><td>Yes (cheap RRT-Connect)</td><td>Yes (additive, offset)</td><td>Yes</td><td>Yes (MyCobot 280)</td></tr>
     </tbody></table></div></div>
   <p>Two gaps follow. Learned planners replace the classical planner, so they inherit the cost of collecting planning data and give up its guarantees. Residual learning keeps the base but has been studied on bases that react to the state and not on bases that follow a precomputed path. This thesis tests residual correction on exactly that case, measures why it fails or succeeds, and checks the result on a second arm and on hardware.</p>
 
-  <h2 id="s2-9">2.9&nbsp;&nbsp;Chapter Summary</h2>
-  <p>Classical planners are reliable with a large budget and fragile with a small one. Learned planners replace them, and residual learning corrects reactive controllers. Chapter 3 formulates the problem that combines the two.</p>
-  <div class="todo-block"><strong class="tag">To expand</strong>The literature review rests on 15 references that appear in the project&rsquo;s own notes. The reference thesis cites about 50. Add the remaining related work (robot-arm planning libraries, optimisation-based planning, safe RL and control barrier functions for the future-work section, residual RL on real manipulators) with proper citations.</div>
+  <h2 id="s2-10">2.10&nbsp;&nbsp;Chapter Summary</h2>
+  <p>Classical planners are reliable with a large budget and fragile with a small one, and optimisation-based planners depend on their starting trajectory. Learned planners replace the classical ones or guide them, and residual learning corrects reactive controllers. Safe reinforcement learning offers filters that keep a learned correction inside a safe set, and domain randomisation and residual methods are the usual remedies for the gap to a real arm. None of these studies a residual on top of a base that tracks a planned path. Chapter 3 formulates the problem that combines the two.</p>
 </section>
 
 <!-- ================= CHAPTER 3 ================= -->
@@ -653,9 +659,10 @@ tr.hl td { background: var(--accent-soft); }
     <figcaption><b>Figure 5.3:</b> The two simulation viewpoints used in the comparison videos: a top isometric view (left) and a side view (right) that matches the real camera. The model is drawn with the manufacturer&rsquo;s shell meshes (visual only); the red spheres are virtual obstacles and the axes mark the goal pose.</figcaption>
   </figure>
   <figure id="fig-5-4">
-    <div class="fig-todo"><span><mark class="todo" data-label="Photograph of the real MyCobot 280 setup (arm, laptop, USB, camera position)">[Photograph of the real MyCobot 280 setup: arm, laptop, USB cable and webcam position]</mark></span></div>
-    <figcaption><b>Figure 5.4:</b> The real-arm setup.</figcaption>
+    <div class="frame"><img src="img/mc_setup_camera.png" alt="The MyCobot 280 on the bench as seen by the recording camera, at the home pose" loading="lazy" style="max-width:40rem"></div>
+    <figcaption><b>Figure 5.4:</b> The real-arm setup as seen by the recording camera (a frame from the filming of <code>s4_test</code> episode 9, arm at its home pose). The arm stands on the bench and the camera looks at it from the side, level with its base; the virtual obstacles do not exist in the image.</figcaption>
   </figure>
+  <div class="todo-block"><strong class="tag">Optional</strong>Replace Figure 5.4, or add beside it, a wide photograph that also shows the laptop, the USB cable and where the camera stands. I cannot take it.</div>
 
   <h2 id="s5-8">5.8&nbsp;&nbsp;Compute and Software Environment</h2>
   <p>All training ran on CPU: an Intel i5-1240P laptop plus free Google Colab (2-core) and Kaggle (4-core) sessions. A one-million-step run took 1.5&ndash;5.3 hours at 52&ndash;189 steps per second on the UR5e. Seeds run elsewhere were merged back with configuration-hash checks, so a merged run is the run that its configuration says it is. The stack is MuJoCo 3.17, Stable-Baselines3 2.9.2, PyTorch (CPU) and Python 3.11. The MyCobot training and the real-arm runs used the same laptop, with the arm connected over USB.</p>
@@ -749,6 +756,10 @@ tr.hl td { background: var(--accent-soft); }
   </ul>
   <h3>E5b has authority but saturates (measured)</h3>
   <p>The offset ends episodes at a median of 0.26&ndash;0.30 rad, at or near its &plusmn;0.30 rad limit, in failures and successes alike. Across seeds and checkpoints, 87&ndash;96% of collisions happen with |<var>o</var>| at least 0.15 rad. Collisions rise two to five times above the planner&rsquo;s.</p>
+  <figure id="fig-6-4a">
+    <div class="frame"><img src="img/e5b_offset_trace.png" alt="Largest joint offset against control step for successful and failed episodes, both rising to the 0.30 rad limit" loading="lazy" style="max-width:40rem"></div>
+    <figcaption><b>Figure 6.4a:</b> The E5b offset over an episode. Median (line) and 10&ndash;90% band of the largest joint offset |<var>o</var>| at each control step, for the 194 successful and 106 failed episodes of the three seeds (final checkpoints, 100 validation episodes each, &alpha; = 0.3, deterministic policy). The offset rises at the full rate allowed by its step size and is at the 0.30 rad limit by about step 80 in both groups; in the successful episodes it stays within 0.05 rad of the limit for the rest of a long episode. The data are replayed by <code>scripts/e5b_offset_trace.py</code>.</figcaption>
+  </figure>
   <figure id="fig-6-5">
     <div class="frame"><img src="img/e5_alpha_sweep.png" alt="Alpha sweep" loading="lazy" style="max-width:36rem"></div>
     <figcaption><b>Figure 6.5:</b> Validation success and collision against the residual scale &alpha; fixed at evaluation time. E5 falls monotonically from 0.88 at &alpha; = 0 (the planner alone) to 0.76 at &alpha; = 0.3, so the residual never helps at any scale. E5b already drops to 0.70&ndash;0.78 at &alpha; = 0.1, because &alpha; sets how fast the offset moves and not its limit.</figcaption>
@@ -760,7 +771,6 @@ tr.hl td { background: var(--accent-soft); }
     <li>Max-entropy noise drifts through the integrator. SAC is rewarded for staying stochastic, and integrating random actions walks the offset to its limit.</li>
     <li><var>w</var><sub>res</sub> = 0.1 is weak against the reward scale, and the collision penalty arrives only after contact, not on approach.</li>
   </ol>
-  <div class="todo-block"><strong class="tag">To add</strong>A figure of the offset trajectory over an episode (median |<var>o</var>| against time, failures against successes) would show the saturation directly. The numbers are in the notes; the plot has not been made.</div>
 
   <h2 id="s6-5">6.5&nbsp;&nbsp;Planar 2-DOF Companion Study</h2>
   <p>A planar two-link arm with an exactly computable configuration space serves as a fast and interpretable testbed. It also gives a best-known path length for every episode.</p>
@@ -1006,7 +1016,8 @@ tr.hl td { background: var(--accent-soft); }
     <div class="frame"><img src="img/mc_seg_vs_stream.png" alt="Wall time per real-arm run for streaming and firmware segments, by method" loading="lazy"></div>
     <figcaption><b>Figure 6.16:</b> Wall time of each of the 30 real-arm runs, streaming (circles) and firmware segments (squares), with the median as a bar. The longest streamed runs, up to 45 s, fall to 12 s or less.</figcaption>
   </figure>
-  <!--SEGVIDEOS-->  <p>Videos 6.7 onward show the firmware-segment runs in the five-panel layout: the camera on the left, and on the right the real arm&rsquo;s measured joint angles replayed in the model (top) and the simulation (bottom), each from a top isometric camera and from the side, the direction the real camera looks from. The simulation panels are time-compressed to the length of the real run and say so in their label. The red spheres, boxes and cylinders are the virtual obstacles.</p>
+  <!--SEGVIDEOS-->
+  <p>Videos 6.7 onward show the firmware-segment runs in the five-panel layout: the camera on the left, and on the right the real arm&rsquo;s measured joint angles replayed in the model (top) and the simulation (bottom), each from a top isometric camera and from the side, the direction the real camera looks from. The simulation panels are time-compressed to the length of the real run and say so in their label. The red spheres, boxes and cylinders are the virtual obstacles. Each challenge and shape scene is shown for B2 and for the hybrid; in the edge scene the B2 run is the one the guard stopped.</p>
   <div class="grid2">
     <figure id="vid-6-7"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep9_hybrid.mp4"></video></div>
       <figcaption><b>Video 6.7:</b> Episode 9, hybrid @3000. The same case as Video 6.6, now driven by firmware segments.</figcaption></figure>
@@ -1016,27 +1027,28 @@ tr.hl td { background: var(--accent-soft); }
       <figcaption><b>Video 6.9:</b> Episode 7, B2.</figcaption></figure>
     <figure id="vid-6-10"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep7_hybrid.mp4"></video></div>
       <figcaption><b>Video 6.10:</b> Episode 7, hybrid @3000: the same scene with a different controller.</figcaption></figure>
-    <figure id="vid-6-11"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep2_hybrid.mp4"></video></div>
-      <figcaption><b>Video 6.11:</b> Challenge set, gap scene (episode 2), hybrid @3000.</figcaption></figure>
-    <figure id="vid-6-12"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep25_hybrid.mp4"></video></div>
-      <figcaption><b>Video 6.12:</b> Challenge set, clutter scene (episode 25), hybrid @3000.</figcaption></figure>
-    <figure id="vid-6-13"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep50_hybrid.mp4"></video></div>
-      <figcaption><b>Video 6.13:</b> Challenge set, limit scene (episode 50), hybrid @3000.</figcaption></figure>
-    <figure id="vid-6-14"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep75_hybrid.mp4"></video></div>
-      <figcaption><b>Video 6.14:</b> Challenge set, edge scene (episode 75), hybrid @3000.</figcaption></figure>
-    <figure id="vid-6-15"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep0_hybrid.mp4"></video></div>
-      <figcaption><b>Video 6.15:</b> Shape set, box obstacles (episode 0), hybrid @3000.</figcaption></figure>
-    <figure id="vid-6-16"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep25_hybrid.mp4"></video></div>
-      <figcaption><b>Video 6.16:</b> Shape set, cylinder obstacles (episode 25), hybrid @3000.</figcaption></figure>
-  </div>
-<!--/SEGVIDEOS-->  <p>Videos 6.7 onward show the firmware-segment runs in the five-panel layout: the camera on the left, and on the right the real arm&rsquo;s measured joint angles replayed in the model (top) and the simulation (bottom), each from a top isometric camera and from the side, the direction the real camera looks from. The simulation panels are time-compressed to the length of the real run and say so in their label. The red spheres, boxes and cylinders are the virtual obstacles.</p>
-  <div class="grid2">
-    <figure id="vid-6-7"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep8_hybrid.mp4"></video></div>
-      <figcaption><b>Video 6.7:</b> Episode 8, hybrid @3000.</figcaption></figure>
-    <figure id="vid-6-8"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep7_b2.mp4"></video></div>
-      <figcaption><b>Video 6.8:</b> Episode 7, B2.</figcaption></figure>
-    <figure id="vid-6-9"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep7_hybrid.mp4"></video></div>
-      <figcaption><b>Video 6.9:</b> Episode 7, hybrid @3000: the same scene with a different controller.</figcaption></figure>
+    <figure id="vid-6-11"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep2_b2.mp4"></video></div>
+      <figcaption><b>Video 6.11:</b> Challenge set, gap scene (episode 2), B2.</figcaption></figure>
+    <figure id="vid-6-12"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep2_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.12:</b> Challenge set, gap scene (episode 2), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-13"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep25_b2.mp4"></video></div>
+      <figcaption><b>Video 6.13:</b> Challenge set, clutter scene (episode 25), B2.</figcaption></figure>
+    <figure id="vid-6-14"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep25_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.14:</b> Challenge set, clutter scene (episode 25), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-15"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep50_b2.mp4"></video></div>
+      <figcaption><b>Video 6.15:</b> Challenge set, limit scene (episode 50), B2.</figcaption></figure>
+    <figure id="vid-6-16"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep50_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.16:</b> Challenge set, limit scene (episode 50), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-17"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_chal_ep75_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.17:</b> Challenge set, edge scene (episode 75), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-18"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep0_b2.mp4"></video></div>
+      <figcaption><b>Video 6.18:</b> Shape set, box obstacles (episode 0), B2.</figcaption></figure>
+    <figure id="vid-6-19"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep0_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.19:</b> Shape set, box obstacles (episode 0), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-20"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep25_b2.mp4"></video></div>
+      <figcaption><b>Video 6.20:</b> Shape set, cylinder obstacles (episode 25), B2.</figcaption></figure>
+    <figure id="vid-6-21"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep25_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.21:</b> Shape set, cylinder obstacles (episode 25), hybrid @3000.</figcaption></figure>
   </div>
 <!--/SEGVIDEOS-->
 
@@ -1153,8 +1165,8 @@ python scripts/run_real.py --set s4_test --episode 8 --method hybrid --budget 30
 
 # real arm, firmware segments (Section 6.9.6)
 python scripts/run_segments.py --set s4_test --episode 9 --method hybrid --budget 3000 \
-       --run results/runs/m5/residual_b99f130c_s1 --checkpoint final --dry-run         # check the plan on a simulated arm
-python scripts/run_segments.py --probe --execute                                        # small multi-joint straight-line test
+       --speed 40 --tol 6 --run results/runs/m5/residual_b99f130c_s1 --checkpoint final --dry-run   # check the plan on a simulated arm
+python scripts/run_segments.py --probe --execute                                        # small multi-joint straight-line test (moves the arm)
 bash scripts/seg_batch.sh                                                               # the 30-run segment batch
 python scripts/seg_summary.py                                                           # segments against streaming
 python scripts/motion_diag.py COM13 --only incr,p2p --speeds 20,30,40                   # motion diagnostic, J1 only
@@ -1162,7 +1174,7 @@ python scripts/motion_diag.py COM13 --only incr,p2p --speeds 20,30,40           
 # videos: one continuous recording, stitched offline
 python scripts/film_batch.py run  --name chal1 --set s4_chal --episodes 2 25 50 75 --methods b2 hybrid
 python scripts/film_batch.py make --name chal1 --layout grid          # five-panel videos in results/media/</pre>
-  <div class="todo-block"><strong class="tag">To verify</strong>The MyCobot commands above were run during development, including <code>run_segments.py</code> on the challenge and shape sets. Check them once more on a clean checkout before submission.</div>
+  <p>These commands were run again on a fresh clone of the repository (the 11 MyCobot tests pass; the dry runs of <code>run_real.py</code> and <code>run_segments.py</code>, <code>seg_summary.py</code> and <code>breakdown.py</code> run, and the real-arm commands refuse to move the arm without <code>--execute</code>). Two things are not in the repository and must be supplied. The trained checkpoints (<code>*.zip</code> in each run directory) are too large to commit, so the commands with <code>--run</code> need the run directory copied from the training machine or retrained. The raw webcam recordings (<code>results/video/*_webcam.mp4</code>, 633 MB) are also left out, so <code>film_batch.py make</code> can only be repeated where they exist; the finished five-panel videos are committed in <code>results/media/</code>.</p>
 </section>
 
 <!-- ================= REFERENCES ================= -->
@@ -1184,9 +1196,36 @@ python scripts/film_batch.py make --name chal1 --layout grid          # five-pan
     <li>Schulman, J. et al. (2017). Proximal Policy Optimization algorithms. arXiv:1707.06347.</li>
     <li>Zhou, Y. et al. (2019). On the continuity of rotation representations in neural networks. <em>CVPR 2019</em>, arXiv:1812.07035.</li>
     <li>Agarwal, R. et al. (2021). Deep RL at the edge of the statistical precipice. arXiv:2108.13264.</li>
+    <li>Kavraki, L. E., Svestka, P., Latombe, J.-C., Overmars, M. H. (1996). Probabilistic roadmaps for path planning in high-dimensional configuration spaces. <em>IEEE Transactions on Robotics and Automation</em> 12(4), 566&ndash;580.</li>
+    <li>LaValle, S. M. (1998). Rapidly-exploring random trees: a new tool for path planning. Technical Report 98-11, Iowa State University.</li>
+    <li>Karaman, S., Frazzoli, E. (2011). Sampling-based algorithms for optimal motion planning. <em>The International Journal of Robotics Research</em> 30(7), 846&ndash;894.</li>
+    <li>Sucan, I. A., Moll, M., Kavraki, L. E. (2012). The Open Motion Planning Library. <em>IEEE Robotics &amp; Automation Magazine</em> 19(4), 72&ndash;82.</li>
+    <li>Chitta, S., Sucan, I., Cousins, S. (2012). MoveIt! <em>IEEE Robotics &amp; Automation Magazine</em> 19(1), 18&ndash;19.</li>
+    <li>Ratliff, N., Zucker, M., Bagnell, J. A., Srinivasa, S. (2009). CHOMP: gradient optimization techniques for efficient motion planning. <em>ICRA 2009</em>.</li>
+    <li>Kalakrishnan, M., Chitta, S., Theodorou, E., Pastor, P., Schaal, S. (2011). STOMP: stochastic trajectory optimization for motion planning. <em>ICRA 2011</em>.</li>
+    <li>Schulman, J. et al. (2014). Motion planning with sequential convex optimization and convex collision checking. <em>The International Journal of Robotics Research</em> 33(9), 1251&ndash;1270.</li>
+    <li>Ichter, B., Harrison, J., Pavone, M. (2018). Learning sampling distributions for robot motion planning. <em>ICRA 2018</em>, arXiv:1709.05448.</li>
+    <li>Faust, A. et al. (2018). PRM-RL: long-range robotic navigation tasks by combining reinforcement learning and sampling-based planning. <em>ICRA 2018</em>, arXiv:1710.03937.</li>
+    <li>Garc&iacute;a, J., Fern&aacute;ndez, F. (2015). A comprehensive survey on safe reinforcement learning. <em>Journal of Machine Learning Research</em> 16, 1437&ndash;1480.</li>
+    <li>Achiam, J., Held, D., Tamar, A., Abbeel, P. (2017). Constrained policy optimization. <em>ICML 2017</em>, arXiv:1705.10528.</li>
+    <li>Alshiekh, M. et al. (2018). Safe reinforcement learning via shielding. <em>AAAI 2018</em>, arXiv:1708.08611.</li>
+    <li>Dalal, G. et al. (2018). Safe exploration in continuous action spaces. arXiv:1801.08757.</li>
+    <li>Ames, A. D. et al. (2019). Control barrier functions: theory and applications. <em>European Control Conference 2019</em>, arXiv:1903.11199.</li>
+    <li>Cheng, R., Orosz, G., Murray, R. M., Burdick, J. W. (2019). End-to-end safe reinforcement learning through barrier functions for safety-critical continuous control tasks. <em>AAAI 2019</em>, arXiv:1903.08792.</li>
+    <li>Zeng, A. et al. (2020). TossingBot: learning to throw arbitrary objects with residual physics. <em>IEEE Transactions on Robotics</em> 36(4), arXiv:1903.11239.</li>
+    <li>Alakuijala, M. et al. (2021). Residual reinforcement learning from demonstrations. arXiv:2106.08050.</li>
+    <li>Tobin, J. et al. (2017). Domain randomization for transferring deep neural networks from simulation to the real world. <em>IROS 2017</em>, arXiv:1703.06907.</li>
+    <li>Zhao, W., Queralta, J. P., Westerlund, T. (2020). Sim-to-real transfer in deep reinforcement learning for robotics: a survey. <em>IEEE SSCI 2020</em>, arXiv:2009.13303.</li>
+    <li>Ibarz, J. et al. (2021). How to train your robot with deep reinforcement learning: lessons we have learned. <em>The International Journal of Robotics Research</em> 40(4&ndash;5).</li>
+    <li>Todorov, E., Erez, T., Tassa, Y. (2012). MuJoCo: a physics engine for model-based control. <em>IROS 2012</em>.</li>
+    <li>Raffin, A. et al. (2021). Stable-Baselines3: reliable reinforcement learning implementations. <em>Journal of Machine Learning Research</em> 22(268), 1&ndash;8.</li>
+    <li>Haarnoja, T. et al. (2018). Soft Actor-Critic algorithms and applications. arXiv:1812.05905.</li>
+    <li>Elephant Robotics. myCobot 280 user documentation and product manual. https://docs.elephantrobotics.com</li>
+    <li>Elephant Robotics. <code>pymycobot</code>, Python API for the myCobot arms. https://github.com/elephantrobotics/pymycobot</li>
+    <li>Elephant Robotics. <code>mycobot_ros</code>, ROS packages and URDF and mesh description of the myCobot arms. https://github.com/elephantrobotics/mycobot_ros</li>
   </ol>
   <p style="font-family:var(--font-ui);font-size:13.5px;color:var(--muted)">Software and models: MuJoCo, MuJoCo Menagerie (UR5e and Robotiq 2F-85 models, vendored in <code>assets/menagerie/</code>, upstream licences apply), Stable-Baselines3, PyTorch, and the manufacturer&rsquo;s URDF for the MyCobot 280.</p>
-  <div class="todo-block"><strong class="tag">To add</strong>The reference list has 15 entries. Add the citations for the literature that Section 2.2 and Section 2.9 mark as missing, and a reference for the MyCobot 280 hardware and its manufacturer documentation.</div>
+  <div class="todo-block"><strong class="tag">To verify</strong>References 16&ndash;42 were added from the standard literature and from the manufacturer&rsquo;s public pages. Check the venues, page numbers and web addresses against the originals before submission; web pages need an access date.</div>
 </section>
 
 </main>
