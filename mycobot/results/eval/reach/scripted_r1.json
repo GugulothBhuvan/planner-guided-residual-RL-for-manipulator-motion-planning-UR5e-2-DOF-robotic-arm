@@ -1,0 +1,18 @@
+{
+ "straight": {
+  "n": 100,
+  "success": 1.0,
+  "collision": 0.0,
+  "d_cm_median": 1.9085953810799212,
+  "d_cm_max": 1.9993262635788698,
+  "steps_median": 59.0
+ },
+ "detour": {
+  "n": 100,
+  "success": 0.46,
+  "collision": 0.0,
+  "d_cm_median": 2.8620226309922305,
+  "d_cm_max": 11.027480478189462,
+  "steps_median": 200.0
+ }
+}

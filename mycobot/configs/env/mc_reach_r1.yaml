@@ -1,0 +1,13 @@
+# SPEC M10 stage r1. Cube centre and size from scripts/mc_reach_calibrate.py (500 of 500 straight-line goals reached, no contact).
+mode: ee
+cube_center: [0.12, -0.05, 0.35]
+cube_half: 0.05
+start: home
+start_noise: 0.3
+obstacle: none
+obstacle_radius: [0.015, 0.035]
+mid_jitter: 0.01
+min_goal_dist: 0
+episode_length: 200
+eps_pos: 0.02
+gamma: 0.98

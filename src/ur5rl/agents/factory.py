@@ -26,6 +26,8 @@ def make_agent(agent_cfg, env, her: bool, seed: int):
     cfg = dict(agent_cfg)
     algo = cfg["algo"]
     policy_kwargs = dict(net_arch=list(cfg["net_arch"]), features_extractor_class=GoalErrorExtractor)
+    if "n_critics" in cfg:  # optional (reach lane: DDPG with two critics); absent in every earlier config
+        policy_kwargs["n_critics"] = int(cfg["n_critics"])
     if algo == "ppo":
         if her:
             raise ValueError("PPO is on-policy; HER does not apply")

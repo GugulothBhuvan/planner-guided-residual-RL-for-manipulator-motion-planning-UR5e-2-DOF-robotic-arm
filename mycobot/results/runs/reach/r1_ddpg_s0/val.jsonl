@@ -1,0 +1,10 @@
+{"success": 0.0, "collision": 0.0, "d_cm_median": 7.536225147806645, "steps": 10000, "wall_s": 143.4}
+{"success": 0.01, "collision": 0.0, "d_cm_median": 10.42792725281505, "steps": 20000, "wall_s": 350.4}
+{"success": 0.01, "collision": 0.0, "d_cm_median": 8.302189307621752, "steps": 30000, "wall_s": 552.0}
+{"success": 0.04, "collision": 0.0, "d_cm_median": 8.1826164878133, "steps": 40000, "wall_s": 729.7}
+{"success": 0.01, "collision": 0.0, "d_cm_median": 10.836964201683177, "steps": 50000, "wall_s": 979.7}
+{"success": 0.04, "collision": 0.0, "d_cm_median": 11.131965386462037, "steps": 60000, "wall_s": 1252.4}
+{"success": 0.15, "collision": 0.0, "d_cm_median": 15.165615647526717, "steps": 70000, "wall_s": 1525.5}
+{"success": 0.09, "collision": 0.0, "d_cm_median": 9.650719569660048, "steps": 80000, "wall_s": 1804.2}
+{"success": 0.18, "collision": 0.0, "d_cm_median": 8.49485672430717, "steps": 90000, "wall_s": 2094.6}
+{"success": 0.19, "collision": 0.0, "d_cm_median": 6.878506272314592, "steps": 100000, "wall_s": 2488.6}
