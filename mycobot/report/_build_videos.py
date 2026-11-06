@@ -79,7 +79,7 @@ for st, ep, m, cap in cases:
     figs.append(f'''    <figure id="vid-6-{n}"><div class="frame"><video controls preload="metadata" playsinline src="vid/{name}"></video></div>
       <figcaption><b>Video 6.{n}:</b> {cap}</figcaption></figure>''')
     n += 1
-intro = ('''  <p>Videos 6.7 onward show the firmware-segment runs in the five-panel layout: the camera on the left, and on the right the real arm&rsquo;s measured joint angles replayed in the model (top) and the simulation (bottom), each from a top isometric camera and from the side, the direction the real camera looks from. The simulation panels are time-compressed to the length of the real run and say so in their label. The red spheres, boxes and cylinders are the virtual obstacles. Each challenge and shape scene is shown for B2 and for the hybrid; in the edge scene the B2 run is the one the guard stopped.</p>
+intro = ('''  <p>Videos 6.7 onward show the firmware-segment runs in the five-panel layout: the camera on the left, and on the right the real arm&rsquo;s measured joint angles replayed in the model (top) and the simulation (bottom), each from a top isometric camera and from the side, the direction the real camera looks from. The simulation panels are time-compressed to the length of the real run and say so in their label. The red spheres, boxes and cylinders are the virtual obstacles. Each challenge and shape scene is shown for B2 and for the hybrid, except the edge scene, where the B2 run was stopped by the guard before completing and so has no video.</p>
   <div class="grid2">
 ''' + "\n".join(figs) + "\n  </div>\n")
 a = s.index("<!--SEGVIDEOS-->")

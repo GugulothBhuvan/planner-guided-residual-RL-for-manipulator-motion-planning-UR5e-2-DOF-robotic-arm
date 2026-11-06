@@ -961,21 +961,21 @@ tr.hl td { background: var(--accent-soft); }
   <div class="todo-block"><strong class="tag">Open</strong>The cause of the vibration is not established. Section 6.9.6 shows that streaming is a poor way to command this arm, but neither the vibration nor the smoothness of the new mode was measured. A higher-rate log, an accelerometer reading or a high-speed camera would settle it; add the result here and in the conclusions.</div>
 
   <h3>6.9.5&nbsp;&nbsp;Real arm, digital twin and simulation side by side</h3>
-  <p>Two layouts are used. Videos 6.2 to 6.6 (the streaming runs) have three panels on one time axis: the <em>real arm</em> as filmed, the <em>real arm&rsquo;s measured joint angles replayed in the model</em> (the digital twin, which is where the real arm stands relative to the virtual obstacles and the goal), and the <em>simulation</em> of the same episode. The later videos (6.7 onward, the firmware-segment runs) have five panels: the camera on the left and, on the right, the digital twin and the simulation each from a top isometric camera and from the side (Figure 5.3). In both, the obstacles are virtual and appear only in the model panels, and the model panels draw the manufacturer&rsquo;s shell meshes of the MyCobot 280 M5 (from the <code>mycobot_ros</code> description package) over the unchanged capsule model; the meshes are only drawn and change nothing in the physics, collisions or results (the same episode gives an identical trajectory and outcome with and without them). The meshes live in <code>assets/m5_meshes/</code>, the renderers in <code>scripts/render_mesh_compare.py</code> and <code>scripts/render_grid_compare.py</code>.</p>
+  <p>Videos 6.2 onward use the same five-panel layout: the camera on the left and, on the right, the digital twin (the real arm&rsquo;s measured joint angles replayed in the model) and the simulation of the same episode, each from a top isometric camera and from the side (Figure 5.3). The obstacles are virtual and appear only in the model panels, and the model panels draw the manufacturer&rsquo;s shell meshes of the MyCobot 280 M5 (from the <code>mycobot_ros</code> description package) over the unchanged capsule model; the meshes are only drawn and change nothing in the physics, collisions or results (the same episode gives an identical trajectory and outcome with and without them). The meshes live in <code>assets/m5_meshes/</code>, the renderers in <code>scripts/render_mesh_compare.py</code> and <code>scripts/render_grid_compare.py</code>.</p>
   <figure id="fig-6-15">
     <div class="frame"><img src="img/mc_grid_ep9.png" alt="Five panels: real arm camera; real joints replayed in the model and simulation, each from a top isometric and a side camera" loading="lazy"></div>
     <figcaption><b>Figure 6.15:</b> A frame of the five-panel comparison video for episode 9 (hybrid, 3,000 checks, firmware segments): the camera (left); the real joints replayed in the model (top right) and the simulation (bottom right), each from a top isometric and a side camera. The run succeeded with 0.25 cm and 0.7&deg;. The simulation panels are time-compressed to the real run.</figcaption>
   </figure>
   <div class="grid2">
-    <figure id="vid-6-2"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep0_hybrid.mp4"></video></div>
-      <figcaption><b>Video 6.2:</b> <code>s4_test</code> episode 0, hybrid @3000 (streaming, three panels).</figcaption></figure>
-    <figure id="vid-6-3"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep7_b2.mp4"></video></div>
+    <figure id="vid-6-2"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_stream_s4_test_ep0_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.2:</b> <code>s4_test</code> episode 0, hybrid @3000 (streaming).</figcaption></figure>
+    <figure id="vid-6-3"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_stream_s4_test_ep7_b2.mp4"></video></div>
       <figcaption><b>Video 6.3:</b> <code>s4_test</code> episode 7, B2.</figcaption></figure>
-    <figure id="vid-6-4"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep7_hybrid.mp4"></video></div>
+    <figure id="vid-6-4"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_stream_s4_test_ep7_hybrid.mp4"></video></div>
       <figcaption><b>Video 6.4:</b> <code>s4_test</code> episode 7, hybrid @3000. Compare with Video 6.3: the same scene with a different controller.</figcaption></figure>
-    <figure id="vid-6-5"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep8_hybrid.mp4"></video></div>
+    <figure id="vid-6-5"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_stream_s4_test_ep8_hybrid.mp4"></video></div>
       <figcaption><b>Video 6.5:</b> <code>s4_test</code> episode 8, hybrid @3000.</figcaption></figure>
-    <figure id="vid-6-6"><div class="frame"><video controls preload="metadata" playsinline src="vid/real_ep9_hybrid.mp4"></video></div>
+    <figure id="vid-6-6"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_stream_s4_test_ep9_hybrid.mp4"></video></div>
       <figcaption><b>Video 6.6:</b> <code>s4_test</code> episode 9, hybrid @3000.</figcaption></figure>
   </div>
   <div class="todo-block"><strong class="tag">Pending</strong>The hardware batches cover 10 episodes of <code>s4_test</code> and one episode per challenge and shape type. A larger batch (episodes 10&ndash;19) and more episodes per type would narrow the gap that so few runs cannot resolve (about 25 points).</div>
@@ -1017,7 +1017,7 @@ tr.hl td { background: var(--accent-soft); }
     <figcaption><b>Figure 6.16:</b> Wall time of each of the 30 real-arm runs, streaming (circles) and firmware segments (squares), with the median as a bar. The longest streamed runs, up to 45 s, fall to 12 s or less.</figcaption>
   </figure>
   <!--SEGVIDEOS-->
-  <p>Videos 6.7 onward show the firmware-segment runs in the five-panel layout: the camera on the left, and on the right the real arm&rsquo;s measured joint angles replayed in the model (top) and the simulation (bottom), each from a top isometric camera and from the side, the direction the real camera looks from. The simulation panels are time-compressed to the length of the real run and say so in their label. The red spheres, boxes and cylinders are the virtual obstacles. Each challenge and shape scene is shown for B2 and for the hybrid; in the edge scene the B2 run is the one the guard stopped.</p>
+  <p>Videos 6.7 onward show the firmware-segment runs in the five-panel layout: the camera on the left, and on the right the real arm&rsquo;s measured joint angles replayed in the model (top) and the simulation (bottom), each from a top isometric camera and from the side, the direction the real camera looks from. The simulation panels are time-compressed to the length of the real run and say so in their label. The red spheres, boxes and cylinders are the virtual obstacles. Each challenge and shape scene is shown for B2 and for the hybrid, except the edge scene, where the B2 run was stopped by the guard before completing and so has no video.</p>
   <div class="grid2">
     <figure id="vid-6-7"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_test_ep9_hybrid.mp4"></video></div>
       <figcaption><b>Video 6.7:</b> Episode 9, hybrid @3000. The same case as Video 6.6, now driven by firmware segments.</figcaption></figure>
@@ -1049,6 +1049,10 @@ tr.hl td { background: var(--accent-soft); }
       <figcaption><b>Video 6.20:</b> Shape set, cylinder obstacles (episode 25), B2.</figcaption></figure>
     <figure id="vid-6-21"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep25_hybrid.mp4"></video></div>
       <figcaption><b>Video 6.21:</b> Shape set, cylinder obstacles (episode 25), hybrid @3000.</figcaption></figure>
+    <figure id="vid-6-22"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep50_b2.mp4"></video></div>
+      <figcaption><b>Video 6.22:</b> Shape set, mixed obstacles (episode 50), B2.</figcaption></figure>
+    <figure id="vid-6-23"><div class="frame"><video controls preload="metadata" playsinline src="vid/grid_s4_shape_ep50_hybrid.mp4"></video></div>
+      <figcaption><b>Video 6.23:</b> Shape set, mixed obstacles (episode 50), hybrid @3000.</figcaption></figure>
   </div>
 <!--/SEGVIDEOS-->
 
