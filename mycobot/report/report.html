@@ -153,7 +153,7 @@ tr.hl td { background: var(--accent-soft); }
 <section class="sheet cover" id="cover">
   <div class="inst">Indian Institute of Technology Kharagpur</div>
   <h1 class="title">Planner-Guided Residual Reinforcement Learning for Manipulator Motion Planning</h1>
-  <div class="line">A UR5e study with a planar 2-DOF companion and a real-arm test on the MyCobot 280</div>
+  <div class="line">Developed on a simulated UR5e and a planar 2-DOF arm, deployed on a MyCobot 280</div>
   <div class="line" style="margin-top:1.6rem">Report submitted to</div>
   <div class="line"><strong>Indian Institute of Technology, Kharagpur</strong></div>
   <div class="line">for the award of the degree of</div>
@@ -209,9 +209,9 @@ tr.hl td { background: var(--accent-soft); }
 <!-- ================= ABSTRACT ================= -->
 <section class="sheet" id="abstract">
   <h1>Abstract</h1>
-  <p>Sampling-based motion planners such as RRT-Connect find collision-free paths reliably when they are given enough computation, but their success falls as the planning budget shrinks. Residual reinforcement learning offers a way around this: keep a cheap classical controller and let a learned policy add small corrections where the controller falls short. This project tests that idea on collision-free six-dimensional pose reaching for a simulated UR5e arm with a Robotiq 2F-85 gripper, and then on a real Elephant Robotics MyCobot 280.</p>
+  <p>The target of this work is a MyCobot 280, a small low-cost arm that must reach tool poses among obstacles through a slow 20 Hz command loop. A cheap planner suits such a robot, but its success falls as its collision-check budget shrinks. The method keeps a cheap RRT-Connect planner (1,500 to 6,000 collision checks) with a path tracker and adds a Soft Actor-Critic residual to the tracker&rsquo;s command, as an additive correction or an accumulated joint offset. The method was developed on a simulated UR5e and a planar 2-DOF arm, which offer a tested public model and an exactly computable configuration space; the MyCobot first needed its own measurements. On 200 held-out UR5e scenes, full RRT-Connect succeeds in 99.0% of episodes, the cheap planner in 79.5&ndash;90.0%, and the additive residual lowers success to 66&ndash;75%; the offset residual raises collisions from 8.5&ndash;20.5% to about 40%. I call this the authority&ndash;safety dilemma: a correction small enough to stay on the planner&rsquo;s safe path cannot fix its failures, and one large enough to fix them leaves the safe path. The planar arm reproduces the pattern and agrees with the UR5e on 8 of 9 design comparisons. On the MyCobot in simulation the retrained residual again matches its planner (93.0&ndash;93.5% against 93.5% at 6,000 checks), also on harder scenes and other obstacle shapes. On the real arm, 30 streamed runs with virtual obstacles all reached the goal within 1 cm and 5&deg; once a small final-approach correction was added, and the residual matched its planner. Streaming limits the arm to 10&deg;/s, so the same paths were also sent as firmware segments (30 of 30 again, median 5&ndash;6 s instead of 8&ndash;10 s). In segment mode the residual is replayed from simulation, so only the streamed runs test the policy on hardware.</p>
   <p>The method is a cheap RRT-Connect planner with a budget of 1,500 to 6,000 collision checks, a tracking controller that follows its path, and a Soft Actor-Critic (SAC) residual added to the tracker&rsquo;s command. Two residual designs were studied: an additive correction and an accumulated joint offset. On 200 held-out cluttered scenes, full RRT-Connect succeeds in 99.0% of episodes, the cheap planner alone in 79.5&ndash;90.0%, and the additive residual lowers success to 66&ndash;75% at every budget. The offset residual raises collisions from 8.5&ndash;20.5% to about 40%. I call this the <em>authority&ndash;safety dilemma</em>: a correction small enough to stay on the planner&rsquo;s safe path cannot fix its failures, and one large enough to fix them leaves the safe path. A planar 2-DOF arm reproduces the pattern and agrees with the UR5e on 8 of 9 design comparisons. The only setting where a residual improved on its base was torque control under a &plusmn;20% mass error.</p>
-  <p>The study also documents three silent defects of goal-conditioned training with hindsight relabelling and their tested fixes. In a second lane, the pipeline was ported to the MyCobot 280. On 200 simulated scenes the retrained residual again matches its planner (at 6,000 checks 93.5% for seed 1 and 93.0% for seed 0, against 93.5% for the planner). On the real arm, with virtual obstacles, all 30 runs (10 episodes with B2, the cheap planner and the residual) reached the goal within 1 cm and 5&deg; once a small final-approach correction was added, and the residual was again indistinguishable from its planner. Streaming a new target every 50 ms limits the arm to 10&deg;/s, so the runs were repeated by sending the same paths as a few collision-checked, firmware-planned segments: 30 of 30 runs succeeded again with a median run time of 5&ndash;6 s instead of 8&ndash;10 s, and 13 of 14 runs succeeded on gap, clutter, limit, edge, box, cylinder and mixed scenes. Two further test sets cover narrow gaps, clutter, goals near the joint limits and near full reach (100 episodes), and cluttered scenes with boxes and cylinders (75 episodes). The cheap planner fails mostly on goals near full reach and on narrow gaps, and loses 11 to 16 points on boxes and cylinders relative to spheres at the same layout; the residual neither helps nor hurts on any of them.</p>
+  <p>The study also documents three silent defects of goal-conditioned training with hindsight relabelling and their tested fixes. On 200 simulated scenes the retrained residual again matches its planner (at 6,000 checks 93.5% for seed 1 and 93.0% for seed 0, against 93.5% for the planner). On the real arm, with virtual obstacles, all 30 runs (10 episodes with B2, the cheap planner and the residual) reached the goal within 1 cm and 5&deg; once a small final-approach correction was added, and the residual was again indistinguishable from its planner. Streaming a new target every 50 ms limits the arm to 10&deg;/s, so the runs were repeated by sending the same paths as a few collision-checked, firmware-planned segments: 30 of 30 runs succeeded again with a median run time of 5&ndash;6 s instead of 8&ndash;10 s, and 13 of 14 runs succeeded on gap, clutter, limit, edge, box, cylinder and mixed scenes. Two further test sets cover narrow gaps, clutter, goals near the joint limits and near full reach (100 episodes), and cluttered scenes with boxes and cylinders (75 episodes). The cheap planner fails mostly on goals near full reach and on narrow gaps, and loses 11 to 16 points on boxes and cylinders relative to spheres at the same layout; the residual neither helps nor hurts on any of them.</p>
   <p><strong>Keywords:</strong> motion planning; residual reinforcement learning; RRT-Connect; soft actor-critic; hindsight experience replay; robot manipulator; MyCobot 280; obstacle avoidance</p>
 </section>
 
@@ -306,15 +306,21 @@ tr.hl td { background: var(--accent-soft); }
   <p>Earlier work applies the idea to controllers that react to the current state. A planner is different. It commits to a whole path in advance and a tracking controller then follows that path, and the tracker can cancel a correction the very next step. How a residual interacts with a path-tracking base is the question this project examines.</p>
 
   <h2 id="s1-5">1.5&nbsp;&nbsp;Motivation for the Proposed Research</h2>
-  <p>A cheap planner plus a learned residual would give a cheap, safe and robust controller if the correction fixed the planner&rsquo;s failures and left its successes alone. Three things were unknown at the start of the project:</p>
+  <p>The target robot of this thesis is the MyCobot 280, a small, low-cost, position-controlled arm with a servo deadband and a slow command loop, where the cost of planning and the safety of the motion both matter. A cheap planner plus a learned residual would give a cheap, safe and robust controller on such an arm if the correction fixed the planner&rsquo;s failures and left its successes alone. Three things were unknown at the start of the project:</p>
   <ul>
     <li><strong>Whether the residual can fix planner failures.</strong> The failures are 10&ndash;20% of scenes and each one needs a specific, selective correction.</li>
     <li><strong>What form of correction can do it.</strong> A small additive correction is simple, but the tracker may undo it. A persistent offset can steer, but it may drift into the obstacles.</li>
-    <li><strong>Whether the answer holds on a real arm.</strong> Simulation results often do not carry over to hardware with its servo deadband, its lag and its vibration.</li>
+    <li><strong>Whether the answer holds on the target arm, in simulation and on hardware.</strong> Simulation results often do not carry over to hardware with its servo deadband, its lag and its vibration.</li>
   </ul>
 
+  <h3>Why develop on other arms first</h3>
+  <p>The method was developed on two other arms before it was deployed on the MyCobot, for three reasons (Figure 1.1). The UR5e is a standard industrial arm with a well-tested public model (MuJoCo Menagerie), so errors in the environment, the planner and the training code could be separated from errors in the robot model. The planar 2-DOF arm has an exactly computable configuration space, so design questions could be checked cheaply and against the true answer. The MyCobot is small and slow and had to be measured (step size, latency, servo deadband, safe joint limits) before it could be simulated faithfully. The UR5e residual was then run on the MyCobot model without retraining, the residual was retrained on the MyCobot, and the result was taken to the real arm, first by streaming a target every 50 ms and then by sending the paths as firmware segments.</p>
+  <figure id="fig-1-1">
+    <div class="frame"><img src="img/deployment_chain.png" alt="Deployment chain: develop on the UR5e and the planar arm, zero-shot probe on the MyCobot model, retrain on the MyCobot, real arm by streaming and by firmware segments" loading="lazy" style="max-width:46rem"></div>
+    <figcaption><b>Figure 1.1:</b> The deployment chain. The method was developed on the UR5e and the planar 2-DOF arm, probed on the MyCobot model without retraining, retrained on it, and run on the real MyCobot 280 by streaming (the policy runs on the hardware) and by firmware segments (the residual is replayed from simulation).</figcaption>
+  </figure>
   <h2 id="s1-6">1.6&nbsp;&nbsp;Problem Statement</h2>
-  <p>Let <var>q</var><sub>0</sub> be the start configuration of an arm and <var>g</var> a target tool pose, with a set of obstacles in the workspace. A <em>cheap planner</em> with a budget of <var>N</var> collision checks produces a reference path <var>q</var><sub>ref</sub>; a tracker follows it. The goal is a residual policy &pi;<sub>res</sub> such that the combined controller reaches <var>g</var> within 1 cm and 5&deg; without collision, in at least as many episodes as a full-budget planner (B2), and with the collision rate of B2.</p>
+  <p>Let <var>q</var><sub>0</sub> be the start configuration of an arm (the target is the MyCobot 280) and <var>g</var> a target tool pose, with a set of obstacles in the workspace. A <em>cheap planner</em> with a budget of <var>N</var> collision checks produces a reference path <var>q</var><sub>ref</sub>; a tracker follows it. The goal is a residual policy &pi;<sub>res</sub> such that the combined controller reaches <var>g</var> within 1 cm and 5&deg; without collision, in at least as many episodes as a full-budget planner (B2), and with the collision rate of B2.</p>
 
   <h2 id="s1-7">1.7&nbsp;&nbsp;Research Objectives and Questions</h2>
   <p>The objectives of this project are:</p>
@@ -322,7 +328,7 @@ tr.hl td { background: var(--accent-soft); }
     <li>to build a reproducible simulation benchmark for six-dimensional pose reaching among obstacles, with frozen test sets and planner baselines at three budgets;</li>
     <li>to design and train residual controllers on top of a cheap planner, and to measure them against the planner alone and the full planner;</li>
     <li>to explain, with measurements, why a residual succeeds or fails;</li>
-    <li>to check whether the findings hold on a different arm and on real hardware.</li>
+    <li>to deploy the controller on the target arm, the MyCobot 280, in simulation and on the real arm, and to check whether the findings from the development arms hold there.</li>
   </ol>
   <div class="tbl" id="tab-1-1"><div class="cap"><b>Table 1.1:</b> Research questions and the experiments that answer them.</div><div class="scroll"><table>
     <thead><tr><th>RQ</th><th>Question</th><th>Experiment</th></tr></thead>
@@ -332,7 +338,7 @@ tr.hl td { background: var(--accent-soft); }
     <tr><td>RQ3</td><td>Can a learned residual on a cheap RRT-Connect planner match the full planner&rsquo;s success and collision rate?</td><td>E5, E5b, PE3, PE4, PE4b</td></tr>
     <tr><td>RQ4</td><td>Does a residual help where the base has a systematic model error (torque control, wrong masses)?</td><td>PE8</td></tr>
     <tr><td>RQ5</td><td>Do design rankings from the cheap planar arm predict the UR5e?</td><td>PE9-lite</td></tr>
-    <tr><td>RQ6</td><td>Do the findings hold on a different arm, on harder scenes and with non-spherical obstacles, and on real hardware?</td><td>MyCobot lane: simulation, challenge sets, shape set, real-arm runs</td></tr>
+    <tr><td>RQ6</td><td>Do the findings hold on the target arm (the MyCobot 280), on harder scenes and with non-spherical obstacles, and on real hardware?</td><td>Target-robot results: MyCobot 280 simulation, challenge sets, shape set, real-arm runs</td></tr>
     </tbody></table></div></div>
 
   <h2 id="s1-8">1.8&nbsp;&nbsp;Major Contributions of the Thesis</h2>
@@ -341,12 +347,12 @@ tr.hl td { background: var(--accent-soft); }
     <li><strong>A diagnosed negative result.</strong> Two residual designs, the measured cause of each failure, and the authority&ndash;safety dilemma they bracket.</li>
     <li><strong>Three reusable findings on goal-conditioned training.</strong> Silent defects of HER training with their tested fixes.</li>
     <li><strong>A planar 2-DOF companion study.</strong> It reproduces the headline result, ranks design choices in agreement with the UR5e in 8 of 9 comparisons, and finds the one setting where a residual helps.</li>
-    <li><strong>A real-arm deployment.</strong> A MyCobot 280 lane with its own simulation model, retrained residuals, a hardware runner with safety checks, 60 real-arm runs (30 streamed and 30 as firmware segments) and 14 further runs on the challenge and shape scenes, trajectory-quality and accuracy measurements, a motion diagnostic of the arm, and synchronised videos of the real arm, its digital twin and the simulation (three- and five-panel layouts, drawn with the manufacturer&rsquo;s shell meshes).</li>
+    <li><strong>A target-robot deployment.</strong> A MyCobot 280 deployment with its own simulation model, retrained residuals, a hardware runner with safety checks, 60 real-arm runs (30 streamed and 30 as firmware segments) and 14 further runs on the challenge and shape scenes, trajectory-quality and accuracy measurements, a motion diagnostic of the arm, and synchronised videos of the real arm, its digital twin and the simulation (three- and five-panel layouts, drawn with the manufacturer&rsquo;s shell meshes).</li>
     <li><strong>Harder scenes and other obstacle shapes.</strong> Two additional test sets, with the planner and policy results on them.</li>
   </ul>
 
   <h2 id="s1-9">1.9&nbsp;&nbsp;Organisation of the Thesis</h2>
-  <p>Chapter 2 reviews related work. Chapter 3 formulates the problem and the theory the method rests on. Chapter 4 describes the cheap planner, the two residual designs, the training safeguards and the real-arm setup. Chapter 5 gives the experimental setup, the test sets and the verification work. Chapter 6 reports and discusses the results of the UR5e study, the planar study and the MyCobot lane. Chapter 7 concludes. Appendix A contains two short derivations and Appendix B the commands for reproducing the results.</p>
+  <p>Chapter 2 reviews related work. Chapter 3 formulates the problem and the theory the method rests on. Chapter 4 describes the cheap planner, the two residual designs, the training safeguards and the real-arm setup. Chapter 5 gives the experimental setup, the test sets and the verification work. Chapter 6 reports and discusses the results of the UR5e study, the planar study and the target-robot results. Chapter 7 concludes. Appendix A contains two short derivations and Appendix B the commands for reproducing the results.</p>
 </section>
 
 <!-- ================= CHAPTER 2 ================= -->
@@ -407,7 +413,7 @@ tr.hl td { background: var(--accent-soft); }
   <p>This chapter fixes the notation and states the building blocks of the method: the pose-reaching task as a goal-conditioned decision problem, the rewards, the cheap planner and its tracker, the two residual formulations, the treatment of collisions, and hindsight relabelling. Chapter 4 assembles them into the full controller.</p>
 
   <h2 id="s3-2">3.2&nbsp;&nbsp;Notation</h2>
-  <p>Scalars are written in italics (<var>t</var>, &alpha;), vectors in bold or with a subscript (<var>q</var>, <var>a</var>) and sets in calligraphic letters. The List of Symbols at the start of this report gives the main notation. Quantities that differ between the UR5e and the MyCobot lane (&Delta;<var>q</var><sub>max</sub>, control rate, obstacle sizes) are given for both in Table 4.1.</p>
+  <p>Scalars are written in italics (<var>t</var>, &alpha;), vectors in bold or with a subscript (<var>q</var>, <var>a</var>) and sets in calligraphic letters. The List of Symbols at the start of this report gives the main notation. Quantities that differ between the UR5e and the MyCobot 280 (&Delta;<var>q</var><sub>max</sub>, control rate, obstacle sizes) are given for both in Table 4.1.</p>
 
   <h2 id="s3-3">3.3&nbsp;&nbsp;The Pose-Reaching Task</h2>
   <p>The arm has <var>n</var> position-servoed joints. At each control step the policy outputs an action <var>a</var> &isin; [&minus;1, 1]<sup>n</sup>, which is integrated into a joint target instead of being applied as an absolute position:</p>
@@ -489,9 +495,9 @@ tr.hl td { background: var(--accent-soft); }
     <li><strong>v2:</strong> a time-based fade plus an offset penalty. Declared final before its results were known.</li>
   </ul>
 
-  <h2 id="s4-6">4.6&nbsp;&nbsp;Port to the MyCobot 280</h2>
-  <p>The MyCobot lane applies the E5 recipe to an Elephant Robotics MyCobot 280 M5 with a suction head. The arm is much smaller and slower than the UR5e, so the scene and the controller were rescaled and the quantities that depend on the hardware were measured (Section 5.7). Table 4.1 lists what differs.</p>
-  <div class="tbl" id="tab-4-1"><div class="cap"><b>Table 4.1:</b> Differences between the UR5e study and the MyCobot lane.</div><div class="scroll"><table>
+  <h2 id="s4-6">4.6&nbsp;&nbsp;Deployment on the MyCobot 280</h2>
+  <p>The MyCobot deployment applies the E5 recipe to an Elephant Robotics MyCobot 280 M5 with a suction head. The arm is much smaller and slower than the UR5e, so the scene and the controller were rescaled and the quantities that depend on the hardware were measured (Section 5.7). Table 4.1 lists what differs.</p>
+  <div class="tbl" id="tab-4-1"><div class="cap"><b>Table 4.1:</b> Differences between the UR5e study and the MyCobot 280 deployment.</div><div class="scroll"><table>
     <thead><tr><th>Item</th><th>UR5e</th><th>MyCobot 280</th></tr></thead>
     <tbody>
     <tr><td>Control rate</td><td>25 Hz</td><td>20 Hz (the measured safe cycle is about 49 ms)</td></tr>
@@ -526,7 +532,7 @@ tr.hl td { background: var(--accent-soft); }
     <tr><td>Offset residual</td><td>4.5</td><td>E5b against E5 and Base@N</td><td>RQ3</td></tr>
     <tr><td>Residual under model error</td><td>(2-DOF)</td><td>PE8: residual against PD + gravity on perturbed plants</td><td>RQ4</td></tr>
     <tr><td>Transfer from the planar arm</td><td>&mdash;</td><td>PE9-lite: ranking agreement</td><td>RQ5</td></tr>
-    <tr><td>MyCobot port</td><td>4.6</td><td>zero-shot probe, retrained residual</td><td>RQ6</td></tr>
+    <tr><td>MyCobot deployment</td><td>4.6</td><td>zero-shot probe, retrained residual</td><td>RQ6</td></tr>
     <tr><td>TrimArm</td><td>4.7</td><td>v1 (no correction) against v2</td><td>RQ6</td></tr>
     <tr><td>Harder scenes, obstacle shapes</td><td>4.8</td><td>s4_chal and s4_shape per type</td><td>RQ6</td></tr>
     </tbody></table></div></div>
@@ -543,7 +549,7 @@ tr.hl td { background: var(--accent-soft); }
 
 
   <h2 id="s4-11">4.11&nbsp;&nbsp;Chapter Summary</h2>
-  <p>The controller is a cheap RRT-Connect planner, a tracker that follows its path and a SAC residual in one of two forms. Training safeguards make it start from the base. The same structure was ported to a real arm with a runner that enforces safety checks, a small final-approach correction, and obstacles that are virtual.</p>
+  <p>The controller is a cheap RRT-Connect planner, a tracker that follows its path and a SAC residual in one of two forms. Training safeguards make it start from the base. The same structure was carried over to a real arm with a runner that enforces safety checks, a small final-approach correction, and obstacles that are virtual.</p>
 </section>
 
 <!-- ================= CHAPTER 5 ================= -->
@@ -551,10 +557,10 @@ tr.hl td { background: var(--accent-soft); }
   <h1><span class="ch">Chapter 5</span>Experimental Setup and Implementation</h1>
 
   <h2 id="s5-1">5.1&nbsp;&nbsp;Introduction</h2>
-  <p>This chapter describes how the framework of Chapter 4 was evaluated: the simulated robots and tasks, the baselines, the test sets, the protocol and hyperparameters, the real-arm setup, and the verification work that came before the main experiments. Every method is trained and evaluated through the same code path, test sets and metrics, so differences in the results come from the methods and not from the protocol. Every setting was fixed in a versioned specification (SPEC.md, v0.25 for the UR5e; v0.12 for the planar study; v0.7 for the MyCobot lane) before the runs it applies to.</p>
+  <p>This chapter describes how the framework of Chapter 4 was evaluated: the simulated robots and tasks, the baselines, the test sets, the protocol and hyperparameters, the real-arm setup, and the verification work that came before the main experiments. Every method is trained and evaluated through the same code path, test sets and metrics, so differences in the results come from the methods and not from the protocol. Every setting was fixed in a versioned specification (SPEC.md, v0.25 for the UR5e; v0.12 for the planar study; v0.7 for the MyCobot deployment) before the runs it applies to.</p>
 
   <h2 id="s5-2">5.2&nbsp;&nbsp;Simulated Robots and Task Stages</h2>
-  <p>The UR5e is simulated in MuJoCo 3.17 with the UR5e model from MuJoCo Menagerie, six position-servoed joints and gravity compensation on, as in the real controller (without it the shoulder sagged 15&ndash;32 mrad, 2&ndash;3 cm at the tool). A Robotiq 2F-85 gripper is welded open as one rigid 1.05 kg body, with the tool point 14.16 cm from the flange. Physics runs at 0.002 s with a frame skip of 20, giving 25 Hz control. The planar companion is a two-link arm with an exactly computable configuration space. The MyCobot lane uses the same environment code with the quantities of Table 4.1.</p>
+  <p>The UR5e is simulated in MuJoCo 3.17 with the UR5e model from MuJoCo Menagerie, six position-servoed joints and gravity compensation on, as in the real controller (without it the shoulder sagged 15&ndash;32 mrad, 2&ndash;3 cm at the tool). A Robotiq 2F-85 gripper is welded open as one rigid 1.05 kg body, with the tool point 14.16 cm from the flange. Physics runs at 0.002 s with a frame skip of 20, giving 25 Hz control. The planar companion is a two-link arm with an exactly computable configuration space. The MyCobot deployment uses the same environment code with the quantities of Table 4.1.</p>
   <div class="tbl" id="tab-5-1"><div class="cap"><b>Table 5.1:</b> Task stages (UR5e).</div><div class="scroll"><table>
     <thead><tr><th>Stage</th><th>Task</th><th>Obstacles</th><th>Horizon</th><th>Used in</th></tr></thead>
     <tbody>
@@ -577,7 +583,7 @@ tr.hl td { background: var(--accent-soft); }
     </tbody></table></div></div>
 
   <h2 id="s5-4">5.4&nbsp;&nbsp;Test Sets</h2>
-  <p>Test and validation sets are frozen before training with disjoint seed ranges, and a scene is kept only if B2 finds a path. On the UR5e, S4 has 200 test and 100 validation episodes. The MyCobot lane builds its own S4 sets: 200 test episodes (71 candidate seeds rejected) and 100 validation episodes, with B2 duration at most 20 s (p50 10.0 s, p99 19.6 s at the first horizon of 489 steps). The rejection rate of 26% means that the set is the subset of draws that B2 completes within 20 s.</p>
+  <p>Test and validation sets are frozen before training with disjoint seed ranges, and a scene is kept only if B2 finds a path. On the UR5e, S4 has 200 test and 100 validation episodes. The MyCobot deployment builds its own S4 sets: 200 test episodes (71 candidate seeds rejected) and 100 validation episodes, with B2 duration at most 20 s (p50 10.0 s, p99 19.6 s at the first horizon of 489 steps). The rejection rate of 26% means that the set is the subset of draws that B2 completes within 20 s.</p>
   <p><strong>Horizon decision.</strong> The first MyCobot sets used a horizon of 489 steps. The cheap planner&rsquo;s reference paths (20 shortcuts) turned out to be about twice as long as B2&rsquo;s (p50 294, p90 754, maximum 1,302 steps in the first 100 test episodes), and all 22 collision-free failures of Base@6000 in that sample had a reference longer than 489. The base was time-limited, not safety-limited. The horizon was changed to 900 steps (45 s), the episodes were left unchanged, the first runs were stopped at about 40,000 steps and archived, and everything reported for the MyCobot below uses 900.</p>
   <h3>Challenge set s4_chal</h3>
   <p>To cover what <code>s4_test</code> does not, a challenge set of 100 episodes (25 per type) was built with the same rules as S4 (start and goal clear by at least 1 cm, goal at most 0.9 rad from the start, B2 within 20 s). The four types are:</p>
@@ -668,7 +674,7 @@ tr.hl td { background: var(--accent-soft); }
 
   <h2 id="s5-9">5.9&nbsp;&nbsp;Implementation Verification and Design Refinements</h2>
   <h3>5.9.1&nbsp;&nbsp;Tests</h3>
-  <p>The UR5e package has 75 tests, the planar package 74 and the MyCobot lane 11. Besides the usual unit tests they check that relabelled HER samples carry the right goal, that the collision penalty makes crashing worse than surviving in both reward modes, that MuJoCo and numpy forward kinematics agree, that a zero residual reproduces the base exactly, that the final-approach correction closes a static shortfall within its limits, and that rotated boxes and cylinders collide exactly as an independent geometric calculation says they should.</p>
+  <p>The UR5e package has 75 tests, the planar package 74 and the MyCobot package 11. Besides the usual unit tests they check that relabelled HER samples carry the right goal, that the collision penalty makes crashing worse than surviving in both reward modes, that MuJoCo and numpy forward kinematics agree, that a zero residual reproduces the base exactly, that the final-approach correction closes a static shortfall within its limits, and that rotated boxes and cylinders collide exactly as an independent geometric calculation says they should.</p>
   <h3>5.9.2&nbsp;&nbsp;Three silent defects of goal-conditioned training</h3>
   <p>Three defects broke training without raising an error. Each looked like an algorithm that simply was not learning, and all three share one cause: anything in a transition that depends on the goal, or is lost when the goal is relabelled, must be recomputed or carried along with it.</p>
   <div class="tbl" id="tab-5-7"><div class="cap"><b>Table 5.7:</b> Silent defects found during development, their symptoms and the tested fixes.</div><div class="scroll"><table>
@@ -679,7 +685,7 @@ tr.hl td { background: var(--accent-soft); }
     <tr><td>3</td><td>A collision ended the episode with a one-off &minus;10</td><td>staying alive cost about &minus;50 discounted, so crashing at step 9 (about &minus;17) paid better; pure SAC crashed in 100% of episodes</td><td>absorbing penalty of Equation (3.3), tested so that crashing is worse than surviving any number of steps</td></tr>
     </tbody></table></div></div>
   <p>Defect 3 was found only because the first E5 run&rsquo;s pure-RL arm collided in every episode. After the fix, collisions were spread through the episode like a random policy&rsquo;s (median step 80), which confirmed that the exploit was gone.</p>
-  <h3>5.9.3&nbsp;&nbsp;Refinements on the MyCobot lane</h3>
+  <h3>5.9.3&nbsp;&nbsp;Refinements on the MyCobot 280</h3>
   <ul>
     <li><strong>Inverse kinematics.</strong> A scalar solver took about 1 s per goal and starved B2&rsquo;s 2 s budget, so B2 succeeded in only 17&ndash;25% of scenes. A batched damped-least-squares solver (25 ms per goal) brought it to 97%.</li>
     <li><strong>Collision capsules.</strong> The first capsule radii (25&ndash;40 mm) made B2 fail on clutter that the real arm can pass; slimmer capsules (20&ndash;35 mm) fixed this. The radii are estimates and not measurements.</li>
@@ -687,7 +693,7 @@ tr.hl td { background: var(--accent-soft); }
   </ul>
 
   <h2 id="s5-10">5.10&nbsp;&nbsp;Chapter Summary</h2>
-  <p>All methods share one environment, the same frozen test sets, the same checkpoint rule and the same metrics. The MyCobot lane has its own scenes, horizon and hardware measurements. Three silent training defects and several lane-specific refinements were found and fixed before the main experiments.</p>
+  <p>All methods share one environment, the same frozen test sets, the same checkpoint rule and the same metrics. The MyCobot 280 has its own scenes, horizon and hardware measurements. Three silent training defects and several MyCobot-specific refinements were found and fixed before the main experiments.</p>
 </section>
 
 <!-- ================= CHAPTER 6 (part a) ================= -->
@@ -695,7 +701,7 @@ tr.hl td { background: var(--accent-soft); }
   <h1><span class="ch">Chapter 6</span>Results and Discussion</h1>
 
   <h2 id="s6-1">6.1&nbsp;&nbsp;Introduction</h2>
-  <p>This chapter reports the results in the order of the research questions. Sections 6.2 to 6.4 cover the UR5e study (reaching without obstacles, motion planning in clutter, and the diagnosis of why the residual fails). Section 6.5 reports the planar 2-DOF study. Sections 6.6 to 6.9 report the MyCobot lane: the simulation, the challenge set, the shape set and the real-arm runs. Section 6.10 answers the research questions. Success and collision rates are percentages of test episodes unless a value is given as a fraction. &ldquo;Hybrid&rdquo; is the cheap planner plus the residual; &ldquo;Base@N&rdquo; is the cheap planner alone.</p>
+  <p>This chapter reports the results in the order of the research questions. Sections 6.2 to 6.5 are development results: they were obtained on the UR5e (reaching without obstacles, motion planning in clutter, and the diagnosis of why the residual fails) and on the planar 2-DOF arm, to find out what the method does and why. Sections 6.6 to 6.9 are target-robot results: the MyCobot 280 in simulation, on the challenge and shape sets, and on the real arm. Section 6.10 answers the research questions, starting from what holds on the MyCobot. Success and collision rates are percentages of test episodes unless a value is given as a fraction. &ldquo;Hybrid&rdquo; is the cheap planner plus the residual; &ldquo;Base@N&rdquo; is the cheap planner alone.</p>
 
   <h2 id="s6-2">6.2&nbsp;&nbsp;Reaching Without Obstacles (E1, E2)</h2>
   <figure id="fig-6-1">
@@ -833,7 +839,7 @@ tr.hl td { background: var(--accent-soft); }
 <!-- ================= CHAPTER 6 (part b) ================= -->
 <section class="sheet" id="ch6b">
   <h2 id="s6-6" style="margin-top:0">6.6&nbsp;&nbsp;MyCobot 280 in Simulation</h2>
-  <p>The lane first asked whether the UR5e result carries over to a different arm. The UR5e residual actor was run unchanged in the MyCobot simulation (a zero-shot probe), and the residual was then retrained there with the E5 recipe, two seeds and one million steps.</p>
+  <p>The deployment first asked whether the UR5e result carries over to a different arm. The UR5e residual actor was run unchanged in the MyCobot simulation (a zero-shot probe), and the residual was then retrained there with the E5 recipe, two seeds and one million steps.</p>
   <div class="tbl" id="tab-6-7"><div class="cap"><b>Table 6.7:</b> MyCobot, <code>s4_test</code> (200 episodes, horizon 900), success / collision in %.</div><div class="scroll"><table>
     <thead><tr><th>Method</th><th class="n">1500 checks</th><th class="n">3000 checks</th><th class="n">6000 checks</th></tr></thead>
     <tbody>
@@ -1055,16 +1061,18 @@ tr.hl td { background: var(--accent-soft); }
   </div>
 <!--/SEGVIDEOS-->
 
+    <h3>6.9.7&nbsp;&nbsp;A learned reach controller that did not work (a limitation, not a result)</h3>
+  <p>To check the learned approach on the MyCobot in a simpler setting than the residual, a goal-conditioned reach policy was trained in simulation with DDPG and hindsight experience replay (position goal in a 10 cm cube, 2 cm tolerance, sparse reward, tool-space actions converted to joint steps of at most 0.5 &deg; per tick). With a fixed start and no obstacle (R1), three seeds trained for 100,000 steps reached 27%, 6% and 68% of 100 test episodes, with no contact, against 100% for a scripted straight line to the goal; the learned controller did not reach the 90% bar within that budget, and the runs were stopped there. With one sphere placed on the straight line (R2), no detour in tool space could clear it: debug runs showed that the wrist links and the tool body trail the tool tip by a few centimetres and touch a sphere that the tip clears by 7 cm, and moving the sphere along the line, making it smaller, moving the goal cube outward and keeping 4 cm from the arm at the start left at most 5% of sampled episodes solvable by any hand-coded detour (0% at the planned placement). The three R2 policies trained as planned ended at 0% success with 55-88% contact on validation. These runs are reported as a limitation of the attempt (a short training budget and a task geometry that the tool-space action cannot satisfy on this arm), not as a result about the method, and nothing from them is used elsewhere in this report. No reach policy was run on the real arm.</p>
   <h2 id="s6-10">6.10&nbsp;&nbsp;Discussion of Findings</h2>
   <div class="tbl" id="tab-6-13"><div class="cap"><b>Table 6.13:</b> Answers to the research questions.</div><div class="scroll"><table>
     <thead><tr><th>RQ</th><th>Answer</th><th>Evidence</th></tr></thead>
     <tbody>
     <tr><td>RQ1</td><td>SAC learns best, then TD3, then DDPG; PPO fails.</td><td>E1: 20.7% against 12.7%; PE1: 78.8%, 63.6%, 42.1%, 0%</td></tr>
     <tr><td>RQ2</td><td>Sparse reward with HER beats dense on success, not on final error.</td><td>E2: 4.5% against 0%; PE2: 71.0% against 5.3%</td></tr>
-    <tr><td>RQ3</td><td><strong>No.</strong> The additive residual is below its planner at every budget; the offset residual raises collisions two to five times. On the MyCobot the residual equals its planner.</td><td>Table 6.2, Table 6.7</td></tr>
+    <tr><td>RQ3</td><td><strong>No.</strong> On the MyCobot, the target arm, the residual equals its planner. On the development arms the additive residual is below its planner at every budget and the offset residual raises collisions two to five times.</td><td>Table 6.2, Table 6.7</td></tr>
     <tr><td>RQ4</td><td>Yes, under a systematic model error: success roughly doubles. It gives up most of the exact-plant performance.</td><td>Table 6.5</td></tr>
     <tr><td>RQ5</td><td>Mostly: 8 of 9 rankings agree. The offset redesign helps on the planar arm and hurts on the UR5e.</td><td>Table 6.6</td></tr>
-    <tr><td>RQ6</td><td>The residual equals its planner on a second arm, on the real arm, on harder scenes and on box and cylinder obstacles. The cheap planner itself is weakest on goals near full reach, narrow gaps and shapes.</td><td>Tables 6.7&ndash;6.11, 6.12b</td></tr>
+    <tr><td>RQ6</td><td>On the target arm the residual equals its planner in simulation, on the real arm (streamed runs), on harder scenes and on box and cylinder obstacles, as it did on the development arms. The cheap planner itself is weakest on goals near full reach, narrow gaps and shapes.</td><td>Tables 6.7&ndash;6.11, 6.12b</td></tr>
     </tbody></table></div></div>
   <p><strong>The residual does not add to a planner that tracks a path.</strong> The result holds in every setting tested, and the measurements say why: the tracker cancels a bounded correction, and an unbounded one leaves the safe path. The planar arm shows that this is not a property of the UR5e, and the MyCobot shows that it is not a property of one arm or one simulator.</p>
   <p><strong>On the MyCobot the residual equals its planner, whereas on the UR5e it falls below it.</strong> A possible reason, not tested here, is scale. On the MyCobot, &alpha;&Delta;<var>q</var><sub>max</sub> = 0.3 &times; 0.0087 rad = 0.0026 rad per step, against 0.012 rad on the UR5e, so a residual on the MyCobot has less room to spoil the goal pose. A direct test would train the MyCobot residual with a larger &alpha; or &Delta;<var>q</var><sub>max</sub> and compare.</p>
@@ -1080,7 +1088,7 @@ tr.hl td { background: var(--accent-soft); }
   <h1><span class="ch">Chapter 7</span>Conclusion and Future Scope</h1>
 
   <h2 id="s7-1">7.1&nbsp;&nbsp;Summary of the Research</h2>
-  <p>This project asked whether a cheap sampling-based planner combined with a learned residual correction can match a full-budget planner for collision-free pose reaching. A MuJoCo benchmark for the UR5e, two residual designs, a planar companion study and a deployment on a real MyCobot 280 were built to answer it. The answer is no in every setting tested, and the measurements show why.</p>
+  <p>This project asked whether a cheap sampling-based planner combined with a learned residual correction can match a full-budget planner for collision-free pose reaching. The target was the MyCobot 280; a MuJoCo benchmark for the UR5e, two residual designs and a planar 2-DOF study were built to develop the method, and it was then deployed on the MyCobot 280, in simulation and on the real arm. The answer is no in every setting tested, and the measurements show why.</p>
 
   <h2 id="s7-2">7.2&nbsp;&nbsp;Major Findings</h2>
   <ul>
@@ -1092,7 +1100,7 @@ tr.hl td { background: var(--accent-soft); }
   </ul>
 
   <h2 id="s7-3">7.3&nbsp;&nbsp;Contributions of the Work</h2>
-  <p>The contributions listed in Section 1.8 stand as follows. The benchmark, the baselines and the versioned specification are reproducible from the repository. The negative result comes with its measured causes. The planar study shows that the pattern does not depend on the arm, and it identifies the setting in which a residual helps. The MyCobot lane shows that the finding survives a change of arm, harder scenes, other obstacle shapes and real hardware. The three training defects and their fixes are reusable beyond this project.</p>
+  <p>The contributions listed in Section 1.8 stand as follows. The benchmark, the baselines and the versioned specification are reproducible from the repository. The negative result comes with its measured causes. The planar study shows that the pattern does not depend on the arm, and it identifies the setting in which a residual helps. The MyCobot deployment shows that the finding survives a change of arm, harder scenes, other obstacle shapes and real hardware. The three training defects and their fixes are reusable beyond this project.</p>
 
   <h2 id="s7-4">7.4&nbsp;&nbsp;Limitations of the Study</h2>
   <ul>
@@ -1153,7 +1161,7 @@ python -m pytest 2-dof        # planar suite (74 tests)</pre>
 python scripts/launch.py --exp configs/exp/e5.yaml --workers 2 --threads 1
 python scripts/e5_table.py              # results/tables/e5.md
 python scripts/thesis_figures.py        # learning curves, validation curves, outcome split, PE3 / PE4, PE8</pre>
-  <h3>MyCobot lane (from <code>mycobot/</code>)</h3>
+  <h3>MyCobot 280 (from <code>mycobot/</code>)</h3>
   <pre class="code">python -m pytest tests/test_mcrl.py                          # 11 tests
 python scripts/make_challenge.py                            # testsets/s4_chal.npz
 python scripts/make_shapes.py                               # testsets/s4_shape.npz
