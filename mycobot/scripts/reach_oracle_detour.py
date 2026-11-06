@@ -32,6 +32,8 @@ class Via:
         return _toward(env, s.wp[s.i])
 
 
+if __name__ != "__main__":
+    sys.argv = sys.argv[:1]
 for st in sys.argv[1:]:
     env = MyCobotReachEnv(ReachConfig(**stage_cfg(st)))
     eps = load_set(st, "test")

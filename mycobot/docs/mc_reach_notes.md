@@ -58,3 +58,22 @@ obstacle stages so the elbow can move. R2 and R3 runs were started as specified 
 - **R2** (sphere): three 100k-step runs were started as specified and were still running; their results are not in the tables yet. Given the
   oracle finding above, success near zero is expected; `scripts/eval_reach.py policy r2 ...` and `scripts/reach_report.py` collect them.
 - R3, R4, SAC+HER and all hardware work (Task 2): not started. **The arm was not moved.**
+
+## R2 sphere placement probes (2026-11-06, after "move the sphere")
+
+Share of 40 sampled R2-like episodes solved by some via-point detour (6 directions x 3 clearances, dry runs; `scripts/reach_frac_probe.py`):
+
+| Sphere at fraction of the start-goal line | Radius (cm) | Cube centre (m) | Start clearance | Solvable |
+|---|---|---|---|---|
+| 0.5 (midpoint, as specified) | 1.5-3.5 | (0.12, -0.05, 0.35) | 1 cm | 0% |
+| 0.7 | 1.5-3.5 | same | 1 cm | 0% |
+| 0.5 | 1.5-2.0 | same | 1 cm | 0% |
+| 0.55 | 1.5-3.0 | (0.20, -0.02, 0.30), goals >= 16 cm from start | 4 cm | 5% |
+| 0.55 | 1.5-3.0 | (0.16, -0.10, 0.30) | 4 cm | 0% |
+| 0.55 | 1.5-3.0 | (0.18, 0.05, 0.33) | 4 cm | 5% |
+
+Moving the sphere along the line, shrinking it, moving the cube out and keeping 4 cm from the arm at the start do not make a Cartesian detour
+work. Debug runs show why: the wrist links (4, 5 and the tool body) are large and trail the tool tip by a few centimetres, so a sphere that
+the tool tip passes at 7 cm is still touched by link 4 or 5, and sideways or downward via points run into the wrist before the tip moves. The
+`ee` action fixes the elbow and wrist through the DLS null-space pull, so a policy cannot move them out of the way either. The three R2 policies
+trained as specified end at 0% success with 55%, 88% and 59% contact on validation (100k steps).

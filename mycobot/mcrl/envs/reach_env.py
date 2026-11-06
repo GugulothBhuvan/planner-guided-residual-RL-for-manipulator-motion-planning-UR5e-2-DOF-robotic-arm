@@ -39,6 +39,8 @@ class ReachConfig(EnvConfig):
     start_noise: float = 0.3  # rad, as s4_test
     obstacle: str = "none"  # "none" | "mid"
     mid_jitter: float = 0.01
+    obstacle_margin: float = 0.01  # sphere clearance from the arm at the start pose (m)
+    obstacle_frac: float = 0.5  # sphere centre at this fraction of the start->goal line (0.5 = midpoint)
     min_goal_dist: float = 0.0  # reject goals closer than this to the start TCP (m)
     nullspace_gain: float = 0.05
     ik_damping: float = 0.02
@@ -92,14 +94,14 @@ class MyCobotReachEnv(MyCobotPoseEnv):
             if cfg.obstacle == "mid":
                 ok = False
                 for _ in range(100):
-                    c = (p0 + goal) / 2 + self.np_random.uniform(-cfg.mid_jitter, cfg.mid_jitter, 3)
+                    c = p0 + cfg.obstacle_frac * (goal - p0) + self.np_random.uniform(-cfg.mid_jitter, cfg.mid_jitter, 3)
                     r = self.np_random.uniform(*cfg.obstacle_radius)
                     # clear of the start and of the goal (tool tip) and of the arm at the start pose
                     if np.linalg.norm(c - p0) < r + 0.03 or np.linalg.norm(c - goal) < r + 0.03:
                         continue
                     if not (r < c[2]):
                         continue
-                    if not self._clear_at(q_start, c[None], np.array([r])):
+                    if not self._clear_at(q_start, c[None], np.array([r]), margin=cfg.obstacle_margin):
                         continue
                     centers[0], radii[0], mask[0] = c, r, True
                     ok = True

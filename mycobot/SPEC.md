@@ -259,6 +259,7 @@ Instead of streaming a 0.5 deg goal every 50 ms, the episode is played first in 
 | 2026-11-06 | `render_grid_compare.py` header names the execution mode from the log (`mode: segments` or streaming) | the first streaming re-render was labelled `firmware-segment execution`; fixed and rerendered |
 | 2026-11-06 | reach lane M10 started: a learned reach controller on the MyCobot against scripted rules (M10) | the residual ties its planner; the guide wants a basic version that clearly works |
 | 2026-11-06 | `ee` action holds no tool orientation: DLS on the position Jacobian with a weak null-space pull to home | holding the home orientation reaches only 32% of a 5 cm grid and no 10 cm cube near home (`results/reach_map_home_R.pkl`); success is position-only anyway |
+| 2026-11-06 | R2 sphere moved as asked (fraction along the line, radius, cube centre, start clearance): detour-solvable share stays 0-5% (`docs/mc_reach_notes.md`); R2 not usable in `ee` mode with this arm's wrist | needs a decision: `joints` mode for obstacle stages, or a different obstacle |
 
 ## M10 Basic reach on the MyCobot: a learned controller against no-learning rules (v0.16)
 
