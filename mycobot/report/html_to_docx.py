@@ -210,7 +210,7 @@ def picture(img, par=None):
         p.add_run(f"[image {img['src']} not available: {e}]")
 
 
-ARTIFACT = "https://claude.ai/artifact/UG9fajbsGEdR2KRMkTy3U4"
+GITHUB = "https://github.com/GugulothBhuvan/planner-guided-residual-RL-for-manipulator-motion-planning-UR5e-2-DOF-robotic-arm/blob/main"  # the videos are in mycobot/report/vid/
 KEY_VIDEOS = {"vid-6-1", "vid-6-6", "vid-6-7", "vid-6-17", "vid-6-19"}  # linked with a QR code; the rest get a link only
 
 
@@ -246,14 +246,14 @@ def qr_png(url, name):
 def video_block(fig, vid):
     """A video cannot play in Word: show a link to the hosted page (and a QR code for the key videos) in its place."""
     vid_id = fig.get("id", "")
-    url = f"{ARTIFACT}#{vid_id}"
+    url = f"{GITHUB}/mycobot/report/vid/{Path(vid.get('src', '')).name}"
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.keep_with_next = True
     if vid_id in KEY_VIDEOS:
         p.add_run().add_picture(str(qr_png(url, vid_id)), width=Inches(1.15))
         p.add_run().add_break()
-    r = p.add_run("Video, online: ")
+    r = p.add_run("Video on GitHub: ")
     r.font.size = Pt(9)
     r.italic = True
     add_hyperlink(p, url, url.replace("https://", ""))
