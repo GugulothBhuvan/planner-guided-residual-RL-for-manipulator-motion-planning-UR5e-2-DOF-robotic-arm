@@ -1011,6 +1011,42 @@ tr.hl td { background: var(--accent-soft); }
     <li><strong>The horizon matters more than the residual.</strong> At the first horizon of 489 steps the cheap planner was flat at 84.0, 81.0 and 80.5% for the three budgets: its longer reference paths ran out of time. Raising the horizon to 900 removed this (Section 5.4).</li>
   </ul>
 
+  <h3 id="s6-6-1">6.6.1&nbsp;&nbsp;Size of the residual on the MyCobot (diagnostic)</h3>
+  <div class="todo-block"><strong class="tag">Pending</strong>Placeholder for the residual-size diagnostic on the MyCobot: how large the residual's correction is per joint, how far the joint target leaves the planned path, and in how many episodes the outcome differs from the planner alone. The measurement uses the 200 <code>s4_test</code> episodes, both seeds at the final checkpoint and all three budgets. No result is stated here; the tables below show the layout to be filled and a verdict of two or three sentences goes under them.</div>
+  <div class="tbl" id="tab-6-7a"><div class="cap"><b>Table 6.7a:</b> Size of the residual action per joint on the MyCobot, as a fraction of its bound &alpha;&Delta;<var>q</var><sub>max</sub> = 0.0026 rad (to be filled).</div><div class="scroll"><table>
+    <thead><tr><th>Seed</th><th>Budget</th><th>Mean J1</th><th>J2</th><th>J3</th><th>J4</th><th>J5</th><th>J6</th><th>Largest value (any step, any joint)</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>0</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>0</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>1</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>1</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>1</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </tbody></table></div></div>
+  <div class="tbl" id="tab-6-7b"><div class="cap"><b>Table 6.7b:</b> Largest deviation of the joint target from the planned path per episode, <var>dev</var><sub>max</sub> (rad), on the 200 <code>s4_test</code> episodes (to be filled).</div><div class="scroll"><table>
+    <thead><tr><th>Controller</th><th>Budget</th><th>p5</th><th>median</th><th>p95</th><th>max</th></tr></thead>
+    <tbody>
+      <tr><td>planner alone</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>planner alone</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>planner alone</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>hybrid, seed 0</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>hybrid, seed 0</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>hybrid, seed 0</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>hybrid, seed 1</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>hybrid, seed 1</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>hybrid, seed 1</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </tbody></table></div></div>
+  <div class="tbl" id="tab-6-7c"><div class="cap"><b>Table 6.7c:</b> Episodes whose outcome differs from the planner alone (to be filled).</div><div class="scroll"><table>
+    <thead><tr><th>Seed</th><th>Budget</th><th>Different outcome</th><th>Better (fail to success)</th><th>Worse (success to fail)</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>0</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>0</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>1</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>1</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>1</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </tbody></table></div></div>
+  <p><em>Verdict (to be written once the tables are filled).</em></p>
   <h2 id="s6-7">6.7&nbsp;&nbsp;Narrow Gaps, Clutter and Hard Goals (the Challenge Set)</h2>
   <p>The challenge set of Section 5.4 was evaluated in simulation with B2, the cheap planner and the retrained residual (seed 1, final checkpoint).</p>
   <div class="tbl" id="tab-6-8"><div class="cap"><b>Table 6.8:</b> MyCobot, <code>s4_chal</code> (25 episodes per type), success / collision as fractions.</div><div class="scroll"><table>
@@ -1211,6 +1247,29 @@ tr.hl td { background: var(--accent-soft); }
 
     <h3>6.9.7&nbsp;&nbsp;A learned reach controller that did not work (a limitation, not a result)</h3>
   <p>To check the learned approach on the MyCobot in a simpler setting than the residual, a goal-conditioned reach policy was trained in simulation with DDPG and hindsight experience replay (position goal in a 10 cm cube, 2 cm tolerance, sparse reward, tool-space actions converted to joint steps of at most 0.5 &deg; per tick). With a fixed start and no obstacle (R1), three seeds trained for 100,000 steps reached 27%, 6% and 68% of 100 test episodes, with no contact, against 100% for a scripted straight line to the goal; the learned controller did not reach the 90% bar within that budget, and the runs were stopped there. With one sphere placed on the straight line (R2), no detour in tool space could clear it: debug runs showed that the wrist links and the tool body trail the tool tip by a few centimetres and touch a sphere that the tip clears by 7 cm, and moving the sphere along the line, making it smaller, moving the goal cube outward and keeping 4 cm from the arm at the start left at most 5% of sampled episodes solvable by any hand-coded detour (0% at the planned placement). The three R2 policies trained as planned ended at 0% success with 55-88% contact on validation. These runs are reported as a limitation of the attempt (a short training budget and a task geometry that the tool-space action cannot satisfy on this arm), not as a result about the method, and nothing from them is used elsewhere in this report. No reach policy was run on the real arm.</p>
+  <h3 id="s6-9-8">6.9.8&nbsp;&nbsp;Basic reach with one obstacle: simulation and real arm</h3>
+  <div class="todo-block"><strong class="tag">Pending</strong>Placeholder for a basic reach experiment on the MyCobot: a learned position-reaching controller against scripted rules (a straight line and a hand-coded detour) on the same test episodes, first in simulation and then on the real arm with a virtual obstacle. No result is stated here. Section 6.9.7 describes the attempt that was made so far and why it is not a result. The layouts below are to be filled, and the controllers would run in streaming mode so that the learned policy is the one tested on hardware.</div>
+  <div class="tbl" id="tab-6-12c"><div class="cap"><b>Table 6.12c:</b> Basic reach with one virtual obstacle in simulation, on 100 frozen test episodes per stage (to be filled).</div><div class="scroll"><table>
+    <thead><tr><th>Stage</th><th>Controller</th><th>Success</th><th>Collision</th><th>Final error median / max (cm)</th><th>Steps median</th></tr></thead>
+    <tbody>
+      <tr><td>Reach, no obstacle</td><td>scripted straight line</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>Reach, no obstacle</td><td>scripted detour</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>Reach, no obstacle</td><td>learned controller, seed 0</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>Reach, no obstacle</td><td>learned controller, seed 1</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>Reach, no obstacle</td><td>learned controller, seed 2</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>Reach, one sphere</td><td>scripted straight line</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>Reach, one sphere</td><td>scripted detour</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>Reach, one sphere</td><td>learned controller, seed 0</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>Reach, one sphere</td><td>learned controller, seed 1</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>Reach, one sphere</td><td>learned controller, seed 2</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </tbody></table></div></div>
+  <div class="tbl" id="tab-6-12d"><div class="cap"><b>Table 6.12d:</b> Basic reach on the real arm, streamed closed-loop at 20 Hz and 0.5&deg; per tick, with virtual obstacles, first 20 test episodes (to be filled).</div><div class="scroll"><table>
+    <thead><tr><th>Controller</th><th>Runs</th><th>Success</th><th>Collisions</th><th>Final error median / max (cm)</th><th>Wall time median (s)</th></tr></thead>
+    <tbody>
+      <tr><td>learned controller (best seed by validation)</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>scripted straight line</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>scripted detour</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </tbody></table></div></div>
   <h2 id="s6-10">6.10&nbsp;&nbsp;Discussion of Findings</h2>
   <div class="tbl" id="tab-6-13"><div class="cap"><b>Table 6.13:</b> Answers to the research questions.</div><div class="scroll"><table>
     <thead><tr><th>RQ</th><th>Answer</th><th>Evidence</th></tr></thead>
