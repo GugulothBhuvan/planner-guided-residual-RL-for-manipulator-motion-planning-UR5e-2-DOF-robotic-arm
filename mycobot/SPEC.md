@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Draft v0.15 — 2026-11-06 |
+| **Status** | Draft v0.16 — 2026-11-06 |
 | **Parent** | [../SPEC.md](../SPEC.md) v0.25 (UR5e). This lane reuses its agents, residual recipe and protocol. |
 | **Goal** | Deploy the planner + residual pipeline on a real MyCobot 280 M5 (suction head) and test it against the same baselines. |
 | **Deadline** | 24 h from 2026-11-02 (user). Scope below is cut to fit; cuts are listed in M9. |
@@ -257,6 +257,25 @@ Instead of streaming a 0.5 deg goal every 50 ms, the episode is played first in 
 | 2026-11-05 | hardware execution by firmware segments (`run_segments.py`) added next to the 50 ms streaming runner; streaming results (M7b-d) are kept as they are | the 10 deg/s cap and stop-and-go come from streaming, not the arm (M7f); user chose option A. The residual is replayed from the simulation in this mode (no tick-by-tick correction from measurements) |
 | 2026-11-06 | report completed offline: related work (Sections 2.2, 2.7) and references 16-42 added; Figure 6.4a (E5b offset over an episode, replayed from the three final checkpoints by `../scripts/e5b_offset_trace.py`, `../scripts/plot_offset_trace.py`); B2 and mixed-shape five-panel videos; streaming videos 6.2-6.6 re-rendered in the five-panel layout; Appendix B re-run on a clean clone | closes the gaps listed in the report's yellow notes that need no arm; nothing in the method, protocol or results changed | 
 | 2026-11-06 | `render_grid_compare.py` header names the execution mode from the log (`mode: segments` or streaming) | the first streaming re-render was labelled `firmware-segment execution`; fixed and rerendered |
+| 2026-11-06 | reach lane M10 started: a learned reach controller on the MyCobot against scripted rules (M10) | the residual ties its planner; the guide wants a basic version that clearly works |
+| 2026-11-06 | `ee` action holds no tool orientation: DLS on the position Jacobian with a weak null-space pull to home | holding the home orientation reaches only 32% of a 5 cm grid and no 10 cm cube near home (`results/reach_map_home_R.pkl`); success is position-only anyway |
+
+## M10 Basic reach on the MyCobot: a learned controller against no-learning rules (v0.16)
+
+**Why.** The MyCobot 280 is the target robot of the thesis, and every learned policy on it so far ties its planner (M6/M7). The guide wants a basic version that clearly works: a learned controller on this arm, in simulation and on the real arm, against a scripted rule, on the same test episodes. Reference: `GugulothBhuvan/ur5e-reach-ddpg-her` (DDPG + HER reach, scripted straight-line baseline, harder stages).
+
+**Task 0: is the residual doing anything?** `scripts/mc_residual_diagnostic.py` replays s4_test (200 episodes, horizon 900), both seeds, final checkpoints, budgets 1500/3000/6000: per-joint mean and max |alpha pi_res| (rad and in units of the bound alpha dq_max = 0.0026 rad), dev_max = max |q_target - q_ref| per episode (p5/median/p95/max), and the episodes whose outcome differs from the planner alone. Output `results/tables/mc_residual_diagnostic.md` with a verdict.
+
+**Task 1: reach in simulation.** New `mcrl/envs/reach_env.py` (`MyCobotReachEnv`, a subclass: the S4 env and its defaults are untouched), configs `configs/env/mc_reach_*.yaml`, trainer `scripts/train_reach.py`.
+- Action `ee`: 3 numbers in [-1, 1] x `ee_step`; converted to joint increments by one damped-least-squares step on the tool-position Jacobian plus a weak null-space pull toward the home joints, then scaled so no joint moves more than 0.5 deg per tick (the 10 deg/s cap). Action `joints`: 6 increments of at most 0.5 deg per tick. `ee` first.
+- Goal: position only, uniform in a cube in front of the arm. Cube size 10 cm and centre are set by a measurement (scripted controller reaches 500 of 500 samples without contact); the numbers are reported in `docs/mc_reach_notes.md`. Success = TCP within 2 cm (1 cm as a stretch). Reward sparse -1 / 0, the episode ends on success; with obstacles, contact ends it with reward -1/(1-gamma) (w_c = w_s = w_m = 0), kept through HER.
+- Training: DDPG + HER (two critics), `future`, k = 4, noise 0.1, gamma 0.98, networks 2 x 256, batch 256, 3 seeds, 100k steps (extended while rising), plus SAC + HER on one seed. Episode horizon from the measured tool speed at the cap, so a straight move across the cube takes about 60% of it.
+- Stages on 100 test episodes each, scripted against RL: R1 fixed start, no obstacle (bar: RL >= 90%); R2 R1 + one virtual sphere (radius 1.5-3.5 cm) near the start-goal midpoint (+-1 cm), second baseline a hand-coded detour (up, across, down); R3 R2 + random start (+-17 deg, as s4_test); R4 R1 in `joints` mode.
+- "Matches" rather than "beats" unless the gap is outside noise (two-proportion z > 2 with 3 seeds).
+
+**Task 2: reach on the real arm** (only after R1, and R2 if it passes). Trained policies run closed loop with streaming (20 Hz, 0.5 deg per tick, measured joints), the existing runner, safety checks, TrimArm and virtual obstacles; first 20 test episodes, RL (best seed by validation chosen beforehand), scripted straight line, for R2 also the detour, controller order randomised per episode and logged. Segment mode is not used (it replays the simulation and would not test the policy). Five-panel videos for three episodes. The arm moves only on an explicit go.
+
+**Outputs.** `results/tables/mc_reach.md`, learning curves with the scripted rate dashed, hardware table and videos, `docs/mc_reach_notes.md` (every design choice and deviation).
 
 ## M9 Cuts and limitations
 
