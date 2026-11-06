@@ -1012,41 +1012,41 @@ tr.hl td { background: var(--accent-soft); }
   </ul>
 
   <h3 id="s6-6-1">6.6.1&nbsp;&nbsp;Size of the residual on the MyCobot (diagnostic)</h3>
-  <div class="todo-block"><strong class="tag">Pending</strong>Placeholder for the residual-size diagnostic on the MyCobot: how large the residual's correction is per joint, how far the joint target leaves the planned path, and in how many episodes the outcome differs from the planner alone. The measurement uses the 200 <code>s4_test</code> episodes, both seeds at the final checkpoint and all three budgets. No result is stated here; the tables below show the layout to be filled and a verdict of two or three sentences goes under them.</div>
-  <div class="tbl" id="tab-6-7a"><div class="cap"><b>Table 6.7a:</b> Size of the residual action per joint on the MyCobot, as a fraction of its bound &alpha;&Delta;<var>q</var><sub>max</sub> = 0.0026 rad (to be filled).</div><div class="scroll"><table>
-    <thead><tr><th>Seed</th><th>Budget</th><th>Mean J1</th><th>J2</th><th>J3</th><th>J4</th><th>J5</th><th>J6</th><th>Largest value (any step, any joint)</th></tr></thead>
+  <p>To see whether the retrained residual does anything, the 200 <code>s4_test</code> episodes were replayed with both seeds at the final checkpoint and all three budgets (same reset seeds and deterministic actions as the evaluation), and three things were recorded: the size of the residual&rsquo;s correction at each step per joint (Table 6.7a), the largest deviation of the joint target from the planned path per episode (Table 6.7b), and the episodes whose outcome differs from the planner alone (Table 6.7c). The additive residual can move the target by at most &alpha;&Delta;<var>q</var><sub>max</sub> = 0.3 &times; 0.5&deg; = 0.0026 rad per joint per step (Equation 3.23).</p>
+  <div class="tbl" id="tab-6-7a"><div class="cap"><b>Table 6.7a:</b> Size of the residual action per joint on the MyCobot, as a fraction of its bound &alpha;&Delta;<var>q</var><sub>max</sub> = 0.0026 rad (the mean over the steps of an episode, then over the 200 <code>s4_test</code> episodes; 1.00 means the residual output is at its limit).</div><div class="scroll"><table>
+    <thead><tr><th>Seed</th><th class="n">Budget</th><th class="n">Mean J1</th><th class="n">J2</th><th class="n">J3</th><th class="n">J4</th><th class="n">J5</th><th class="n">J6</th><th class="n">Largest value (any step, any joint)</th></tr></thead>
     <tbody>
-      <tr><td>0</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>0</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>0</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>1</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>1</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>1</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>0</td><td class="n">1500</td><td class="n">0.83</td><td class="n">0.76</td><td class="n">0.38</td><td class="n">0.72</td><td class="n">0.71</td><td class="n">0.74</td><td class="n">1.00</td></tr>
+      <tr><td>0</td><td class="n">3000</td><td class="n">0.83</td><td class="n">0.75</td><td class="n">0.37</td><td class="n">0.72</td><td class="n">0.71</td><td class="n">0.74</td><td class="n">1.00</td></tr>
+      <tr><td>0</td><td class="n">6000</td><td class="n">0.83</td><td class="n">0.75</td><td class="n">0.37</td><td class="n">0.72</td><td class="n">0.71</td><td class="n">0.74</td><td class="n">1.00</td></tr>
+      <tr><td>1</td><td class="n">1500</td><td class="n">0.72</td><td class="n">0.75</td><td class="n">0.74</td><td class="n">0.56</td><td class="n">0.74</td><td class="n">0.76</td><td class="n">1.00</td></tr>
+      <tr><td>1</td><td class="n">3000</td><td class="n">0.72</td><td class="n">0.75</td><td class="n">0.73</td><td class="n">0.55</td><td class="n">0.74</td><td class="n">0.76</td><td class="n">1.00</td></tr>
+      <tr><td>1</td><td class="n">6000</td><td class="n">0.73</td><td class="n">0.75</td><td class="n">0.73</td><td class="n">0.54</td><td class="n">0.74</td><td class="n">0.77</td><td class="n">1.00</td></tr>
     </tbody></table></div></div>
-  <div class="tbl" id="tab-6-7b"><div class="cap"><b>Table 6.7b:</b> Largest deviation of the joint target from the planned path per episode, <var>dev</var><sub>max</sub> (rad), on the 200 <code>s4_test</code> episodes (to be filled).</div><div class="scroll"><table>
-    <thead><tr><th>Controller</th><th>Budget</th><th>p5</th><th>median</th><th>p95</th><th>max</th></tr></thead>
+  <div class="tbl" id="tab-6-7b"><div class="cap"><b>Table 6.7b:</b> Largest deviation of the joint target from the planned path per episode, <var>dev</var><sub>max</sub> = max over steps of max<sub>j</sub> |<var>q</var><sub>target</sub> &minus; <var>q</var><sub>ref</sub>(<var>t</var>)| (rad), on the 200 <code>s4_test</code> episodes.</div><div class="scroll"><table>
+    <thead><tr><th>Controller</th><th class="n">Budget</th><th class="n">p5</th><th class="n">median</th><th class="n">p95</th><th class="n">max</th></tr></thead>
     <tbody>
-      <tr><td>planner alone</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>planner alone</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>planner alone</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>hybrid, seed 0</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>hybrid, seed 0</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>hybrid, seed 0</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>hybrid, seed 1</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>hybrid, seed 1</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>hybrid, seed 1</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>planner alone</td><td class="n">1500</td><td class="n">0.0000</td><td class="n">0.0000</td><td class="n">0.0000</td><td class="n">0.0000</td></tr>
+      <tr><td>planner alone</td><td class="n">3000</td><td class="n">0.0000</td><td class="n">0.0000</td><td class="n">0.0000</td><td class="n">0.0000</td></tr>
+      <tr><td>planner alone</td><td class="n">6000</td><td class="n">0.0000</td><td class="n">0.0000</td><td class="n">0.0000</td><td class="n">0.0000</td></tr>
+      <tr><td>hybrid, seed 0</td><td class="n">1500</td><td class="n">0.0026</td><td class="n">0.0292</td><td class="n">0.0798</td><td class="n">0.1059</td></tr>
+      <tr><td>hybrid, seed 0</td><td class="n">3000</td><td class="n">0.0026</td><td class="n">0.0334</td><td class="n">0.0899</td><td class="n">0.1157</td></tr>
+      <tr><td>hybrid, seed 0</td><td class="n">6000</td><td class="n">0.0026</td><td class="n">0.0349</td><td class="n">0.0899</td><td class="n">0.1157</td></tr>
+      <tr><td>hybrid, seed 1</td><td class="n">1500</td><td class="n">0.0026</td><td class="n">0.0285</td><td class="n">0.0826</td><td class="n">0.1344</td></tr>
+      <tr><td>hybrid, seed 1</td><td class="n">3000</td><td class="n">0.0026</td><td class="n">0.0292</td><td class="n">0.0845</td><td class="n">0.1344</td></tr>
+      <tr><td>hybrid, seed 1</td><td class="n">6000</td><td class="n">0.0026</td><td class="n">0.0315</td><td class="n">0.0865</td><td class="n">0.1344</td></tr>
     </tbody></table></div></div>
-  <div class="tbl" id="tab-6-7c"><div class="cap"><b>Table 6.7c:</b> Episodes whose outcome differs from the planner alone (to be filled).</div><div class="scroll"><table>
-    <thead><tr><th>Seed</th><th>Budget</th><th>Different outcome</th><th>Better (fail to success)</th><th>Worse (success to fail)</th></tr></thead>
+  <div class="tbl" id="tab-6-7c"><div class="cap"><b>Table 6.7c:</b> Episodes whose outcome (success, collision or neither) differs from the planner alone, same episode and budget, and the success rates.</div><div class="scroll"><table>
+    <thead><tr><th>Seed</th><th class="n">Budget</th><th class="n">Success, planner</th><th class="n">Success, hybrid</th><th class="n">Different outcome</th><th class="n">Better (fail to success)</th><th class="n">Worse (success to fail)</th></tr></thead>
     <tbody>
-      <tr><td>0</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>0</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>0</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>1</td><td>1500</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>1</td><td>3000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>1</td><td>6000</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>0</td><td class="n">1500</td><td class="n">89.5%</td><td class="n">88.0%</td><td class="n">3 of 200</td><td class="n">0</td><td class="n">3</td></tr>
+      <tr><td>0</td><td class="n">3000</td><td class="n">92.5%</td><td class="n">91.5%</td><td class="n">2 of 200</td><td class="n">0</td><td class="n">2</td></tr>
+      <tr><td>0</td><td class="n">6000</td><td class="n">93.5%</td><td class="n">93.0%</td><td class="n">1 of 200</td><td class="n">0</td><td class="n">1</td></tr>
+      <tr><td>1</td><td class="n">1500</td><td class="n">89.5%</td><td class="n">89.5%</td><td class="n">0 of 200</td><td class="n">0</td><td class="n">0</td></tr>
+      <tr><td>1</td><td class="n">3000</td><td class="n">92.5%</td><td class="n">92.5%</td><td class="n">0 of 200</td><td class="n">0</td><td class="n">0</td></tr>
+      <tr><td>1</td><td class="n">6000</td><td class="n">93.5%</td><td class="n">93.5%</td><td class="n">0 of 200</td><td class="n">0</td><td class="n">0</td></tr>
     </tbody></table></div></div>
-  <p><em>Verdict (to be written once the tables are filled).</em></p>
+  <p><strong>Verdict.</strong> The residual acts but cancels out. Its output averages 0.70 of its range, so it has not collapsed to zero, yet only 6 of 1200 episode-runs end differently from the planner alone, and all 6 are worse (seed 0 only; seed 1 never differs). The target leaves the planned path by a median of 0.031 rad against 0 for the planner, more than the 0.0026 rad bound, most likely because the bound holds only on steps where the base command is not clipped, and the base command saturates when the reference moves quickly; the tracker re-aims at the path on every step, which is the mechanism measured on the UR5e in Section 6.4. The residual is therefore not idle on the MyCobot, but, as on the UR5e, it does not change what happens to the arm.</p>
   <h2 id="s6-7">6.7&nbsp;&nbsp;Narrow Gaps, Clutter and Hard Goals (the Challenge Set)</h2>
   <p>The challenge set of Section 5.4 was evaluated in simulation with B2, the cheap planner and the retrained residual (seed 1, final checkpoint).</p>
   <div class="tbl" id="tab-6-8"><div class="cap"><b>Table 6.8:</b> MyCobot, <code>s4_chal</code> (25 episodes per type), success / collision as fractions.</div><div class="scroll"><table>
