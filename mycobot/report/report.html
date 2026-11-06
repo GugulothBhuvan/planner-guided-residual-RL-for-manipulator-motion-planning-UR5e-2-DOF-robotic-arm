@@ -659,10 +659,9 @@ tr.hl td { background: var(--accent-soft); }
     <figcaption><b>Figure 5.3:</b> The two simulation viewpoints used in the comparison videos: a top isometric view (left) and a side view (right) that matches the real camera. The model is drawn with the manufacturer&rsquo;s shell meshes (visual only); the red spheres are virtual obstacles and the axes mark the goal pose.</figcaption>
   </figure>
   <figure id="fig-5-4">
-    <div class="frame"><img src="img/mc_setup_camera.png" alt="The MyCobot 280 on the bench as seen by the recording camera, at the home pose" loading="lazy" style="max-width:40rem"></div>
-    <figcaption><b>Figure 5.4:</b> The real-arm setup as seen by the recording camera (a frame from the filming of <code>s4_test</code> episode 9, arm at its home pose). The arm stands on the bench and the camera looks at it from the side, level with its base; the virtual obstacles do not exist in the image.</figcaption>
+    <div class="frame"><img src="img/mc_setup.jpg" alt="The real-arm setup: the MyCobot 280 on the bench, connected by USB to the laptop, with the webcam beside the laptop" loading="lazy" style="max-width:44rem"></div>
+    <figcaption><b>Figure 5.4:</b> The real-arm setup. The MyCobot 280 stands on a base plate on the bench and is connected to the laptop by a USB cable; the laptop runs the policy and the simulation (shown on its screen) and records with the USB webcam. The virtual obstacles do not exist in the camera image.</figcaption>
   </figure>
-  <div class="todo-block"><strong class="tag">Optional</strong>Replace Figure 5.4, or add beside it, a wide photograph that also shows the laptop, the USB cable and where the camera stands. I cannot take it.</div>
 
   <h2 id="s5-8">5.8&nbsp;&nbsp;Compute and Software Environment</h2>
   <p>All training ran on CPU: an Intel i5-1240P laptop plus free Google Colab (2-core) and Kaggle (4-core) sessions. A one-million-step run took 1.5&ndash;5.3 hours at 52&ndash;189 steps per second on the UR5e. Seeds run elsewhere were merged back with configuration-hash checks, so a merged run is the run that its configuration says it is. The stack is MuJoCo 3.17, Stable-Baselines3 2.9.2, PyTorch (CPU) and Python 3.11. The MyCobot training and the real-arm runs used the same laptop, with the arm connected over USB.</p>
